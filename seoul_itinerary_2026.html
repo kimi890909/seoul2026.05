@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 首爾散心自由行</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* 馬卡龍調色盤 */
+  --mac-pink:    #FADADD;
+  --mac-peach:   #FDEBD0;
+  --mac-yellow:  #FFF9C4;
+  --mac-mint:    #D4EFDF;
+  --mac-sky:     #D6EAF8;
+  --mac-lavender:#E8DAEF;
+  --mac-cream:   #FDF6EC;
+  --mac-rose:    #FADBD8;
+
+  /* 深色文字 */
+  --text:        #2C2C2C;
+  --text-sub:    #4A4A4A;
+  --text-muted:  #7A7A7A;
+
+  /* 功能色 */
+  --accent:      #5B8DEF;
+  --accent-dark: #3A6BCD;
+  --accent-light:#EBF2FF;
+  --green:       #3DAA6E;
+  --green-light: #D4EFDF;
+  --orange:      #E07B35;
+  --orange-light:#FDEBD0;
+  --red:         #C0392B;
+  --red-light:   #FADBD8;
+  --purple:      #7D5BA6;
+  --purple-light:#E8DAEF;
+
+  /* 版面 */
+  --white:       #FFFFFF;
+  --bg:          #FDF6EC;
+  --border:      #E8E0D5;
+  --radius:      16px;
+  --radius-sm:   10px;
+  --shadow:      0 2px 12px rgba(0,0,0,0.07);
+}
+
+* { box-sizing:border-box; margin:0; padding:0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+/* ── EDIT MODE TOGGLE ── */
+.edit-bar {
+  background: var(--mac-yellow);
+  border-bottom: 1px solid #E0D080;
+  padding: 8px 1.25rem;
+  display: flex; align-items: center; gap: 10px;
+  position: sticky; top: 0; z-index: 300;
+}
+.edit-bar span { font-size: 12px; color: var(--text-sub); flex: 1; }
+.edit-toggle {
+  font-size: 12px; font-weight: 600; padding: 5px 14px;
+  border-radius: 20px; border: none; cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--text); color: #fff;
+  transition: background 0.2s;
+}
+.edit-toggle.on { background: #C0392B; }
+.edit-hint {
+  display: none;
+  font-size: 11px; color: var(--red);
+  background: var(--red-light);
+  border-radius: 20px; padding: 3px 10px;
+}
+.edit-hint.show { display: inline-block; }
+
+/* ── NAV ── */
+.topnav {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.25rem;
+  display: flex; align-items: center; height: 52px; gap: 10px;
+  position: sticky; top: 37px; z-index: 200;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+}
+.logo { font-size: 15px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
+.logo-icon { background: var(--mac-pink); width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.nav-tag { margin-left: auto; font-size: 11px; background: var(--mac-mint); color: var(--green); padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+
+/* ── TAB BAR ── */
+.tab-wrap {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 89px; z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.tab-list {
+  display: flex; max-width: 720px; margin: 0 auto;
+  padding: 0 0.75rem; overflow-x: auto; scrollbar-width: none;
+}
+.tab-list::-webkit-scrollbar { display: none; }
+.tab-btn {
+  flex-shrink: 0; padding: 12px 12px;
+  font-size: 12px; font-weight: 500;
+  color: var(--text-muted); background: none; border: none;
+  border-bottom: 2.5px solid transparent;
+  cursor: pointer; white-space: nowrap;
+  font-family: 'Noto Sans TC', sans-serif;
+  transition: all 0.15s;
+}
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 700; }
+
+/* ── PAGE ── */
+.page { max-width: 720px; margin: 0 auto; padding: 1.25rem 1rem 5rem; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── EDITABLE ── */
+[contenteditable="true"] {
+  outline: none;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+body.editing [contenteditable="true"] {
+  background: rgba(91,141,239,0.08);
+  outline: 1.5px dashed #5B8DEF;
+  min-width: 20px;
+  cursor: text;
+}
+body.editing [contenteditable="true"]:focus {
+  background: rgba(91,141,239,0.15);
+  outline: 2px solid #5B8DEF;
+}
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, var(--mac-pink) 0%, var(--mac-peach) 50%, var(--mac-yellow) 100%);
+  padding: 2rem 1.25rem 1.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.hero-inner { max-width: 720px; margin: 0 auto; }
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.7); color: var(--text-sub);
+  font-size: 11px; padding: 4px 12px; border-radius: 20px;
+  margin-bottom: 10px; font-weight: 500;
+}
+.hero h1 {
+  font-size: clamp(1.8rem,5vw,2.6rem); font-weight: 700;
+  color: var(--text); line-height: 1.2; margin-bottom: 6px;
+}
+.hero-sub { font-size: 13px; color: var(--text-sub); margin-bottom: 16px; }
+.hero-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.chip {
+  font-size: 11px; padding: 4px 12px; border-radius: 20px;
+  background: rgba(255,255,255,0.8); color: var(--text);
+  border: 1px solid rgba(0,0,0,0.08); font-weight: 500;
+}
+
+/* ── SECTION HEADER ── */
+.sec-hd { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; margin-top: 22px; }
+.sec-hd:first-child { margin-top: 0; }
+.sec-dot { width: 4px; height: 18px; background: var(--accent); border-radius: 3px; flex-shrink: 0; }
+.sec-hd h2 { font-size: 15px; font-weight: 700; color: var(--text); }
+
+/* ── DAY HEADER ── */
+.day-hd {
+  border-radius: var(--radius); padding: 14px 18px;
+  margin-bottom: 14px; display: flex; align-items: center; gap: 14px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.day-hd.d1 { background: linear-gradient(135deg, var(--mac-sky), #C8E6FA); }
+.day-hd.d2 { background: linear-gradient(135deg, var(--mac-mint), #B8E8CC); }
+.day-hd.d3 { background: linear-gradient(135deg, var(--mac-lavender), #D5C8E8); }
+.day-hd.d4 { background: linear-gradient(135deg, var(--mac-peach), #FAD5B0); }
+.day-badge { background: rgba(255,255,255,0.7); border-radius: 10px; padding: 6px 14px; text-align: center; flex-shrink: 0; }
+.day-badge strong { display: block; font-size: 22px; font-weight: 700; color: var(--text); line-height: 1; }
+.day-badge span { font-size: 10px; color: var(--text-sub); }
+.day-info h3 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.day-info p { font-size: 12px; color: var(--text-sub); }
+
+/* ── SPOT CARD ── */
+.spot-card {
+  background: var(--white); border-radius: var(--radius);
+  border: 1px solid var(--border); box-shadow: var(--shadow);
+  overflow: hidden; margin-bottom: 12px;
+}
+.spot-img { width: 100%; height: 190px; object-fit: cover; display: block; background: var(--mac-sky); }
+.spot-body { padding: 14px 16px; }
+.spot-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+.spot-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 19px; flex-shrink: 0; }
+.si-pink { background: var(--mac-pink); }
+.si-mint { background: var(--mac-mint); }
+.si-sky { background: var(--mac-sky); }
+.si-yellow { background: var(--mac-yellow); }
+.si-lavender { background: var(--mac-lavender); }
+.si-peach { background: var(--mac-peach); }
+.spot-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.spot-en { font-size: 11px; color: var(--text-muted); }
+.spot-desc { font-size: 13px; color: var(--text-sub); line-height: 1.65; margin-bottom: 10px; }
+
+/* ── TAGS ── */
+.spot-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.tag { font-size: 11px; padding: 3px 9px; border-radius: 20px; font-weight: 500; }
+.tag-sky { background: var(--mac-sky); color: var(--accent-dark); }
+.tag-mint { background: var(--mac-mint); color: var(--green); }
+.tag-pink { background: var(--mac-pink); color: var(--red); }
+.tag-yellow { background: var(--mac-yellow); color: #8B7000; }
+.tag-lavender { background: var(--mac-lavender); color: var(--purple); }
+.tag-peach { background: var(--mac-peach); color: var(--orange); }
+
+/* ── TRANSPORT BOX ── */
+.transport-box {
+  background: var(--mac-sky); border: 1px solid #A8CCE0;
+  border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 10px;
+}
+.transport-title { font-size: 12px; font-weight: 700; color: var(--accent-dark); margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+.t-steps { display: flex; flex-direction: column; gap: 6px; }
+.t-step { display: flex; gap: 8px; font-size: 12px; color: var(--text-sub); align-items: flex-start; }
+.t-num { width: 18px; height: 18px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.t-warn {
+  background: var(--mac-peach); border: 1px solid #E0C08A;
+  border-radius: var(--radius-sm); padding: 8px 12px;
+  font-size: 12px; color: #7A4800; display: flex; gap: 6px;
+  align-items: flex-start; margin-top: 8px;
+}
+.naver-tip {
+  background: var(--mac-mint); border: 1px solid #90C8A0;
+  border-radius: var(--radius-sm); padding: 8px 12px;
+  font-size: 12px; color: #1A5C35; display: flex; gap: 6px;
+  align-items: flex-start; margin-top: 6px;
+}
+
+/* ── LINKS ── */
+.link-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+.link-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 500; padding: 6px 12px;
+  border-radius: var(--radius-sm); text-decoration: none;
+  border: 1px solid var(--border); color: var(--text-sub);
+  background: var(--white); transition: all 0.15s;
+}
+.link-btn:hover { background: var(--mac-sky); color: var(--accent-dark); border-color: #A8CCE0; }
+.link-btn.map { background: var(--mac-mint); border-color: #90C8A0; color: var(--green); }
+.link-btn.reserve { background: var(--mac-pink); border-color: #E0A8A8; color: var(--red); }
+
+/* ── MEAL CARD ── */
+.meal-list { background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow); margin-bottom: 12px; }
+.meal-hd { padding: 10px 16px; border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 700; color: var(--text); background: var(--mac-cream); }
+.meal-row { display: flex; gap: 10px; padding: 10px 16px; border-bottom: 1px solid var(--border); align-items: flex-start; }
+.meal-row:last-child { border-bottom: none; }
+.meal-badge { font-size: 11px; padding: 3px 9px; border-radius: 20px; font-weight: 600; flex-shrink: 0; margin-top: 1px; }
+.mb-b { background: var(--mac-yellow); color: #7A6000; }
+.mb-l { background: var(--mac-mint); color: var(--green); }
+.mb-d { background: var(--mac-pink); color: var(--red); }
+.mb-s { background: var(--mac-lavender); color: var(--purple); }
+.meal-name { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+.meal-detail { font-size: 12px; color: var(--text-muted); }
+
+/* ── TIP ── */
+.tip {
+  border-radius: var(--radius-sm); padding: 12px 14px;
+  margin-bottom: 8px; display: flex; gap: 10px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.tip.pink { background: var(--mac-pink); }
+.tip.mint { background: var(--mac-mint); }
+.tip.sky { background: var(--mac-sky); }
+.tip.yellow { background: var(--mac-yellow); }
+.tip.lavender { background: var(--mac-lavender); }
+.tip.peach { background: var(--mac-peach); }
+.ticon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.tip-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.tip-text { font-size: 12px; color: var(--text-sub); line-height: 1.6; }
+.tip-text strong { color: var(--text); }
+
+/* ── NOTICE ── */
+.notice {
+  background: var(--mac-yellow); border: 1px solid #D0C060;
+  border-radius: var(--radius-sm); padding: 10px 14px;
+  margin-bottom: 10px; font-size: 12px; color: var(--text-sub);
+  display: flex; gap: 8px; align-items: flex-start;
+}
+
+/* ── INFO CARD ── */
+.info-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px 16px;
+  margin-bottom: 10px; box-shadow: var(--shadow);
+}
+.kv { display: flex; gap: 10px; font-size: 13px; margin-bottom: 7px; }
+.kv:last-child { margin-bottom: 0; }
+.kk { color: var(--text-muted); min-width: 58px; font-size: 12px; flex-shrink: 0; }
+.kv_ { color: var(--text-sub); flex: 1; }
+.kv_ strong { color: var(--text); }
+
+/* ── FLOW (AIRPORT STEPS) ── */
+.flow-wrap { position: relative; padding-left: 26px; }
+.flow-wrap::before { content:''; position:absolute; left:9px; top:10px; bottom:10px; width:2px; background:var(--mac-sky); border-radius:2px; }
+.flow-item { position: relative; margin-bottom: 14px; }
+.flow-dot { position:absolute; left:-21px; top:4px; width:12px; height:12px; border-radius:50%; background:var(--accent); border:2px solid var(--white); box-shadow:0 0 0 2px var(--mac-sky); }
+.flow-time { font-size:11px; font-weight:700; color:var(--accent); margin-bottom:2px; }
+.flow-title { font-size:14px; font-weight:500; color:var(--text); margin-bottom:2px; }
+.flow-note { font-size:12px; color:var(--text-muted); }
+
+/* ── DIVIDER ── */
+.divider { height:1px; background:var(--border); margin:16px 0; }
+/* ══ 行前準備 ══ */
+.progress-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;box-shadow:var(--shadow);}
+.progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.progress-label{font-size:13px;font-weight:700;color:var(--text);}
+.progress-count{font-size:12px;color:var(--text-muted);}
+.progress-bar-bg{height:8px;background:#F0F2F5;border-radius:10px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:var(--green);border-radius:10px;transition:width 0.4s;}
+.check-list-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;margin-bottom:10px;box-shadow:var(--shadow);}
+.check-list-hd{padding:10px 16px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;justify-content:space-between;}
+.check-list-hd span{font-size:11px;color:var(--text-muted);font-weight:400;}
+.check-item{display:flex;align-items:flex-start;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);cursor:pointer;user-select:none;transition:background 0.12s;}
+.check-item:last-child{border-bottom:none;}
+.check-item:hover{background:#FAFAF8;}
+.chk-circle{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all 0.2s;}
+.check-item.done .chk-circle{background:var(--green);border-color:var(--green);}
+.chk-tick{font-size:11px;color:#fff;display:none;}
+.check-item.done .chk-tick{display:block;}
+.chk-body{flex:1;min-width:0;}
+.chk-name{font-size:14px;font-weight:500;color:var(--text);display:block;margin-bottom:1px;}
+.chk-note{font-size:12px;color:var(--text-muted);display:block;border:none;background:none;outline:none;font-family:'Noto Sans TC',sans-serif;width:100%;cursor:text;padding:0;}
+.chk-right{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.chk-val{font-size:12px;font-weight:500;color:var(--accent-dark);background:var(--mac-sky);padding:3px 9px;border-radius:20px;border:none;font-family:'Noto Sans TC',sans-serif;text-align:center;min-width:56px;cursor:text;outline:none;}
+.chk-val:focus{background:var(--mac-mint);}
+.chk-del{width:22px;height:22px;border-radius:50%;background:var(--mac-pink);border:none;color:var(--red);font-size:14px;cursor:pointer;display:none;align-items:center;justify-content:center;flex-shrink:0;}
+.check-item:hover .chk-del{display:flex;}
+.add-item-btn{width:100%;padding:10px;background:none;border:none;border-top:1px dashed var(--border);font-size:13px;color:var(--accent);cursor:pointer;font-family:'Noto Sans TC',sans-serif;font-weight:500;}
+.add-item-btn:hover{background:var(--mac-sky);}
+.luggage-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 16px;}
+@media(max-width:400px){.luggage-grid{grid-template-columns:1fr;}}
+.lug-box{border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;background:var(--bg);}
+.lug-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.lug-title{font-size:13px;font-weight:700;color:var(--text);flex:1;}
+.lug-limit{font-size:12px;font-weight:700;padding:2px 9px;border-radius:20px;}
+.ll-orange{background:var(--mac-peach);color:var(--orange);}
+.ll-blue{background:var(--mac-sky);color:var(--accent-dark);}
+.lug-dim{font-size:11px;color:var(--text-muted);}
+.lug-warn{background:var(--mac-yellow);border:1px solid #D0C060;border-radius:var(--radius-sm);padding:10px 14px;font-size:12px;color:var(--text-sub);margin:0 16px 14px;}
+/* ══ 記帳本 ══ */
+.budget-day-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;margin-bottom:12px;box-shadow:var(--shadow);}
+.budget-day-hd{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.budget-day-title{font-size:14px;font-weight:700;color:var(--text);}
+.budget-day-total{font-size:14px;font-weight:700;color:var(--accent-dark);}
+.budget-row{display:flex;align-items:center;gap:8px;padding:9px 16px;border-bottom:1px solid var(--border);}
+.budget-row:last-of-type{border-bottom:none;}
+.budget-cat{font-size:11px;padding:3px 8px;border-radius:20px;font-weight:600;flex-shrink:0;min-width:48px;text-align:center;}
+.bc-food{background:var(--mac-pink);color:var(--red);}
+.bc-transport{background:var(--mac-sky);color:var(--accent-dark);}
+.bc-shop{background:var(--mac-lavender);color:var(--purple);}
+.bc-hotel{background:var(--mac-mint);color:var(--green);}
+.bc-other{background:var(--mac-yellow);color:#7A6000;}
+.budget-desc{flex:1;font-size:13px;color:var(--text);border:none;background:none;outline:none;font-family:'Noto Sans TC',sans-serif;min-width:60px;}
+.budget-desc::placeholder{color:var(--text-muted);}
+.budget-amt{font-size:13px;font-weight:500;color:var(--text);border:none;background:var(--mac-sky);border-radius:8px;padding:4px 8px;outline:none;font-family:'Noto Sans TC',sans-serif;width:90px;text-align:right;}
+.budget-amt:focus{background:var(--mac-mint);}
+.budget-del{width:22px;height:22px;border-radius:50%;background:var(--mac-pink);border:none;color:var(--red);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:0;transition:opacity 0.15s;}
+.budget-row:hover .budget-del{opacity:1;}
+.budget-add-row{padding:10px 16px;border-top:1px dashed var(--border);display:flex;gap:6px;flex-wrap:wrap;}
+.budget-add-btn{font-size:11px;padding:5px 10px;border-radius:20px;border:none;cursor:pointer;font-family:'Noto Sans TC',sans-serif;font-weight:500;}
+.ba-food{background:var(--mac-pink);color:var(--red);}
+.ba-transport{background:var(--mac-sky);color:var(--accent-dark);}
+.ba-shop{background:var(--mac-lavender);color:var(--purple);}
+.ba-other{background:var(--mac-yellow);color:#7A6000;}
+.budget-summary{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);}
+.budget-summary-title{font-size:14px;font-weight:700;margin-bottom:12px;color:var(--text);}
+.budget-sum-row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid var(--border);color:var(--text-sub);}
+.budget-sum-row:last-child{border-bottom:none;font-weight:700;color:var(--text);font-size:15px;padding-top:10px;}
+/* ══ 相簿 ══ */
+.photo-section{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;margin-bottom:12px;box-shadow:var(--shadow);}
+.photo-section-hd{padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;}
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:8px;}
+.photo-thumb{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;cursor:pointer;transition:opacity 0.15s;}
+.photo-thumb:hover{opacity:0.85;}
+.photo-upload-box{width:100%;aspect-ratio:1;border-radius:8px;border:2px dashed var(--border);background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;gap:4px;transition:background 0.15s;}
+.photo-upload-box:hover{background:var(--mac-sky);border-color:var(--accent);}
+.photo-upload-box span{font-size:22px;}
+.photo-upload-box p{font-size:11px;color:var(--text-muted);}
+.photo-upload-input{display:none;}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:12px;}
+.lightbox.show{display:flex;}
+.lightbox img{max-width:95vw;max-height:80vh;border-radius:12px;object-fit:contain;}
+.lightbox-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.2);border:none;color:#fff;font-size:22px;width:40px;height:40px;border-radius:50%;cursor:pointer;}
+.lightbox-del{background:var(--red);color:#fff;border:none;border-radius:20px;padding:8px 20px;font-size:13px;cursor:pointer;font-family:'Noto Sans TC',sans-serif;}
+
+/* ── FOOTER ── */
+.footer { text-align:center; padding:2rem 1rem; font-size:12px; color:var(--text-muted); }
+</style>
+</head>
+<body>
+
+<!-- EDIT BAR -->
+<div class="edit-bar">
+  <span>✏️ 點擊「編輯模式」可直接修改文字內容</span>
+  <span class="edit-hint" id="edit-hint">編輯中，點文字直接修改</span>
+  <button class="edit-toggle" id="edit-toggle" onclick="toggleEdit()">✏️ 編輯模式</button>
+</div>
+
+<!-- NAV -->
+<nav class="topnav">
+  <div class="logo"><div class="logo-icon">🌸</div><span contenteditable="false" id="nav-title">2026 首爾散心</span></div>
+  <span class="nav-tag">4/27 – 4/30</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">🇰🇷 韓國首爾 · 4天3夜散心自由行</div>
+    <h1 contenteditable="false">首爾<br>散心手冊</h1>
+    <p class="hero-sub" contenteditable="false">2026 年 4 月 27 日（一）— 4 月 30 日（四）</p>
+    <div class="hero-chips">
+      <span class="chip">✈ CI164 高雄出發</span>
+      <span class="chip">🏨 新村 Ever8</span>
+      <span class="chip">🍗 韓國烤肉</span>
+      <span class="chip">🏯 景福宮韓服</span>
+      <span class="chip">🗼 南山首爾塔</span>
+    </div>
+  </div>
+</div>
+
+<!-- TAB BAR -->
+<div class="tab-wrap">
+  <div class="tab-list">
+    <button class="tab-btn active" onclick="switchTab('prep',this)">🧳 行前準備</button>
+    <button class="tab-btn" onclick="switchTab('transport',this)">🚌 交通</button>
+    <button class="tab-btn" onclick="switchTab('hotel',this)">🏨 住宿</button>
+    <button class="tab-btn" onclick="switchTab('day1',this)">Day 1</button>
+    <button class="tab-btn" onclick="switchTab('day2',this)">Day 2</button>
+    <button class="tab-btn" onclick="switchTab('day3',this)">Day 3</button>
+    <button class="tab-btn" onclick="switchTab('day4',this)">Day 4</button>
+    <button class="tab-btn" onclick="switchTab('budget',this)">💴 記帳</button>
+    <button class="tab-btn" onclick="switchTab('photos',this)">📸 相簿</button>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ══ 行前準備 ══ -->
+<div class="tab-panel active" id="panel-prep">
+
+  <!-- 進度條 -->
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span class="progress-label">🧳 準備進度</span>
+      <span class="progress-count" id="prog-count">0 / 0 項完成</span>
+    </div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-bar" style="width:0%"></div></div>
+  </div>
+
+  <!-- 證件 & 文件 -->
+  <div class="check-list-card">
+    <div class="check-list-hd" style="background:var(--mac-sky)">📄 證件 &amp; 文件 <span>點項目打勾</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">護照</span><input class="chk-note" value="確認有效期限 6 個月以上" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">電子機票（列印紙本）</span><input class="chk-note" value="列印兩份備用，去回程都要帶" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">護照影本</span><input class="chk-note" value="正反面各一份" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">身分證正反面影本</span><input class="chk-note" value="備用" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">兩吋照片</span><input class="chk-note" value="2張，申辦 SES 快速通關用" onclick="event.stopPropagation()"></div><div class="chk-right"><input class="chk-val" value="2 張" onclick="event.stopPropagation()"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">韓國電子入境卡（Q-Code）</span><input class="chk-note" value="⚠️ 2026年新制！出發前3天在網路申請，網址：qcode.kr" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <button class="add-item-btn" onclick="addItem(this)">＋ 新增項目</button>
+  </div>
+
+  <!-- 金錢 & 交通卡 -->
+  <div class="check-list-card">
+    <div class="check-list-hd" style="background:var(--mac-mint)">💴 金錢 &amp; 交通卡 <span>點數值可直接修改</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">韓幣現金</span><input class="chk-note" value="出發前在台灣換好，或抵韓後乙支路換匯（匯率較好）" onclick="event.stopPropagation()"></div><div class="chk-right"><input class="chk-val" value="__ KRW" onclick="event.stopPropagation()"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">WOWPASS 卡</span><input class="chk-note" value="台灣預購，仁川機場 1F 5號門外取卡，要先在 APP 儲值" onclick="event.stopPropagation()"></div><div class="chk-right"><input class="chk-val" value="1 張" onclick="event.stopPropagation()"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">T-money 卡</span><input class="chk-note" value="便利商店可購買，或用 WOWPASS 的交通卡功能替代" onclick="event.stopPropagation()"></div><div class="chk-right"><input class="chk-val" value="1 張" onclick="event.stopPropagation()"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">台幣備用金</span><input class="chk-note" value="緊急備用或機場換匯" onclick="event.stopPropagation()"></div><div class="chk-right"><input class="chk-val" value="__ 元" onclick="event.stopPropagation()"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <button class="add-item-btn" onclick="addItem(this)">＋ 新增項目</button>
+  </div>
+
+  <!-- 網路 -->
+  <div class="check-list-card">
+    <div class="check-list-hd" style="background:var(--mac-lavender)">📶 網路 &amp; App</div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">網路卡 / eSIM</span><input class="chk-note" value="填入你選的方案，例如：KT Olleh 5天 / SKT eSIM" onclick="event.stopPropagation()"></div><div class="chk-right"><input class="chk-val" value="__ 天" onclick="event.stopPropagation()"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">下載 NAVER Map</span><input class="chk-note" value="比 Google Maps 在韓國準確，可查電梯車廂位置" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">下載 KAKAO TAXI</span><input class="chk-note" value="出發前在台灣先下載並綁定手機號碼" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">下載 WOWPASS App</span><input class="chk-note" value="先在台灣綁定，到機場取卡後可直接儲值使用" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">下載 Google 翻譯（相機翻譯）</span><input class="chk-note" value="對著韓文菜單拍照即可翻譯，韓國自由行必備" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <button class="add-item-btn" onclick="addItem(this)">＋ 新增項目</button>
+  </div>
+
+  <!-- 3C & 電器 -->
+  <div class="check-list-card">
+    <div class="check-list-hd" style="background:var(--mac-yellow)">🔌 3C &amp; 電器</div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">手機</span><input class="chk-note" value="出發前充好電" onclick="event.stopPropagation()"></div><div class="chk-right"><input class="chk-val" value="1 支" onclick="event.stopPropagation()"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">行動電源</span><input class="chk-note" value="⚠️ 必須隨身攜帶，不可托運！" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">轉接頭（韓國圓形插頭）</span><input class="chk-note" value="兩個平行圓柱插腳，直徑 4.7mm，韓德法通用 / 電壓 AC 220V" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">充電線</span><input class="chk-note" value="Type-C、Lightning 等依個人需求" onclick="event.stopPropagation()"></div><div class="chk-right"><input class="chk-val" value="__ 條" onclick="event.stopPropagation()"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">自拍棒 / 穩定器</span><input class="chk-note" value="長自拍棒托運，小遙控器隨身帶" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">無線麥克風</span><input class="chk-note" value="拍影片用" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <button class="add-item-btn" onclick="addItem(this)">＋ 新增項目</button>
+  </div>
+
+  <!-- 衣物 & 盥洗 -->
+  <div class="check-list-card">
+    <div class="check-list-hd" style="background:var(--mac-pink)">👕 衣物 &amp; 盥洗</div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">上衣</span><input class="chk-note" value="穿一帶幾件，依天數調整" onclick="event.stopPropagation()"></div><div class="chk-right"><input class="chk-val" value="__ 件" onclick="event.stopPropagation()"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">下半身（褲子/裙子）</span><input class="chk-note" value="穿一帶幾件" onclick="event.stopPropagation()"></div><div class="chk-right"><input class="chk-val" value="__ 件" onclick="event.stopPropagation()"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">內衣 / 免洗內褲</span><input class="chk-note" value="依天數準備" onclick="event.stopPropagation()"></div><div class="chk-right"><input class="chk-val" value="__ 件" onclick="event.stopPropagation()"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">睡衣 + 短褲</span><input class="chk-note" value="一套就夠（Ever8 有洗衣機）" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">盥洗用具</span><input class="chk-note" value="牙刷牙膏、洗面乳（或使用飯店備品）" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">化妝用具</span><input class="chk-note" value="眼藥水、牙線、口紅、粉餅等隨身化妝品" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">雨傘</span><input class="chk-note" value="折疊傘放隨身包，4月首爾偶爾下雨" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <button class="add-item-btn" onclick="addItem(this)">＋ 新增項目</button>
+  </div>
+
+  <!-- 常備藥物 -->
+  <div class="check-list-card">
+    <div class="check-list-hd" style="background:var(--mac-peach)">💊 常備藥物</div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">腸胃藥</span><input class="chk-note" value="吃辣或換水土不適備用" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">暈車藥</span><input class="chk-note" value="搭機或交通工具備用" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">感冒藥 / 退燒藥</span><input class="chk-note" value="備用" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">OK繃 / 消毒用品</span><input class="chk-note" value="走路多，小傷備用" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">個人常備用藥</span><input class="chk-note" value="填入你的個人藥物名稱" onclick="event.stopPropagation()"></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <button class="add-item-btn" onclick="addItem(this)">＋ 新增項目</button>
+  </div>
+
+  <!-- 行李規定 -->
+  <div class="check-list-card">
+    <div class="check-list-hd" style="background:var(--mac-mint)">🧳 行李規定（華航 CI164）</div>
+    <div class="luggage-grid">
+      <div class="lug-box">
+        <div class="lug-top"><span>🧳</span><span class="lug-title">托運行李</span><span class="lug-limit ll-orange">23 kg</span></div>
+        <div style="font-size:13px;color:var(--text-sub)">每人 1 件</div>
+        <div class="lug-dim">長 56 × 寬 36 × 高 22 cm</div>
+      </div>
+      <div class="lug-box">
+        <div class="lug-top"><span>🎒</span><span class="lug-title">隨身行李</span><span class="lug-limit ll-blue">7 kg</span></div>
+        <div style="font-size:13px;color:var(--text-sub)">每人 1 件</div>
+        <div class="lug-dim">長 56 × 寬 36 × 高 22 cm</div>
+      </div>
+    </div>
+    <div class="lug-warn">⚠️ <strong>行動電源、電池、打火機</strong>必須隨身攜帶，不可托運。液體/膠狀/噴霧類每瓶需小於 100ml，裝入透明夾鏈袋。</div>
+  </div>
+
+  <!-- 行李秤提醒 -->
+  <div class="tip" style="background:var(--mac-yellow);border:1px solid #D0C060;border-radius:var(--radius-sm);padding:12px 14px;display:flex;gap:10px;margin-bottom:10px;">
+    <div style="font-size:20px;flex-shrink:0">⚖️</div>
+    <div><div class="tip-title">記得帶行李秤！</div><div class="tip-text">廣藏市場買棉被後行李會變重，出發前先量好，避免機場超重費（超重非常貴）。</div></div>
+  </div>
+
+</div><!-- end panel-prep -->
+<div class="tab-panel" id="panel-transport">
+
+  <div class="sec-hd"><div class="sec-dot"></div><h2>✈ 去程：仁川機場 → Ever8</h2></div>
+
+  <div class="tip sky" style="margin-bottom:14px">
+    <div class="ticon">💡</div>
+    <div>
+      <div class="tip-title" contenteditable="false">為什麼選機場巴士而不是地鐵？</div>
+      <div class="tip-text" contenteditable="false">帶大行李不用爬樓梯、直達飯店附近、有中文廣播不怕坐錯站，第一次自由行最推薦！缺點是可能塞車，約 1–1.5 小時。</div>
+    </div>
+  </div>
+
+  <div class="spot-card">
+    <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Incheon_International_Airport_Terminal_2.jpg/1280px-Incheon_International_Airport_Terminal_2.jpg" alt="仁川機場" onerror="this.style.display='none'">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-sky">🛬</div>
+        <div>
+          <div class="spot-title" contenteditable="false">仁川國際機場 第一航廈</div>
+          <div class="spot-en" contenteditable="false">Incheon International Airport T1</div>
+        </div>
+      </div>
+      <div class="transport-box">
+        <div class="transport-title">🚌 購票 → 搭車完整步驟</div>
+        <div class="t-steps">
+          <div class="t-step"><div class="t-num">1</div><span contenteditable="false">出關後，跟著「機場巴士 Airport Bus」指示牌走，搭手扶梯下到 <strong>1F</strong></span></div>
+          <div class="t-step"><div class="t-num">2</div><span contenteditable="false">找到「Bus Ticket Kiosk 自動售票機」→ 切換<strong>中文</strong> → 選「購買當天車票」</span></div>
+          <div class="t-step"><div class="t-num">3</div><span contenteditable="false">搜索路線編號輸入「<strong>6002</strong>」→ 選站「<strong>弘大入口站</strong>（Hongik Univ.）」→ 選班次時間 → 刷信用卡</span></div>
+          <div class="t-step"><div class="t-num">4</div><span contenteditable="false">票價：成人 <strong>17,000 KRW</strong>（約 NT$ 425）</span></div>
+          <div class="t-step"><div class="t-num">5</div><span contenteditable="false">走到 <strong>5B 月台</strong>（從 5 號出口出去）候車，看到「6002」的巴士就是</span></div>
+          <div class="t-step"><div class="t-num">6</div><span contenteditable="false">司機會幫放行李到車底，給你<strong>行李收執條</strong>，下車時再憑條拿行李</span></div>
+          <div class="t-step"><div class="t-num">7</div><span contenteditable="false">車上有<strong>中文廣播</strong>報站，到「梨大站（Ehwa Womans Univ.）」下車按鈴</span></div>
+          <div class="t-step"><div class="t-num">8</div><span contenteditable="false">下車後往 <strong>梨大站 1 號出口</strong>方向步行約 350 公尺，下坡輕鬆走到 Ever8</span></div>
+        </div>
+        <div class="t-warn">⚠️ <span contenteditable="false">若在 Klook/KKday 事先購票，到機場要先去<strong>人工櫃台換實體票</strong>才能上車（在售票機旁邊）</span></div>
+        <div class="naver-tip">🗺️ <span contenteditable="false">下車後開 <strong>NAVER Map</strong> 搜尋「신촌에버에잇」（新村Ever8），跟著導航步行 350 公尺即到</span></div>
+      </div>
+      <div class="link-row">
+        <a href="https://airportlimousine.co.kr/cn/sub/sub01.php" target="_blank" class="link-btn">🚌 機場巴士官網時刻表</a>
+        <a href="https://www.bigfang.tw/blog/post/incheon-limousine-6002" target="_blank" class="link-btn">📖 6002 詳細攻略</a>
+        <a href="https://naver.me/FPlgwSZ0" target="_blank" class="link-btn map">🗺️ NAVER 地圖</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🔙 回程：新村 → 仁川機場</h2></div>
+
+  <div class="spot-card">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-peach">✈️</div>
+        <div>
+          <div class="spot-title" contenteditable="false">新村站 → 仁川機場（6002 回程）</div>
+          <div class="spot-en" contenteditable="false">Sinchon Station → Incheon Airport</div>
+        </div>
+      </div>
+      <div class="transport-box">
+        <div class="transport-title">🚌 回程搭車步驟</div>
+        <div class="t-steps">
+          <div class="t-step"><div class="t-num">1</div><span contenteditable="false">Ever8 退房後，行李下坡拖到<strong>新村站</strong>（約 5 分鐘）</span></div>
+          <div class="t-step"><div class="t-num">2</div><span contenteditable="false">找到 6002 巴士站牌，<strong>直接刷 T-money 或 WOWPASS</strong> 上車（不需要買票）</span></div>
+          <div class="t-step"><div class="t-num">3</div><span contenteditable="false">車程約 1 小時 20 分（尖峰可能更久），建議<strong>起飛前 3 小時出發</strong></span></div>
+          <div class="t-step"><div class="t-num">4</div><span contenteditable="false">到仁川機場後辦理自助報到、托運行李、退稅、出境</span></div>
+        </div>
+        <div class="t-warn">⚠️ <span contenteditable="false">4/30 CI164 <strong>12:10 起飛</strong>，飯店最慢 <strong>09:00 退房</strong>，09:20 從新村站搭車，10:40 抵達機場</span></div>
+      </div>
+      <div class="link-row">
+        <a href="https://www.bigfang.tw/blog/post/hongdae-limousine-6002" target="_blank" class="link-btn">📖 回程搭車詳細攻略</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🗺️ NAVER Map 查電梯車廂教學</h2></div>
+  <div class="tip mint">
+    <div class="ticon">🚇</div>
+    <div>
+      <div class="tip-title" contenteditable="false">如何找離電梯最近的車廂？</div>
+      <div class="tip-text" contenteditable="false">
+        1. 打開 <strong>NAVER Map（네이버 지도）App</strong><br>
+        2. 輸入起點和終點，選「地鐵」路線<br>
+        3. 點進路線後，會顯示<strong>「幾號車廂靠近電梯/出口」</strong><br>
+        4. 搭車時數好車廂數量再上車，下車就直接在電梯旁邊！<br>
+        <strong>⭐ 強烈建議出發前先下載 NAVER Map，比 Google Maps 在韓國準確很多</strong>
+      </div>
+    </div>
+  </div>
+  <div class="link-row">
+    <a href="https://apps.apple.com/tw/app/naver-map-navigation/id347507005" target="_blank" class="link-btn">📱 iOS 下載 NAVER Map</a>
+    <a href="https://play.google.com/store/apps/details?id=com.nhn.android.nmap" target="_blank" class="link-btn">📱 Android 下載</a>
+  </div>
+
+</div>
+
+<!-- ══ 住宿 ══ -->
+<div class="tab-panel" id="panel-hotel">
+
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🏨 住宿資訊</h2></div>
+
+  <div class="spot-card">
+    <img class="spot-img" src="https://cf.bstatic.com/xdata/images/hotel/max1280x900/204511450.jpg" alt="Ever8 新村" onerror="this.src='https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800'">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-pink">🏨</div>
+        <div>
+          <div class="spot-title" contenteditable="false">新村 Ever8 服務式公寓</div>
+          <div class="spot-en" contenteditable="false">Shinchon Ever8 Serviced Residence</div>
+        </div>
+      </div>
+      <div class="spot-tags">
+        <span class="tag tag-sky">4/27–4/30</span>
+        <span class="tag tag-mint">3 晚</span>
+        <span class="tag tag-pink">機場巴士直達</span>
+        <span class="tag tag-yellow">有廚房洗衣機</span>
+      </div>
+      <div class="info-card">
+        <div class="kv"><span class="kk">地址</span><div class="kv_" contenteditable="false"><strong>서울특별시 서대문구 신촌역로 7</strong>（首爾西大門區新村站路 7）</div></div>
+        <div class="kv"><span class="kk">電話</span><div class="kv_" contenteditable="false">02-6946-0808</div></div>
+        <div class="kv"><span class="kk">入退房</span><div class="kv_" contenteditable="false">入住 <strong>15:00</strong> / 退房 <strong>12:00</strong>（可提前寄放行李）</div></div>
+        <div class="kv"><span class="kk">到地鐵</span><div class="kv_" contenteditable="false">梨大站 1 號出口步行 5 分 / 新村站步行 5 分</div></div>
+        <div class="kv"><span class="kk">機場巴士</span><div class="kv_" contenteditable="false">去程：梨大站下車（下坡走到飯店）<br>回程：新村站搭車（下坡拖行李方便）</div></div>
+        <div class="kv"><span class="kk">周邊</span><div class="kv_" contenteditable="false">樓下 CU 便利商店、步行 2 分鐘有 GS25、孔陵一隻雞步行 2 分鐘</div></div>
+      </div>
+      <div class="tip yellow" style="margin-top:8px">
+        <div class="ticon">🌟</div>
+        <div>
+          <div class="tip-title" contenteditable="false">Ever8 特色</div>
+          <div class="tip-text" contenteditable="false">有實體服務台、廚房（電磁爐、微波爐、碗盤）、洗脫烘衣機，住起來像自己家！房間有地熱，睡覺建議開窗避免太熱。</div>
+        </div>
+      </div>
+      <div class="link-row">
+        <a href="https://www.agoda.com/zh-tw/shinchon-ever8-serviced-residence/hotel/seoul-kr.html" target="_blank" class="link-btn map">🌐 Agoda 訂房</a>
+        <a href="https://naver.me/xEver8" target="_blank" class="link-btn">🗺️ NAVER 地圖</a>
+        <a href="https://helena.tw/ever8-hotel/" target="_blank" class="link-btn">📖 住宿心得</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🛍 飯店周邊必逛</h2></div>
+  <div class="tip sky">
+    <div class="ticon">🎨</div>
+    <div>
+      <div class="tip-title" contenteditable="false">新村彩繪牆</div>
+      <div class="tip-text" contenteditable="false">飯店步行 5 分鐘，童話故事和熱氣球彩繪，很多情侶和學生打卡拍照，心情超好！</div>
+    </div>
+  </div>
+  <div class="tip lavender">
+    <div class="ticon">📚</div>
+    <div>
+      <div class="tip-title" contenteditable="false">ARC N BOOK 書店</div>
+      <div class="tip-text" contenteditable="false">現代百貨 11 樓，整面書牆超美，附設治癒系咖啡館。新村站 3 號出口步行 5 分。</div>
+    </div>
+  </div>
+  <div class="tip pink">
+    <div class="ticon">☕</div>
+    <div>
+      <div class="tip-title" contenteditable="false">Matt Black Coffee 漫畫風咖啡廳</div>
+      <div class="tip-text" contenteditable="false">整間黑白漫畫對話框設計，超好拍！現代百貨 B2，飯店步行可達。</div>
+    </div>
+  </div>
+  <div class="tip mint">
+    <div class="ticon">🍗</div>
+    <div>
+      <div class="tip-title" contenteditable="false">孔陵一隻雞（공릉 닭한마리）</div>
+      <div class="tip-text" contenteditable="false">飯店步行 2 分鐘！整隻雞燉湯，濃郁美味，飯店旁邊超方便。</div>
+    </div>
+  </div>
+  <div class="tip peach">
+    <div class="ticon">🍖</div>
+    <div>
+      <div class="tip-title" contenteditable="false">春川辣炒雞排</div>
+      <div class="tip-text" contenteditable="false">新村商圈超香，配起司或泡麵一起炒，最後留 1/3 做炒飯，滋味再升級！</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ DAY 1 ══ -->
+<div class="tab-panel" id="panel-day1">
+
+  <div class="day-hd d1">
+    <div class="day-badge"><strong>4/27</strong><span>星期一</span></div>
+    <div class="day-info">
+      <h3 contenteditable="false">Day 1 · 抵達首爾 + 廣藏市場</h3>
+      <p contenteditable="false">高雄出發 → 仁川機場 → 新村 → 廣藏市場</p>
+    </div>
+  </div>
+
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🕐 今日時間軸</h2></div>
+  <div class="flow-wrap" style="background:var(--white);border-radius:var(--radius);border:1px solid var(--border);padding:16px 16px 16px 36px;margin-bottom:14px;box-shadow:var(--shadow)">
+    <div class="flow-item"><div class="flow-dot"></div><div class="flow-time">05:30</div><div class="flow-title" contenteditable="false">小港機場報到</div><div class="flow-note" contenteditable="false">行李托運截止 05:30 前，CI164 登機</div></div>
+    <div class="flow-item"><div class="flow-dot"></div><div class="flow-time">07:05</div><div class="flow-title" contenteditable="false">CI164 起飛</div><div class="flow-note" contenteditable="false">高雄 KHH → 首爾仁川 ICN，飛行約 2 小時 55 分</div></div>
+    <div class="flow-item"><div class="flow-dot"></div><div class="flow-time">11:00</div><div class="flow-title" contenteditable="false">抵達仁川機場</div><div class="flow-note" contenteditable="false">換網卡/eSIM、辦 SES 快速通關、搭 6002 機場巴士</div></div>
+    <div class="flow-item"><div class="flow-dot"></div><div class="flow-time">13:00</div><div class="flow-title" contenteditable="false">抵達 Ever8，行李寄放</div><div class="flow-note" contenteditable="false">15:00 才能入住，先寄放行李輕裝出發</div></div>
+    <div class="flow-item"><div class="flow-dot"></div><div class="flow-time">14:00</div><div class="flow-title" contenteditable="false">出發廣藏市場</div><div class="flow-note" contenteditable="false">新村站搭地鐵 2 號線 → 乙支路4街站 4 號出口，步行 5 分</div></div>
+    <div class="flow-item"><div class="flow-dot"></div><div class="flow-time">14:30–18:00</div><div class="flow-title" contenteditable="false">廣藏市場：買棉被 + 晚餐</div><div class="flow-note" contenteditable="false">2樓買棉被，小吃區吃晚餐</div></div>
+    <div class="flow-item"><div class="flow-dot"></div><div class="flow-time">18:30</div><div class="flow-title" contenteditable="false">回飯店 Check in</div><div class="flow-note" contenteditable="false">順路逛新村彩繪牆，回飯店休息</div></div>
+  </div>
+
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🏪 廣藏市場</h2></div>
+  <div class="spot-card">
+    <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Gwangjang_Market_in_Seoul.jpg/1280px-Gwangjang_Market_in_Seoul.jpg" alt="廣藏市場" onerror="this.src='https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800'">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-yellow">🏪</div>
+        <div>
+          <div class="spot-title" contenteditable="false">廣藏市場（광장시장）</div>
+          <div class="spot-en" contenteditable="false">Gwangjang Market · 首爾最大傳統市場</div>
+        </div>
+      </div>
+      <div class="spot-tags">
+        <span class="tag tag-yellow">百年市場</span>
+        <span class="tag tag-mint">買棉被</span>
+        <span class="tag tag-pink">必吃小吃</span>
+        <span class="tag tag-sky">週日公休</span>
+      </div>
+      <div class="spot-desc" contenteditable="false">首爾最大、歷史最悠久的傳統市場，超過 5,000 間店家。2樓是韓國棉被集中地，品質好又比外面便宜，是買棉被的最佳地點！小吃區有綠豆煎餅、麻藥飯捲、生章魚等必吃美食。</div>
+      <div class="transport-box">
+        <div class="transport-title">🚇 交通方式</div>
+        <div class="t-steps">
+          <div class="t-step"><div class="t-num">A</div><span contenteditable="false"><strong>快速到美食區</strong>：地鐵 1 號線「鍾路5街站」7 號出口，出站步行 20 公尺即到美食區入口</span></div>
+          <div class="t-step"><div class="t-num">B</div><span contenteditable="false"><strong>彈性逛棉被區</strong>：地鐵 2/5 號線「乙支路4街站」4 號出口，步行約 5 分，適合從新村出發</span></div>
+        </div>
+        <div class="naver-tip">🗺️ <span contenteditable="false">棉被在 <strong>北1門或西側入口</strong>進；小吃在 <strong>北2門、東門、南1門</strong>進，路線不同記得看清楚</span></div>
+      </div>
+      <div class="info-card">
+        <div class="kv"><span class="kk">地址</span><div class="kv_" contenteditable="false">首爾特別市鍾路區昌慶宮路 88</div></div>
+        <div class="kv"><span class="kk">時間</span><div class="kv_" contenteditable="false">商鋪 09:00–18:00 · 小吃 09:00–23:00</div></div>
+        <div class="kv"><span class="kk">公休</span><div class="kv_" contenteditable="false">每週日 + 8 月上旬 + 春節/中秋（⚠️ 4/27 是星期一，正常營業！）</div></div>
+      </div>
+
+      <div class="meal-list">
+        <div class="meal-hd">🍽 廣藏市場必吃清單</div>
+        <div class="meal-row">
+          <span class="meal-badge mb-l">必吃</span>
+          <div><div class="meal-name" contenteditable="false">순희네 綠豆煎餅（순희네빈대떡）</div><div class="meal-detail" contenteditable="false">Running Man 拍攝名店，綠豆煎餅 5,000 KRW · 豬肉煎餅 3,000 KRW</div></div>
+        </div>
+        <div class="meal-row">
+          <span class="meal-badge mb-l">必吃</span>
+          <div><div class="meal-name" contenteditable="false">麻藥飯捲（마약김밥）</div><div class="meal-detail" contenteditable="false">又香又小顆，一份約 3,000 KRW，沾醬超好吃</div></div>
+        </div>
+        <div class="meal-row">
+          <span class="meal-badge mb-l">必吃</span>
+          <div><div class="meal-name" contenteditable="false">生章魚（산낙지）</div><div class="meal-detail" contenteditable="false">新鮮生章魚，喜歡挑戰的必試！一份約 10,000–15,000 KRW</div></div>
+        </div>
+        <div class="meal-row">
+          <span class="meal-badge mb-s">選吃</span>
+          <div><div class="meal-name" contenteditable="false">辣炒年糕 / 大麥拌飯</div><div class="meal-detail" contenteditable="false">各攤位均一價，隨意找順眼的坐下就好</div></div>
+        </div>
+      </div>
+
+      <div class="tip yellow" style="margin-top:8px">
+        <div class="ticon">🛍</div>
+        <div>
+          <div class="tip-title" contenteditable="false">買棉被攻略</div>
+          <div class="tip-text" contenteditable="false">直接走到<strong>市場 2 樓</strong>，有整排棉被專賣店。可以用翻譯 App 殺價，通常可以便宜一點。棉被可以托運帶回台灣，記得預留行李重量！</div>
+        </div>
+      </div>
+      <div class="link-row">
+        <a href="https://naver.me/GwangjangMarket" target="_blank" class="link-btn map">🗺️ NAVER 地圖</a>
+        <a href="https://www.klook.com/zh-TW/blog/tip-gwan-jang-market-entrance-seoul-korea/" target="_blank" class="link-btn">📖 廣藏市場攻略</a>
+        <a href="https://www.funliday.com/posts/seoul-travel-gwangjang-market-musteat/" target="_blank" class="link-btn">🍜 必吃美食詳細</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ DAY 2 ══ -->
+<div class="tab-panel" id="panel-day2">
+
+  <div class="day-hd d2">
+    <div class="day-badge"><strong>4/28</strong><span>星期二</span></div>
+    <div class="day-info">
+      <h3 contenteditable="false">Day 2 · 景福宮韓服 + 北村 + 陳玉華</h3>
+      <p contenteditable="false">景福宮 → 北村韓屋村 → 三清洞 → 益善洞 → 陳玉華一隻雞</p>
+    </div>
+  </div>
+
+  <div class="meal-list" style="margin-bottom:14px">
+    <div class="meal-hd">🍽 今日三餐規劃</div>
+    <div class="meal-row">
+      <span class="meal-badge mb-b">早餐</span>
+      <div><div class="meal-name" contenteditable="false">EGG DROP 蛋蛋吐司</div><div class="meal-detail" contenteditable="false">新村或梨大附近有分店，08:30 開始營業，現點現做</div></div>
+    </div>
+    <div class="meal-row">
+      <span class="meal-badge mb-l">午餐</span>
+      <div><div class="meal-name" contenteditable="false">豬肉湯飯（돼지국밥）</div><div class="meal-detail" contenteditable="false">景福宮附近，韓國傳統豬骨湯，暖胃又飽足</div></div>
+    </div>
+    <div class="meal-row">
+      <span class="meal-badge mb-d">晚餐</span>
+      <div><div class="meal-name" contenteditable="false">⭐ 陳玉華一隻雞（진옥화 닭한마리）</div><div class="meal-detail" contenteditable="false">益善洞旁，<strong>強烈建議提前網路訂位</strong>，現場等很久！</div></div>
+    </div>
+  </div>
+
+  <!-- 景福宮 -->
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🏯 景福宮 + 韓服體驗</h2></div>
+  <div class="spot-card">
+    <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Gyeongbokgung_panorama_from_Bugaksan.jpg/1280px-Gyeongbokgung_panorama_from_Bugaksan.jpg" alt="景福宮" onerror="this.src='https://images.unsplash.com/photo-1601621915196-2621bfb0cd6e?w=800'">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-mint">🏯</div>
+        <div>
+          <div class="spot-title" contenteditable="false">景福宮（경복궁）</div>
+          <div class="spot-en" contenteditable="false">Gyeongbokgung Palace · 穿韓服免費入場</div>
+        </div>
+      </div>
+      <div class="spot-tags">
+        <span class="tag tag-mint">穿韓服免費</span>
+        <span class="tag tag-sky">守衛交接 10:00/14:00</span>
+        <span class="tag tag-yellow">門票 3,000 KRW</span>
+      </div>
+      <div class="spot-desc" contenteditable="false">韓國最大宮殿，朝鮮王朝的歷史核心。建議 09:30 先在宮外租韓服（穿韓服免費入宮），再進宮遊覽。10:00 光化門守衛交接儀式必看！</div>
+      <div class="transport-box">
+        <div class="transport-title">🚇 交通方式</div>
+        <div class="t-steps">
+          <div class="t-step"><div class="t-num">1</div><span contenteditable="false">搭地鐵 <strong>3 號線</strong>到「<strong>景福宮站（경복궁역）</strong>」</span></div>
+          <div class="t-step"><div class="t-num">2</div><span contenteditable="false">從 <strong>5 號出口</strong>出來，步行約 5 分鐘到景福宮正門</span></div>
+          <div class="t-step"><div class="t-num">3</div><span contenteditable="false">韓服租借店就在 5 號出口附近巷弄，出站後左右都看得到</span></div>
+        </div>
+        <div class="naver-tip">🗺️ <span contenteditable="false">用 NAVER Map 查「경복궁역 5번 출구」，出口旁電梯有標示，帶行李可直接搭電梯出站</span></div>
+      </div>
+      <div class="info-card">
+        <div class="kv"><span class="kk">地址</span><div class="kv_" contenteditable="false">首爾市鍾路區社稷路 161</div></div>
+        <div class="kv"><span class="kk">開放</span><div class="kv_" contenteditable="false">09:00–18:00（4–5月），每週二休館</div></div>
+        <div class="kv"><span class="kk">門票</span><div class="kv_" contenteditable="false">成人 3,000 KRW，<strong>穿韓服免費</strong></div></div>
+        <div class="kv"><span class="kk">交接儀式</span><div class="kv_" contenteditable="false">光化門前，每日 10:00 和 14:00（週二除外）</div></div>
+      </div>
+      <div class="tip pink" style="margin-top:8px">
+        <div class="ticon">👘</div>
+        <div>
+          <div class="tip-title" contenteditable="false">韓服租借攻略</div>
+          <div class="tip-text" contenteditable="false">宮外租借約 <strong>20,000–30,000 KRW / 4小時</strong>，含髮型設計。強烈建議穿韓服，不只免費進宮，在北村拍的照片也超美！還韓服要在店家關門前回去。</div>
+        </div>
+      </div>
+      <div class="link-row">
+        <a href="https://naver.me/GyeongbokGung" target="_blank" class="link-btn map">🗺️ NAVER 地圖</a>
+        <a href="https://www.klook.com/zh-TW/activity/1099-hanbok-rental-gyeongbokgung-palace-seoul/" target="_blank" class="link-btn reserve">👘 Klook 韓服預約</a>
+        <a href="https://hk.trip.com/blog/gyeongbokgung-palace-attractions/" target="_blank" class="link-btn">📖 景福宮攻略</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 北村 -->
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🏘 北村韓屋村</h2></div>
+  <div class="spot-card">
+    <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Bukchon_Hanok_Village.jpg/1280px-Bukchon_Hanok_Village.jpg" alt="北村韓屋村" onerror="this.src='https://images.unsplash.com/photo-1548115184-bc6544d06a58?w=800'">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-sky">🏘</div>
+        <div>
+          <div class="spot-title" contenteditable="false">北村韓屋村（북촌한옥마을）</div>
+          <div class="spot-en" contenteditable="false">Bukchon Hanok Village</div>
+        </div>
+      </div>
+      <div class="spot-tags">
+        <span class="tag tag-mint">免費參觀</span>
+        <span class="tag tag-pink">韓服拍照必去</span>
+        <span class="tag tag-sky">8 大景點</span>
+      </div>
+      <div class="spot-desc" contenteditable="false">景福宮步行可達，保存最完整的傳統韓屋聚落。穿韓服在這裡拍照是首爾最美的體驗之一！沿著斜坡往上走，每個轉角都是美景。</div>
+      <div class="transport-box">
+        <div class="transport-title">🚶 從景福宮步行</div>
+        <div class="t-steps">
+          <div class="t-step"><div class="t-num">1</div><span contenteditable="false">景福宮東門出來後，往安國站方向步行約 10 分鐘</span></div>
+          <div class="t-step"><div class="t-num">2</div><span contenteditable="false">或搭地鐵 3 號線到「<strong>安國站（안국역）</strong>」2 號出口，步行 5 分</span></div>
+        </div>
+      </div>
+      <div class="link-row">
+        <a href="https://naver.me/BukchonHanok" target="_blank" class="link-btn map">🗺️ NAVER 地圖</a>
+        <a href="https://www.klook.com/zh-TW/blog/bukchon-hanok-village-guide/" target="_blank" class="link-btn">📖 北村攻略</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 三清洞 + 益善洞 -->
+  <div class="sec-hd"><div class="sec-dot"></div><h2>☕ 三清洞 + 益善洞</h2></div>
+  <div class="spot-card">
+    <img class="spot-img" src="https://images.unsplash.com/photo-1601471453756-c5d2f4d793f6?w=800" alt="三清洞" onerror="this.src='https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800'">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-lavender">☕</div>
+        <div>
+          <div class="spot-title" contenteditable="false">三清洞 → 益善洞（삼청동 → 익선동）</div>
+          <div class="spot-en" contenteditable="false">Samcheongdong → Ikseon-dong</div>
+        </div>
+      </div>
+      <div class="spot-desc" contenteditable="false">北村還完韓服後，步行到三清洞逛獨立咖啡廳和小藝廊，再走到益善洞韓屋咖啡街拍照打卡，最後就在附近吃陳玉華一隻雞晚餐！動線非常順。</div>
+      <div class="tip lavender" style="margin-top:0;margin-bottom:8px">
+        <div class="ticon">📍</div>
+        <div>
+          <div class="tip-title" contenteditable="false">動線建議</div>
+          <div class="tip-text" contenteditable="false">北村 → 步行 10 分 → 三清洞咖啡廳 → 步行 15 分 → 益善洞韓屋街 → 步行 3 分 → <strong>陳玉華一隻雞</strong>晚餐</div>
+        </div>
+      </div>
+      <div class="link-row">
+        <a href="https://naver.me/Samcheong" target="_blank" class="link-btn map">🗺️ 三清洞地圖</a>
+        <a href="https://naver.me/IkseonDong" target="_blank" class="link-btn map">🗺️ 益善洞地圖</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 陳玉華 -->
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🍗 陳玉華一隻雞</h2></div>
+  <div class="spot-card">
+    <img class="spot-img" src="https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=800" alt="陳玉華一隻雞" onerror="this.src='https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800'">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-peach">🍗</div>
+        <div>
+          <div class="spot-title" contenteditable="false">陳玉華一隻雞（진옥화 닭한마리）</div>
+          <div class="spot-en" contenteditable="false">Jin Ok Hwa Dak Hanmari · 東大門名店</div>
+        </div>
+      </div>
+      <div class="spot-tags">
+        <span class="tag tag-pink">必吃名店</span>
+        <span class="tag tag-peach">益善洞旁</span>
+        <span class="tag tag-yellow">⭐ 強烈建議訂位</span>
+      </div>
+      <div class="spot-desc" contenteditable="false">首爾最知名的一隻雞名店，整隻雞放入大鍋燉煮，湯頭清甜帶大蒜香氣，雞肉超嫩！加年糕、手工麵條一起涮，最後加飯做成炒飯收尾。台灣、日本觀光客必朝聖，請務必提前訂位！</div>
+      <div class="info-card">
+        <div class="kv"><span class="kk">地址</span><div class="kv_" contenteditable="false">서울 종로구 삼일대로 428（鍾路區三一大路 428）</div></div>
+        <div class="kv"><span class="kk">地鐵</span><div class="kv_" contenteditable="false">鍾路3街站 6 號出口步行 3 分鐘</div></div>
+        <div class="kv"><span class="kk">⚠️ 訂位</span><div class="kv_" contenteditable="false"><strong>強烈建議提前訂位！</strong>可用官網或 Naver 預約，否則現場等 1 小時以上</div></div>
+      </div>
+      <div class="link-row">
+        <a href="https://naver.me/JinOkHwa" target="_blank" class="link-btn map">🗺️ NAVER 地圖</a>
+        <a href="https://bobbyfun.tw/2024-01-21-2783/" target="_blank" class="link-btn reserve">📖 陳玉華攻略 + 訂位</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ DAY 3 ══ -->
+<div class="tab-panel" id="panel-day3">
+
+  <div class="day-hd d3">
+    <div class="day-badge"><strong>4/29</strong><span>星期三</span></div>
+    <div class="day-info">
+      <h3 contenteditable="false">Day 3 · 明洞 + 南山首爾塔 + 東大門 + 烤肉</h3>
+      <p contenteditable="false">明洞購物 → 南山塔 → 東大門 DDP → 新村烤肉燒酒</p>
+    </div>
+  </div>
+
+  <div class="meal-list" style="margin-bottom:14px">
+    <div class="meal-hd">🍽 今日三餐規劃</div>
+    <div class="meal-row">
+      <span class="meal-badge mb-b">早餐</span>
+      <div><div class="meal-name" contenteditable="false">EGG DROP</div><div class="meal-detail" contenteditable="false">明洞或新村附近，08:30 開始</div></div>
+    </div>
+    <div class="meal-row">
+      <span class="meal-badge mb-s">點心</span>
+      <div><div class="meal-name" contenteditable="false">明洞街頭小吃</div><div class="meal-detail" contenteditable="false">雞蛋糕、炸雞排、炒年糕、鮮榨果汁，走一圈就吃飽</div></div>
+    </div>
+    <div class="meal-row">
+      <span class="meal-badge mb-l">午餐</span>
+      <div><div class="meal-name" contenteditable="false">明洞餐廳自選</div><div class="meal-detail" contenteditable="false">明洞餐廳密集，隨意選一家都不錯</div></div>
+    </div>
+    <div class="meal-row">
+      <span class="meal-badge mb-d">晚餐</span>
+      <div><div class="meal-name" contenteditable="false">⭐ 韓國烤肉 + 燒酒</div><div class="meal-detail" contenteditable="false">新村食堂（새마을식당），營業到凌晨 4 點，平價又好吃</div></div>
+    </div>
+  </div>
+
+  <!-- 明洞 -->
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🛍 明洞</h2></div>
+  <div class="spot-card">
+    <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Seoul_Myeongdong_02.jpg/1280px-Seoul_Myeongdong_02.jpg" alt="明洞" onerror="this.src='https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800'">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-pink">🛍</div>
+        <div>
+          <div class="spot-title" contenteditable="false">明洞（명동）</div>
+          <div class="spot-en" contenteditable="false">Myeongdong · 首爾購物天堂</div>
+        </div>
+      </div>
+      <div class="spot-tags">
+        <span class="tag tag-pink">Olive Young</span>
+        <span class="tag tag-sky">大創 Daiso</span>
+        <span class="tag tag-mint">街頭小吃</span>
+        <span class="tag tag-yellow">換錢所</span>
+      </div>
+      <div class="spot-desc" contenteditable="false">首爾最熱鬧的購物街，Olive Young 旗艦店、大創、各種韓國美妝服飾品牌一字排開。街上小吃攤更是一絕，邊逛邊吃超過癮！</div>
+      <div class="transport-box">
+        <div class="transport-title">🚇 交通方式</div>
+        <div class="t-steps">
+          <div class="t-step"><div class="t-num">1</div><span contenteditable="false">從新村搭地鐵 2 號線 → 東大門歷史文化公園 → 換 4 號線 → 明洞站</span></div>
+          <div class="t-step"><div class="t-num">2</div><span contenteditable="false">明洞站 5/6 號出口，出站即是商圈</span></div>
+        </div>
+      </div>
+      <div class="tip mint" style="margin-top:8px">
+        <div class="ticon">💱</div>
+        <div>
+          <div class="tip-title" contenteditable="false">明洞換錢所</div>
+          <div class="tip-text" contenteditable="false">明洞街上有多家換錢所，匯率比銀行好。可用 NAVER Map 搜尋「환전소」找評價最好的換。</div>
+        </div>
+      </div>
+      <div class="link-row">
+        <a href="https://naver.me/Myeongdong" target="_blank" class="link-btn map">🗺️ NAVER 地圖</a>
+        <a href="https://bobbyfun.tw/2024-01-15-2758/" target="_blank" class="link-btn">📖 明洞逛街攻略</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 南山首爾塔 -->
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🗼 南山首爾塔</h2></div>
+  <div class="spot-card">
+    <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/N_Seoul_Tower_from_below.jpg/800px-N_Seoul_Tower_from_below.jpg" alt="南山首爾塔" onerror="this.src='https://images.unsplash.com/photo-1546874177-9e664107314e?w=800'">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-sky">🗼</div>
+        <div>
+          <div class="spot-title" contenteditable="false">南山首爾塔（N Seoul Tower）</div>
+          <div class="spot-en" contenteditable="false">Namsan N Seoul Tower · 360 度觀景台</div>
+        </div>
+      </div>
+      <div class="spot-tags">
+        <span class="tag tag-sky">360度俯瞰首爾</span>
+        <span class="tag tag-pink">愛情鎖</span>
+        <span class="tag tag-mint">纜車上山</span>
+      </div>
+      <div class="spot-desc" contenteditable="false">首爾制高點，360 度觀景台可俯瞰整個首爾市區。愛情鎖牆是打卡聖地。從明洞步行 10 分鐘到纜車站，搭纜車上山最方便！</div>
+      <div class="transport-box">
+        <div class="transport-title">🚡 從明洞搭纜車</div>
+        <div class="t-steps">
+          <div class="t-step"><div class="t-num">1</div><span contenteditable="false">明洞步行約 10 分鐘到「<strong>南山纜車站</strong>（남산 케이블카）」</span></div>
+          <div class="t-step"><div class="t-num">2</div><span contenteditable="false">纜車票約 <strong>12,000 KRW</strong> 來回，排隊約 15–20 分鐘</span></div>
+          <div class="t-step"><div class="t-num">3</div><span contenteditable="false">上山後再步行約 5 分鐘到首爾塔</span></div>
+          <div class="t-step"><div class="t-num">4</div><span contenteditable="false">觀景台門票約 <strong>21,000 KRW</strong>（現場購買）</span></div>
+        </div>
+        <div class="naver-tip">💡 <span contenteditable="false">可在 Klook / KKday 事先購買<strong>纜車+觀景台套票</strong>，比現場便宜，還可跳過部分排隊</span></div>
+      </div>
+      <div class="link-row">
+        <a href="https://naver.me/NSeoulTower" target="_blank" class="link-btn map">🗺️ NAVER 地圖</a>
+        <a href="https://www.klook.com/zh-TW/activity/298-n-seoul-tower-ticket-seoul/" target="_blank" class="link-btn reserve">🎫 Klook 套票購買</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 東大門 DDP -->
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🌙 東大門設計廣場 DDP</h2></div>
+  <div class="spot-card">
+    <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Dongdaemun_Design_Plaza_%28DDP%29_at_night.jpg/1280px-Dongdaemun_Design_Plaza_%28DDP%29_at_night.jpg" alt="東大門DDP" onerror="this.src='https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800'">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-lavender">🌙</div>
+        <div>
+          <div class="spot-title" contenteditable="false">東大門設計廣場（DDP）</div>
+          <div class="spot-en" contenteditable="false">Dongdaemun Design Plaza · 夜晚最美</div>
+        </div>
+      </div>
+      <div class="spot-tags">
+        <span class="tag tag-lavender">入夜超美</span>
+        <span class="tag tag-sky">免費入場外觀</span>
+        <span class="tag tag-mint">東大門市場旁</span>
+      </div>
+      <div class="spot-desc" contenteditable="false">扎哈·哈迪德設計的未來感建築，入夜後燈光特效超美，是首爾最上鏡的建築之一！外觀拍照完全免費，旁邊就是東大門服飾批發市場。</div>
+      <div class="transport-box">
+        <div class="transport-title">🚇 交通方式</div>
+        <div class="t-steps">
+          <div class="t-step"><div class="t-num">1</div><span contenteditable="false">南山下山後，搭地鐵到「<strong>東大門歷史文化公園站</strong>」1 號出口，步行 1 分鐘即到 DDP</span></div>
+        </div>
+      </div>
+      <div class="link-row">
+        <a href="https://naver.me/DDPSeoul" target="_blank" class="link-btn map">🗺️ NAVER 地圖</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 新村烤肉 -->
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🥩 新村烤肉 + 燒酒</h2></div>
+  <div class="spot-card">
+    <img class="spot-img" src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=800" alt="韓國烤肉" onerror="this.src='https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800'">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-pink">🥩</div>
+        <div>
+          <div class="spot-title" contenteditable="false">新村食堂（새마을식당）</div>
+          <div class="spot-en" contenteditable="false">Sinchon Sikdang · 平價烤肉到凌晨4點</div>
+        </div>
+      </div>
+      <div class="spot-tags">
+        <span class="tag tag-pink">豬五花必點</span>
+        <span class="tag tag-peach">燒酒啤酒</span>
+        <span class="tag tag-yellow">營業到凌晨4點</span>
+      </div>
+      <div class="spot-desc" contenteditable="false">白鍾元旗下平價烤肉連鎖，新村附近有分店，炭火烤肉、豬五花、烤豬皮完全沒腥味，配上無限續的生菜蒜頭泡菜，搭燒酒或啤酒（소맥）超過癮！</div>
+      <div class="link-row">
+        <a href="https://naver.me/SinchonSikdang" target="_blank" class="link-btn map">🗺️ 新村食堂地圖</a>
+        <a href="https://muzi.com.tw/seoul-hongdae/" target="_blank" class="link-btn">📖 弘大新村烤肉攻略</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ DAY 4 ══ -->
+<div class="tab-panel" id="panel-day4">
+
+  <div class="day-hd d4">
+    <div class="day-badge"><strong>4/30</strong><span>星期四</span></div>
+    <div class="day-info">
+      <h3 contenteditable="false">Day 4 · 回程</h3>
+      <p contenteditable="false">新村 → 仁川機場 → 高雄，CI164 12:10 起飛</p>
+    </div>
+  </div>
+
+  <div class="notice" style="margin-bottom:14px">
+    ⚠️ <span contenteditable="false">今天重點就是<strong>準時到機場</strong>！CI164 12:10 起飛，建議 09:00 前退房，09:20 從新村站搭 6002 巴士出發。</span>
+  </div>
+
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🕐 今日時間軸</h2></div>
+  <div class="flow-wrap" style="background:var(--white);border-radius:var(--radius);border:1px solid var(--border);padding:16px 16px 16px 36px;margin-bottom:14px;box-shadow:var(--shadow)">
+    <div class="flow-item"><div class="flow-dot"></div><div class="flow-time">07:30</div><div class="flow-title" contenteditable="false">飯店早餐或便利商店</div><div class="flow-note" contenteditable="false">CU 便利商店就在樓下</div></div>
+    <div class="flow-item"><div class="flow-dot"></div><div class="flow-time">09:00</div><div class="flow-title" contenteditable="false">退房（最晚 12:00）</div><div class="flow-note" contenteditable="false">行李拖到新村站，下坡好走</div></div>
+    <div class="flow-item"><div class="flow-dot"></div><div class="flow-time">09:20</div><div class="flow-title" contenteditable="false">新村站搭 6002 巴士</div><div class="flow-note" contenteditable="false">刷 T-money/WOWPASS 直接上車，不用買票</div></div>
+    <div class="flow-item"><div class="flow-dot"></div><div class="flow-time">10:40</div><div class="flow-title" contenteditable="false">抵達仁川機場第一航廈</div><div class="flow-note" contenteditable="false">辦理自助報到、托運行李</div></div>
+    <div class="flow-item"><div class="flow-dot"></div><div class="flow-time">11:00</div><div class="flow-title" contenteditable="false">辦退稅 + 出境</div><div class="flow-note" contenteditable="false">退稅機台在出境前，記得帶好退稅單</div></div>
+    <div class="flow-item"><div class="flow-dot"></div><div class="flow-time">12:10</div><div class="flow-title" contenteditable="false">CI164 起飛 ✈</div><div class="flow-note" contenteditable="false">首爾仁川 ICN → 高雄小港 KHH，飛行約 2 小時 55 分</div></div>
+    <div class="flow-item"><div class="flow-dot"></div><div class="flow-time">15:05</div><div class="flow-title" contenteditable="false">抵達高雄小港機場 🎉</div><div class="flow-note" contenteditable="false">回到可愛的家！</div></div>
+  </div>
+
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🧾 仁川機場退稅提醒</h2></div>
+  <div class="tip mint">
+    <div class="ticon">💰</div>
+    <div>
+      <div class="tip-title" contenteditable="false">退稅在哪裡辦？</div>
+      <div class="tip-text" contenteditable="false">
+        出境前（過海關前）找「<strong>TAX REFUND</strong>」退稅窗口或自助機台辦理。<br>
+        建議選<strong>韓元退款</strong>，避免匯損。<br>
+        退稅金額 &lt; 75,000 KRW → 商品可直接托運<br>
+        退稅金額 ≥ 75,000 KRW → 需帶商品給海關查驗
+      </div>
+    </div>
+  </div>
+  <div class="tip yellow">
+    <div class="ticon">📦</div>
+    <div>
+      <div class="tip-title" contenteditable="false">廣藏市場棉被怎麼帶回去？</div>
+      <div class="tip-text" contenteditable="false">棉被可以<strong>托運</strong>，記得計算好行李重量（23 kg 限制）。可用行李秤先量好再去機場，超重費用很貴！</div>
+    </div>
+  </div>
+
+</div>
+
+</div><!-- end .page -->
+
+<!-- ══ 記帳本 ══ -->
+<div class="tab-panel" id="panel-budget">
+  <div class="sec-hd"><div class="sec-dot"></div><h2>💴 旅遊記帳本</h2></div>
+  <div class="notice" style="background:var(--mac-sky);border:1px solid #A8CCE0;border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--text-sub);display:flex;gap:8px;">
+    💡 <span>點「＋ 新增」輸入品項和金額（韓元 KRW），每天自動加總。記帳資料儲存在手機裡。</span>
+  </div>
+
+  <div class="budget-day-card" id="budget-d1">
+    <div class="budget-day-hd" style="background:var(--mac-sky)">
+      <span class="budget-day-title">📅 Day 1（4/27）抵達 + 廣藏市場</span>
+      <span class="budget-day-total" id="total-d1">0 KRW</span>
+    </div>
+    <div class="budget-rows" id="rows-d1"></div>
+    <div class="budget-add-row">
+      <button class="budget-add-btn ba-food" onclick="addBudget('d1','food','🍽 餐飲')">＋ 餐飲</button>
+      <button class="budget-add-btn ba-transport" onclick="addBudget('d1','transport','🚌 交通')">＋ 交通</button>
+      <button class="budget-add-btn ba-shop" onclick="addBudget('d1','shop','🛍 購物')">＋ 購物</button>
+      <button class="budget-add-btn ba-other" onclick="addBudget('d1','other','📌 其他')">＋ 其他</button>
+    </div>
+  </div>
+
+  <div class="budget-day-card" id="budget-d2">
+    <div class="budget-day-hd" style="background:var(--mac-mint)">
+      <span class="budget-day-title">📅 Day 2（4/28）景福宮 + 陳玉華</span>
+      <span class="budget-day-total" id="total-d2">0 KRW</span>
+    </div>
+    <div class="budget-rows" id="rows-d2"></div>
+    <div class="budget-add-row">
+      <button class="budget-add-btn ba-food" onclick="addBudget('d2','food','🍽 餐飲')">＋ 餐飲</button>
+      <button class="budget-add-btn ba-transport" onclick="addBudget('d2','transport','🚌 交通')">＋ 交通</button>
+      <button class="budget-add-btn ba-shop" onclick="addBudget('d2','shop','🛍 購物')">＋ 購物</button>
+      <button class="budget-add-btn ba-other" onclick="addBudget('d2','other','📌 其他')">＋ 其他</button>
+    </div>
+  </div>
+
+  <div class="budget-day-card" id="budget-d3">
+    <div class="budget-day-hd" style="background:var(--mac-lavender)">
+      <span class="budget-day-title">📅 Day 3（4/29）明洞 + 南山 + 烤肉</span>
+      <span class="budget-day-total" id="total-d3">0 KRW</span>
+    </div>
+    <div class="budget-rows" id="rows-d3"></div>
+    <div class="budget-add-row">
+      <button class="budget-add-btn ba-food" onclick="addBudget('d3','food','🍽 餐飲')">＋ 餐飲</button>
+      <button class="budget-add-btn ba-transport" onclick="addBudget('d3','transport','🚌 交通')">＋ 交通</button>
+      <button class="budget-add-btn ba-shop" onclick="addBudget('d3','shop','🛍 購物')">＋ 購物</button>
+      <button class="budget-add-btn ba-other" onclick="addBudget('d3','other','📌 其他')">＋ 其他</button>
+    </div>
+  </div>
+
+  <div class="budget-day-card" id="budget-d4">
+    <div class="budget-day-hd" style="background:var(--mac-peach)">
+      <span class="budget-day-title">📅 Day 4（4/30）回程</span>
+      <span class="budget-day-total" id="total-d4">0 KRW</span>
+    </div>
+    <div class="budget-rows" id="rows-d4"></div>
+    <div class="budget-add-row">
+      <button class="budget-add-btn ba-transport" onclick="addBudget('d4','transport','🚌 交通')">＋ 交通</button>
+      <button class="budget-add-btn ba-food" onclick="addBudget('d4','food','🍽 餐飲')">＋ 餐飲</button>
+      <button class="budget-add-btn ba-other" onclick="addBudget('d4','other','📌 其他')">＋ 其他</button>
+    </div>
+  </div>
+
+  <!-- 總計 -->
+  <div class="budget-summary" id="budget-summary">
+    <div class="budget-summary-title">📊 費用總計</div>
+    <div class="budget-sum-row"><span>Day 1</span><span id="sum-d1">0 KRW</span></div>
+    <div class="budget-sum-row"><span>Day 2</span><span id="sum-d2">0 KRW</span></div>
+    <div class="budget-sum-row"><span>Day 3</span><span id="sum-d3">0 KRW</span></div>
+    <div class="budget-sum-row"><span>Day 4</span><span id="sum-d4">0 KRW</span></div>
+    <div class="budget-sum-row"><span>🎯 全部合計</span><span id="sum-total">0 KRW</span></div>
+  </div>
+</div>
+
+<!-- ══ 相簿 ══ -->
+<div class="tab-panel" id="panel-photos">
+  <div class="sec-hd"><div class="sec-dot"></div><h2>📸 旅遊相簿</h2></div>
+  <div class="notice" style="background:var(--mac-mint);border:1px solid #90C8A0;border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--text-sub);display:flex;gap:8px;">
+    📷 <span>點「＋ 上傳照片」可加入自己拍的照片，點照片可放大，每個景點都有專屬相簿。</span>
+  </div>
+
+  <div class="photo-section">
+    <div class="photo-section-hd">🛬 抵達首爾 / Day 1</div>
+    <div class="photo-grid" id="pg-arrive"></div>
+    <label style="display:block;padding:10px 16px;border-top:1px dashed var(--border);font-size:13px;color:var(--accent);cursor:pointer;text-align:center;font-weight:500;">
+      ＋ 上傳照片
+      <input type="file" accept="image/*" multiple class="photo-upload-input" onchange="uploadPhotos(this,'pg-arrive')">
+    </label>
+  </div>
+
+  <div class="photo-section">
+    <div class="photo-section-hd">🏯 景福宮 / 北村 / 益善洞 · Day 2</div>
+    <div class="photo-grid" id="pg-day2"></div>
+    <label style="display:block;padding:10px 16px;border-top:1px dashed var(--border);font-size:13px;color:var(--accent);cursor:pointer;text-align:center;font-weight:500;">
+      ＋ 上傳照片
+      <input type="file" accept="image/*" multiple class="photo-upload-input" onchange="uploadPhotos(this,'pg-day2')">
+    </label>
+  </div>
+
+  <div class="photo-section">
+    <div class="photo-section-hd">🗼 明洞 / 南山塔 / 東大門 · Day 3</div>
+    <div class="photo-grid" id="pg-day3"></div>
+    <label style="display:block;padding:10px 16px;border-top:1px dashed var(--border);font-size:13px;color:var(--accent);cursor:pointer;text-align:center;font-weight:500;">
+      ＋ 上傳照片
+      <input type="file" accept="image/*" multiple class="photo-upload-input" onchange="uploadPhotos(this,'pg-day3')">
+    </label>
+  </div>
+
+  <div class="photo-section">
+    <div class="photo-section-hd">🛍 購物戰利品</div>
+    <div class="photo-grid" id="pg-shop"></div>
+    <label style="display:block;padding:10px 16px;border-top:1px dashed var(--border);font-size:13px;color:var(--accent);cursor:pointer;text-align:center;font-weight:500;">
+      ＋ 上傳照片
+      <input type="file" accept="image/*" multiple class="photo-upload-input" onchange="uploadPhotos(this,'pg-shop')">
+    </label>
+  </div>
+
+  <div class="photo-section">
+    <div class="photo-section-hd">🍽 美食記錄</div>
+    <div class="photo-grid" id="pg-food"></div>
+    <label style="display:block;padding:10px 16px;border-top:1px dashed var(--border);font-size:13px;color:var(--accent);cursor:pointer;text-align:center;font-weight:500;">
+      ＋ 上傳照片
+      <input type="file" accept="image/*" multiple class="photo-upload-input" onchange="uploadPhotos(this,'pg-food')">
+    </label>
+  </div>
+</div>
+
+<!-- 燈箱 -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <button class="lightbox-del" onclick="event.stopPropagation();deleteLightboxPhoto()">🗑 刪除這張</button>
+</div>
+
+<div class="footer">🌸 2026 首爾散心自由行 · 玩得開心回來平安 ✈</div>
+
+<script>
+// ══ Tab 切換 ══
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ══ 編輯模式 ══
+let editMode = false;
+function toggleEdit() {
+  editMode = !editMode;
+  const btn = document.getElementById('edit-toggle');
+  const hint = document.getElementById('edit-hint');
+  if (editMode) {
+    document.body.classList.add('editing');
+    document.querySelectorAll('[contenteditable="false"]').forEach(el => el.setAttribute('contenteditable','true'));
+    btn.textContent = '✅ 完成編輯'; btn.classList.add('on');
+    hint.classList.add('show');
+  } else {
+    document.body.classList.remove('editing');
+    document.querySelectorAll('[contenteditable="true"]').forEach(el => el.setAttribute('contenteditable','false'));
+    btn.textContent = '✏️ 編輯模式'; btn.classList.remove('on');
+    hint.classList.remove('show');
+    saveEditContent();
+  }
+}
+function saveEditContent() {
+  const data = {};
+  document.querySelectorAll('[contenteditable]').forEach((el,i) => {
+    data[el.id || 'el_'+i] = el.innerHTML;
+  });
+  try { localStorage.setItem('seoul2026_edit', JSON.stringify(data)); } catch(e){}
+}
+function loadEditContent() {
+  try {
+    const raw = localStorage.getItem('seoul2026_edit');
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    document.querySelectorAll('[contenteditable]').forEach((el,i) => {
+      const k = el.id || 'el_'+i;
+      if (data[k]) el.innerHTML = data[k];
+    });
+  } catch(e){}
+}
+
+// ══ 行前準備 ══
+function toggleCheck(el) {
+  if (['INPUT','BUTTON'].includes(document.activeElement.tagName)) return;
+  el.classList.toggle('done');
+  updateProgress();
+  savePrep();
+}
+function delItem(btn) {
+  btn.closest('.check-item').remove();
+  updateProgress(); savePrep();
+}
+function addItem(btn) {
+  const card = btn.closest('.check-list-card');
+  const div = document.createElement('div');
+  div.className = 'check-item';
+  div.onclick = function(){ if(!['INPUT','BUTTON'].includes(document.activeElement.tagName)) toggleCheck(this); };
+  div.innerHTML = `<div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name" contenteditable="true" style="outline:none;border-bottom:1px dashed #A8CCE0;cursor:text;min-width:40px">點此輸入名稱</span><input class="chk-note" placeholder="備註（選填）" onclick="event.stopPropagation()"></div><div class="chk-right"><input class="chk-val" value="數量" onclick="event.stopPropagation()"><button class="chk-del" style="display:flex" onclick="event.stopPropagation();delItem(this)">×</button></div>`;
+  card.insertBefore(div, btn);
+  div.querySelector('[contenteditable]').focus();
+  updateProgress(); savePrep();
+}
+function updateProgress() {
+  const all = document.querySelectorAll('#panel-prep .check-item');
+  const done = document.querySelectorAll('#panel-prep .check-item.done');
+  const pct = all.length ? Math.round(done.length/all.length*100) : 0;
+  document.getElementById('prog-bar').style.width = pct+'%';
+  document.getElementById('prog-bar').style.background = pct===100?'#3DAA6E':pct>50?'#5B8DEF':'#E07B35';
+  document.getElementById('prog-count').textContent = done.length+' / '+all.length+' 項完成';
+}
+function savePrep() {
+  try {
+    const items = [];
+    document.querySelectorAll('#panel-prep .check-item').forEach(el => {
+      items.push({
+        name: el.querySelector('.chk-name')?.textContent||'',
+        note: el.querySelector('.chk-note')?.value||'',
+        val:  el.querySelector('.chk-val')?.value||'',
+        done: el.classList.contains('done')
+      });
+    });
+    localStorage.setItem('seoul2026_prep', JSON.stringify(items));
+  } catch(e){}
+}
+
+// ══ 記帳本 ══
+const catClass = { food:'bc-food', transport:'bc-transport', shop:'bc-shop', hotel:'bc-hotel', other:'bc-other' };
+function addBudget(day, cat, label) {
+  const container = document.getElementById('rows-'+day);
+  const row = document.createElement('div');
+  row.className = 'budget-row';
+  row.dataset.day = day;
+  row.innerHTML = `<span class="budget-cat ${catClass[cat]}">${label}</span><input class="budget-desc" placeholder="品項名稱..." oninput="saveBudget();updateTotals()"><input class="budget-amt" type="number" value="0" placeholder="KRW" oninput="saveBudget();updateTotals()"><button class="budget-del" onclick="this.closest('.budget-row').remove();saveBudget();updateTotals()">×</button>`;
+  container.appendChild(row);
+  row.querySelector('.budget-desc').focus();
+  updateTotals(); saveBudget();
+}
+function updateTotals() {
+  let grand = 0;
+  ['d1','d2','d3','d4'].forEach(d => {
+    let sum = 0;
+    document.querySelectorAll(`#rows-${d} .budget-amt`).forEach(inp => { sum += parseFloat(inp.value)||0; });
+    const fmt = sum.toLocaleString()+' KRW';
+    document.getElementById('total-'+d).textContent = fmt;
+    document.getElementById('sum-'+d).textContent = fmt;
+    grand += sum;
+  });
+  document.getElementById('sum-total').textContent = grand.toLocaleString()+' KRW';
+}
+function saveBudget() {
+  try {
+    const data = {};
+    ['d1','d2','d3','d4'].forEach(d => {
+      data[d] = [];
+      document.querySelectorAll(`#rows-${d} .budget-row`).forEach(row => {
+        const spans = row.querySelector('.budget-cat');
+        data[d].push({
+          cat: spans?.className||'',
+          label: spans?.textContent||'',
+          desc: row.querySelector('.budget-desc')?.value||'',
+          amt: row.querySelector('.budget-amt')?.value||'0'
+        });
+      });
+    });
+    localStorage.setItem('seoul2026_budget', JSON.stringify(data));
+  } catch(e){}
+}
+function loadBudget() {
+  try {
+    const raw = localStorage.getItem('seoul2026_budget');
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    ['d1','d2','d3','d4'].forEach(d => {
+      if (!data[d]) return;
+      data[d].forEach(item => {
+        const container = document.getElementById('rows-'+d);
+        const row = document.createElement('div');
+        row.className = 'budget-row'; row.dataset.day = d;
+        row.innerHTML = `<span class="budget-cat ${item.cat}">${item.label}</span><input class="budget-desc" value="${item.desc}" oninput="saveBudget();updateTotals()"><input class="budget-amt" type="number" value="${item.amt}" oninput="saveBudget();updateTotals()"><button class="budget-del" onclick="this.closest('.budget-row').remove();saveBudget();updateTotals()">×</button>`;
+        container.appendChild(row);
+      });
+    });
+    updateTotals();
+  } catch(e){}
+}
+
+// ══ 相簿 ══
+const photoStore = {};
+let lightboxCurrent = { gridId: null, idx: null };
+
+function uploadPhotos(input, gridId) {
+  const files = Array.from(input.files);
+  if (!photoStore[gridId]) photoStore[gridId] = [];
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      photoStore[gridId].push(e.target.result);
+      renderGrid(gridId);
+      savePhotos();
+    };
+    reader.readAsDataURL(file);
+  });
+  input.value = '';
+}
+function renderGrid(gridId) {
+  const grid = document.getElementById(gridId);
+  if (!grid) return;
+  grid.innerHTML = '';
+  (photoStore[gridId]||[]).forEach((src, idx) => {
+    const img = document.createElement('img');
+    img.className = 'photo-thumb'; img.src = src;
+    img.onclick = () => openLightbox(gridId, idx);
+    grid.appendChild(img);
+  });
+}
+function openLightbox(gridId, idx) {
+  lightboxCurrent = { gridId, idx };
+  document.getElementById('lightbox-img').src = photoStore[gridId][idx];
+  document.getElementById('lightbox').classList.add('show');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('show');
+  document.getElementById('lightbox-img').src = '';
+}
+function deleteLightboxPhoto() {
+  const { gridId, idx } = lightboxCurrent;
+  if (gridId === null) return;
+  photoStore[gridId].splice(idx, 1);
+  renderGrid(gridId);
+  savePhotos();
+  closeLightbox();
+}
+function savePhotos() {
+  try { localStorage.setItem('seoul2026_photos', JSON.stringify(photoStore)); } catch(e){}
+}
+function loadPhotos() {
+  try {
+    const raw = localStorage.getItem('seoul2026_photos');
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    Object.assign(photoStore, data);
+    Object.keys(photoStore).forEach(gridId => renderGrid(gridId));
+  } catch(e){}
+}
+
+// ══ 初始化 ══
+document.addEventListener('DOMContentLoaded', () => {
+  loadEditContent();
+  loadBudget();
+  loadPhotos();
+  updateProgress();
+});
+</script>
+</body>
+</html>
