@@ -2713,18 +2713,33 @@ document.addEventListener('input', e=>{
 let photoStore = {d1:[], d2:[], d3:[], d4:[]};
 let lightboxCurrent = null;
 
-function uploadPhotos(day, input){
+async function uploadPhotos(day, input){
   const files = Array.from(input.files);
-  files.forEach(file=>{
-    const reader = new FileReader();
-    reader.onload = e=>{
-      photoStore[day].push(e.target.result);
-      renderGrid(day);
-      // 雲端同步：照片較大，使用較長 debounce
-      debouncedSync('photos', photoStore, 1500);
-    };
-    reader.readAsDataURL(file);
-  });
+  // 顯示處理中提示
+  showToast(`⏳ 上傳 ${files.length} 張照片中...`);
+  
+  for(const file of files){
+    // 先讀成 base64
+    const base64 = await new Promise(resolve=>{
+      const reader = new FileReader();
+      reader.onload = e=>resolve(e.target.result);
+      reader.readAsDataURL(file);
+    });
+    
+    // 🆕 上傳到雲端硬碟
+    let finalUrl = base64;  // 預設是 base64（萬一上傳失敗）
+    if(isApiReady()){
+      const url = await uploadPhotoToGAS(base64);
+      if(url) finalUrl = url;  // 成功 → 用連結
+    }
+    
+    photoStore[day].push(finalUrl);
+    renderGrid(day);
+  }
+  
+  // 全部上傳完才存進 Sheet
+  debouncedSync('photos', photoStore, 1500);
+  showToast(`✅ ${files.length} 張照片已上傳`);
   input.value = '';
 }
 
@@ -2850,22 +2865,47 @@ function removeNotePhoto(idx){
 }
 
 /* 提交一筆隨手記 */
-function submitNote(){
+async function submitNote(){
   const textEl = document.getElementById('note-form-text');
   const text = textEl.textContent.trim();
   if(!text && notePhotosTemp.length === 0){
     showToast('⚠️ 請至少寫點什麼或加張照片');
     return;
   }
+  
+  // 鎖定按鈕避免重複送
+  const submitBtn = document.querySelector('.note-submit-btn');
+  submitBtn.disabled = true;
+  submitBtn.textContent = '⏳ 處理中...';
+  
+  // 🆕 先把照片上傳到雲端硬碟（如果有照片）
+  let photoUrls = [];
+  if(notePhotosTemp.length > 0 && isApiReady()){
+    submitBtn.textContent = `⏳ 上傳照片 0/${notePhotosTemp.length}...`;
+    for(let i = 0; i < notePhotosTemp.length; i++){
+      submitBtn.textContent = `⏳ 上傳照片 ${i+1}/${notePhotosTemp.length}...`;
+      const url = await uploadPhotoToGAS(notePhotosTemp[i]);
+      if(url){
+        photoUrls.push(url);
+      } else {
+        // 上傳失敗，先用 base64 備援（避免使用者資料丟失）
+        photoUrls.push(notePhotosTemp[i]);
+      }
+    }
+  } else if(notePhotosTemp.length > 0){
+    // 沒設 API_URL 的情況，還是用 base64
+    photoUrls = [...notePhotosTemp];
+  }
+  
   const note = {
-    id: Date.now(),                           // 用時間戳當 ID
-    time: new Date().toISOString(),           // ISO 時間
+    id: Date.now(),
+    time: new Date().toISOString(),
     text: text,
-    photos: [...notePhotosTemp],
+    photos: photoUrls,                        // 改存連結（或 base64 備援）
     location: noteLocationTemp,
-    day: getCurrentDay()                      // 自動判斷是 Day 1/2/3/4
+    day: getCurrentDay()
   };
-  notesStore.unshift(note);                   // 新的在最上面
+  notesStore.unshift(note);
   saveNotes();
   renderNotesList();
 
@@ -2877,7 +2917,46 @@ function submitNote(){
   const locEl = document.getElementById('note-form-loc');
   locEl.textContent = '📍 點此加地點';
   locEl.classList.remove('active');
+  
+  // 解鎖按鈕
+  submitBtn.disabled = false;
+  submitBtn.textContent = '✓ 記下來';
+  
   showToast('✅ 已記下');
+}
+
+/* 🆕 把單張照片上傳到 GAS（透過 uploadPhoto action） */
+async function uploadPhotoToGAS(base64String){
+  if(!isApiReady()) return null;
+  try {
+    // 用 FormData 避開 CORS preflight
+    // GAS 接收後會用 e.parameter.payload 取得資料
+    const formData = new FormData();
+    formData.append('payload', JSON.stringify({
+      action: 'uploadPhoto',
+      imageBase64: base64String
+    }));
+    
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      body: formData
+    });
+    
+    if(!response.ok){
+      console.warn('照片上傳 HTTP 錯誤:', response.status);
+      return null;
+    }
+    const data = await response.json();
+    if(data.status === 'success' && data.fileUrl){
+      console.log('✅ 照片上傳成功:', data.fileUrl);
+      return data.fileUrl;
+    }
+    console.warn('照片上傳失敗:', data);
+    return null;
+  } catch(err){
+    console.warn('照片上傳異常:', err);
+    return null;
+  }
 }
 
 /* 自動判斷今天是 Day 幾 */
