@@ -2344,7 +2344,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
     <div class="ticon">💡</div>
     <div>
       <div class="tip-title">怎麼用？</div>
-      <div class="tip-text">旅途中突然想記錄什麼？拍照、記事、心情、發現的小店都可以記在這裡。<strong>時間自動帶入</strong>，照片可選擇上傳。</div>
+      <div class="tip-text">旅途中突然想記錄什麼？拍照、記事、心情、發現的小店都可以記在這裡。<strong>時間自動帶入</strong>。<br>⚠️ <strong>隨手記只存在這台裝置上</strong>，不會同步到雲端，換手機就看不到了。</div>
     </div>
   </div>
 
@@ -2448,7 +2448,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
 <div class="toast" id="toast">已複製</div>
 
 <!-- Footer -->
-<div class="footer">2026 首爾散心手冊 · 5/1–5/4 · made with ❤</div>
+<div class="footer">2026 首爾散心開心手冊 · 5/1–5/4 · made with ❤</div>
 
 <script>
 /* ════════════════════════════════════════════════════════════════════
@@ -2486,7 +2486,7 @@ async function loadAllFromCloud(){
     if(d.prep) applyPrep(d.prep);
     if(d.budget) applyBudget(d.budget);
     if(d.photos) applyPhotos(d.photos);
-    if(d.notes) applyNotes(d.notes);
+    // 注意：notes 不從雲端載入，改用本機 localStorage
     showToast('✅ 已載入雲端資料');
   }catch(err){console.warn('載入失敗',err);}
 }
@@ -2713,33 +2713,18 @@ document.addEventListener('input', e=>{
 let photoStore = {d1:[], d2:[], d3:[], d4:[]};
 let lightboxCurrent = null;
 
-async function uploadPhotos(day, input){
+function uploadPhotos(day, input){
   const files = Array.from(input.files);
-  // 顯示處理中提示
-  showToast(`⏳ 上傳 ${files.length} 張照片中...`);
-  
-  for(const file of files){
-    // 先讀成 base64
-    const base64 = await new Promise(resolve=>{
-      const reader = new FileReader();
-      reader.onload = e=>resolve(e.target.result);
-      reader.readAsDataURL(file);
-    });
-    
-    // 🆕 上傳到雲端硬碟
-    let finalUrl = base64;  // 預設是 base64（萬一上傳失敗）
-    if(isApiReady()){
-      const url = await uploadPhotoToGAS(base64);
-      if(url) finalUrl = url;  // 成功 → 用連結
-    }
-    
-    photoStore[day].push(finalUrl);
-    renderGrid(day);
-  }
-  
-  // 全部上傳完才存進 Sheet
-  debouncedSync('photos', photoStore, 1500);
-  showToast(`✅ ${files.length} 張照片已上傳`);
+  files.forEach(file=>{
+    const reader = new FileReader();
+    reader.onload = e=>{
+      photoStore[day].push(e.target.result);
+      renderGrid(day);
+      // 雲端同步：照片較大，使用較長 debounce
+      debouncedSync('photos', photoStore, 1500);
+    };
+    reader.readAsDataURL(file);
+  });
   input.value = '';
 }
 
@@ -2865,7 +2850,7 @@ function removeNotePhoto(idx){
 }
 
 /* 提交一筆隨手記 */
-async function submitNote(){
+function submitNote(){
   const textEl = document.getElementById('note-form-text');
   const text = textEl.textContent.trim();
   if(!text && notePhotosTemp.length === 0){
@@ -2873,40 +2858,16 @@ async function submitNote(){
     return;
   }
   
-  // 鎖定按鈕避免重複送
-  const submitBtn = document.querySelector('.note-submit-btn');
-  submitBtn.disabled = true;
-  submitBtn.textContent = '⏳ 處理中...';
-  
-  // 🆕 先把照片上傳到雲端硬碟（如果有照片）
-  let photoUrls = [];
-  if(notePhotosTemp.length > 0 && isApiReady()){
-    submitBtn.textContent = `⏳ 上傳照片 0/${notePhotosTemp.length}...`;
-    for(let i = 0; i < notePhotosTemp.length; i++){
-      submitBtn.textContent = `⏳ 上傳照片 ${i+1}/${notePhotosTemp.length}...`;
-      const url = await uploadPhotoToGAS(notePhotosTemp[i]);
-      if(url){
-        photoUrls.push(url);
-      } else {
-        // 上傳失敗，先用 base64 備援（避免使用者資料丟失）
-        photoUrls.push(notePhotosTemp[i]);
-      }
-    }
-  } else if(notePhotosTemp.length > 0){
-    // 沒設 API_URL 的情況，還是用 base64
-    photoUrls = [...notePhotosTemp];
-  }
-  
   const note = {
     id: Date.now(),
     time: new Date().toISOString(),
     text: text,
-    photos: photoUrls,                        // 改存連結（或 base64 備援）
+    photos: [...notePhotosTemp],     // 直接存 base64 到本機
     location: noteLocationTemp,
     day: getCurrentDay()
   };
   notesStore.unshift(note);
-  saveNotes();
+  saveNotes();           // 存到本機 localStorage
   renderNotesList();
 
   // 清空表單
@@ -2918,46 +2879,10 @@ async function submitNote(){
   locEl.textContent = '📍 點此加地點';
   locEl.classList.remove('active');
   
-  // 解鎖按鈕
-  submitBtn.disabled = false;
-  submitBtn.textContent = '✓ 記下來';
-  
-  showToast('✅ 已記下');
+  showToast('✅ 已記下（只存在這台裝置）');
 }
 
-/* 🆕 把單張照片上傳到 GAS（透過 uploadPhoto action） */
-async function uploadPhotoToGAS(base64String){
-  if(!isApiReady()) return null;
-  try {
-    // 用 FormData 避開 CORS preflight
-    // GAS 接收後會用 e.parameter.payload 取得資料
-    const formData = new FormData();
-    formData.append('payload', JSON.stringify({
-      action: 'uploadPhoto',
-      imageBase64: base64String
-    }));
-    
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      body: formData
-    });
-    
-    if(!response.ok){
-      console.warn('照片上傳 HTTP 錯誤:', response.status);
-      return null;
-    }
-    const data = await response.json();
-    if(data.status === 'success' && data.fileUrl){
-      console.log('✅ 照片上傳成功:', data.fileUrl);
-      return data.fileUrl;
-    }
-    console.warn('照片上傳失敗:', data);
-    return null;
-  } catch(err){
-    console.warn('照片上傳異常:', err);
-    return null;
-  }
-}
+/* 移除 uploadPhotoToGAS（不再需要） */
 
 /* 自動判斷今天是 Day 幾 */
 function getCurrentDay(){
@@ -3048,16 +2973,32 @@ function deleteNote(id){
   showToast('🗑 已刪除');
 }
 
-/* 儲存到雲端 */
+/* 儲存到瀏覽器本機（不上雲端） */
 function saveNotes(){
-  debouncedSync('notes', notesStore, 1500);
+  try {
+    localStorage.setItem('seoul_notes', JSON.stringify(notesStore));
+  } catch(err){
+    console.warn('儲存隨手記失敗:', err);
+  }
 }
 
-/* 從雲端載入 */
+/* 從瀏覽器本機載入（不從雲端） */
+function loadNotesFromLocal(){
+  try {
+    const data = localStorage.getItem('seoul_notes');
+    if(data){
+      notesStore = JSON.parse(data);
+      renderNotesList();
+    }
+  } catch(err){
+    console.warn('載入隨手記失敗:', err);
+  }
+}
+
+/* 從雲端載入（不再使用，但保留兼容） */
 function applyNotes(data){
-  if(!Array.isArray(data)) return;
-  notesStore = data;
-  renderNotesList();
+  // 不再從雲端載入，因為改存本機
+  return;
 }
 
 /* ════════════════════════════════════════════════════════════════════
@@ -3079,6 +3020,7 @@ window.addEventListener('DOMContentLoaded', ()=>{
   updateProgress();
   updateTotals();
   ['d1','d2','d3','d4'].forEach(d=>renderGrid(d));
+  loadNotesFromLocal();    // 🆕 從瀏覽器本機載入隨手記
   renderNotesList();
   updateNoteFormTime();
   // 每分鐘更新隨手記表單的時間
