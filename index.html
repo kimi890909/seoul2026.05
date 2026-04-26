@@ -1,23 +1,215 @@
 <!DOCTYPE html>
+<!--
+================================================================================
+  ╔═══════════════════════════════════════════════════════════════════╗
+  ║  🌸 2026 首爾散心手冊 - 完整版 v3                                 ║
+  ║  📅 旅行日期：2026/5/1 (五) ~ 5/4 (一)                            ║
+  ║  ✏️  本檔案含完整中文註解，給程式新手自助維護用                  ║
+  ╚═══════════════════════════════════════════════════════════════════╝
+
+  📚 ╔═════ 使 用 說 明 ═════╗
+
+  ▶ 怎麼修改？
+    1. 用文字編輯器打開（推薦：VS Code、Notepad++、記事本）
+    2. 按 Ctrl + F 搜尋（搜尋下方的「索引代號」）
+    3. 找到位置後，照註解說的改
+
+  ▶ 索引代號規則（搜尋這個就到位置）：
+    <<IMG_xxx>>      → 圖片（每個景點都有）
+    <<NAVER_xxx>>    → NAVER 地圖連結
+    <<HANCHAO_xxx>>  → 韓巢地圖連結
+    <<KLOOK_xxx>>    → Klook 訂票連結
+    <<COLOR_xxx>>    → 顏色設定
+    <<FONT_xxx>>     → 字體設定
+    <<TAB_xxx>>      → 上方分頁按鈕
+
+  ▶ 修改完後怎麼上傳？
+    1. 存檔
+    2. 推送到 GitHub（覆蓋舊的 index.html）
+    3. 等 1-3 分鐘 GitHub Pages 部署
+    4. 開瀏覽器強制重新整理（Ctrl+Shift+R）
+
+  ╚════════════════════════╝
+
+
+  📋 ╔═════ 完 整 索 引 表 ═════╗
+
+  【1. 全站設定】
+    <<COLOR_主色>>      主題色（藍色系）
+    <<COLOR_背景>>      整個網頁背景色
+    <<COLOR_標籤>>      6 種標籤顏色（粉、桃、黃、綠、藍、紫）
+    <<FONT_主字體>>     Google Noto Sans TC
+    <<HERO_標題>>       首頁大標題（首爾散心手冊）
+    <<HERO_副標>>       副標題（旅行日期）
+    <<HERO_標籤>>       下方 5 個小標籤
+    <<TAB_全部>>        11 個上方分頁按鈕
+
+  【2. 行前準備清單】
+    <<PREP_證件>>       證件 & 文件 那組
+    <<PREP_金錢>>       金錢 & 交通卡
+    <<PREP_網路>>       網路 & APP
+    <<PREP_3C>>         3C & 電器
+    <<PREP_衣物>>       衣物 & 盥洗
+    <<PREP_藥物>>       常備藥物
+    <<PREP_行李>>       行李規定
+
+  【3. 交通分頁】
+    <<FLIGHT_去程>>     去程航班 CI164
+    <<FLIGHT_回程>>     回程航班
+    <<CHECK_IN>>        華航網路報到連結
+    <<NAVER_梨大下車處>>
+    <<NAVER_EVER8>>
+
+  【4. 住宿分頁】
+    <<IMG_EVER8>>       Ever8 飯店圖片
+    <<NAVER_EVER8>>     Ever8 NAVER 地圖
+    <<HANCHAO_EVER8>>   Ever8 韓巢
+    <<AGODA_EVER8>>     Agoda 訂房連結
+
+  【5. Day 1 - 5/1（五）】
+    <<IMG_廣藏市場>>     <<NAVER_廣藏市場>>     <<HANCHAO_廣藏市場>>
+    <<IMG_孔陵>>         <<NAVER_孔陵>>
+
+  【6. Day 2 - 5/2（六）】
+    <<IMG_景福宮>>       <<NAVER_景福宮>>       <<HANCHAO_景福宮>>     <<KLOOK_景福宮韓服>>
+    <<IMG_北村>>         <<NAVER_北村>>         <<HANCHAO_北村>>
+    <<IMG_三清洞>>       <<NAVER_三清洞>>       <<HANCHAO_三清洞>>
+    <<IMG_益善洞>>       <<NAVER_益善洞>>       <<HANCHAO_益善洞>>
+    <<IMG_陳玉華>>       <<NAVER_陳玉華>>       <<HANCHAO_陳玉華>>
+
+  【7. Day 3 - 5/3（日）】
+    <<IMG_明洞>>         <<NAVER_明洞>>         <<HANCHAO_明洞>>
+    <<IMG_南山塔>>       <<NAVER_南山塔>>       <<HANCHAO_南山塔>>     <<KLOOK_南山塔>>
+    <<NAVER_清溪川>>     <<HANCHAO_清溪川>>
+    <<NAVER_HOMEPLUS>>  <<HANCHAO_HOMEPLUS>>
+    <<IMG_DDP>>          <<NAVER_DDP>>          <<HANCHAO_DDP>>
+    <<IMG_新村食堂>>     <<NAVER_新村食堂>>
+
+  【8. Day 4 - 5/4（一）】
+    <<DAY4_時間表>>      回程時間表
+
+  【9. 雲端同步】
+    <<API_URL>>         GAS 網頁應用程式網址（重要！）
+
+  ╚═══════════════════════╝
+
+
+  💡 ╔═════ 常 見 操 作 範 例 ═════╗
+
+  ★ 範例 1：換景福宮的圖片
+    1. Ctrl+F 搜尋「<<IMG_景福宮>>」
+    2. 看到下面有 <img src="..." > 那行
+    3. 把 src="..." 引號裡面的網址換掉
+    4. 存檔！
+
+  ★ 範例 2：填上 NAVER Map 網址
+    1. Ctrl+F 搜尋「<<NAVER_景福宮>>」
+    2. 看到 href="#TODO_NAVER_景福宮"
+    3. 把 #TODO_NAVER_景福宮 整個換成你複製的網址
+       例：href="https://naver.me/xxxxxx"
+    4. 存檔！
+
+  ★ 範例 3：改主題色（藍色 → 綠色）
+    1. Ctrl+F 搜尋「<<COLOR_主色>>」
+    2. 看到 --accent: #5B8DEF
+    3. 把 #5B8DEF 換成想要的顏色（如 #4CAF50 是綠色）
+    4. 存檔！色碼可在 https://htmlcolorcodes.com/ 查
+
+  ★ 範例 4：改大標題文字
+    1. Ctrl+F 搜尋「<<HERO_標題>>」
+    2. 看到 <h1>首爾<br>散心手冊</h1>
+    3. 直接把「首爾」「散心手冊」換成新文字
+    4. 存檔！
+
+  ╚═══════════════════════════╝
+
+
+  🆘 出問題了怎麼辦？
+    - 改壞了 → 用 GitHub 的「History」找回舊版本
+    - 不確定 → 先存一份備份再改
+    - 顏色亂掉 → 確認色碼前面有 # 字號
+
+================================================================================
+-->
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2026 首爾散心自由行</title>
+
+<!-- ════════════════════════════════════════════════════════════════
+     📌 <<FONT_主字體>>
+     ────────────────────────────────────────────────────────────────
+     ▶ 這是用 Google Noto Sans TC 字體（繁體中文最美的字體）
+     ▶ 想換字體？把整段刪掉，換成別的 Google Fonts 連結
+     ▶ Google Fonts 網站：https://fonts.google.com/?subset=chinese-traditional
+     ════════════════════════════════════════════════════════════════ -->
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
+/* ════════════════════════════════════════════════════════════════
+   🎨 <<COLOR_全部>> 主題色彩設定
+   ────────────────────────────────────────────────────────────────
+   ▶ 這裡定義所有顏色，改一個地方全站都會跟著變
+   ▶ 想找特定顏色 → Ctrl+F 搜尋對應的 <<COLOR_xxx>>
+   ▶ 顏色查詢：https://htmlcolorcodes.com/
+   ▶ 色碼格式：#RRGGBB（# 不能少，後面 6 碼是紅綠藍）
+   ════════════════════════════════════════════════════════════════ */
 :root {
-  --mac-pink:#FADADD;--mac-peach:#FDEBD0;--mac-yellow:#FFF9C4;--mac-mint:#D4EFDF;
-  --mac-sky:#D6EAF8;--mac-lavender:#E8DAEF;--mac-cream:#FDF6EC;--mac-rose:#FADBD8;
-  --text:#2C2C2C;--text-sub:#4A4A4A;--text-muted:#7A7A7A;
-  --accent:#5B8DEF;--accent-dark:#3A6BCD;--accent-light:#EBF2FF;
-  --green:#3DAA6E;--green-light:#D4EFDF;--orange:#E07B35;--orange-light:#FDEBD0;
-  --red:#C0392B;--red-light:#FADBD8;--purple:#7D5BA6;--purple-light:#E8DAEF;
-  --white:#FFFFFF;--bg:#FDF6EC;--border:#E8E0D5;
-  --radius:16px;--radius-sm:10px;--shadow:0 2px 12px rgba(0,0,0,0.07);
+  /* ── <<COLOR_標籤> 6 種馬卡龍色（給標籤、tip 框用）── */
+  --mac-pink:#FADADD;     /* 粉色：飲食、警告、餐館 */
+  --mac-peach:#FDEBD0;    /* 桃色：交通、計程車 */
+  --mac-yellow:#FFF9C4;   /* 黃色：注意事項、收費 */
+  --mac-mint:#D4EFDF;     /* 薄荷綠：成功、地鐵、公車 */
+  --mac-sky:#D6EAF8;      /* 天藍：證件、資訊類 */
+  --mac-lavender:#E8DAEF; /* 薰衣草：購物、其他 */
+  --mac-cream:#FDF6EC;    /* 奶油色 */
+  --mac-rose:#FADBD8;     /* 玫瑰色 */
+  
+  /* ── <<COLOR_文字>> 字體顏色 ── */
+  --text:#2C2C2C;         /* 主要文字色（深灰，不用純黑比較舒服）*/
+  --text-sub:#4A4A4A;     /* 次要文字（中灰）*/
+  --text-muted:#7A7A7A;   /* 提示文字（淺灰）*/
+  
+  /* ── <<COLOR_主色>> 主題色（藍色系，按鈕、連結都用這個）── */
+  --accent:#5B8DEF;       /* ⭐ 主題色 - 改這個整站氣氛都變 */
+  --accent-dark:#3A6BCD;  /* 深一點的版本（hover 時用）*/
+  --accent-light:#EBF2FF; /* 淺一點的版本 */
+  
+  /* ── <<COLOR_狀態>> 狀態色（綠/橘/紅/紫）── */
+  --green:#3DAA6E;        /* 綠：完成、可以、便宜 */
+  --green-light:#D4EFDF;
+  --orange:#E07B35;       /* 橘：注意、計程車 */
+  --orange-light:#FDEBD0;
+  --red:#C0392B;          /* 紅：警告、錯誤 */
+  --red-light:#FADBD8;
+  --purple:#7D5BA6;       /* 紫：特殊類別 */
+  --purple-light:#E8DAEF;
+  
+  /* ── <<COLOR_背景>> 背景色 ── */
+  --white:#FFFFFF;
+  --bg:#FDF6EC;           /* ⭐ 整個網頁背景色（米白）*/
+  --border:#E8E0D5;       /* 框線顏色 */
+  
+  /* ── <<COLOR_圓角>> 圓角大小 ── */
+  --radius:16px;          /* 大圓角（卡片用）*/
+  --radius-sm:10px;       /* 小圓角（按鈕用）*/
+  --shadow:0 2px 12px rgba(0,0,0,0.07);  /* 陰影 */
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-serif;font-size:14px;line-height:1.65;}
+
+/* ════════════════════════════════════════════════════════════════
+   📝 <<FONT_全站>> 全站字體設定
+   ────────────────────────────────────────────────────────────────
+   ▶ font-size:14px 是基本字體大小，調大網頁字會全部變大
+   ▶ line-height:1.65 是行距，太擠可調 1.7 或 1.8
+   ════════════════════════════════════════════════════════════════ */
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Noto Sans TC',sans-serif;
+  font-size:14px;       /* ⭐ 全站基本字體大小 */
+  line-height:1.65;     /* 行距 */
+}
 
 /* ── EDIT MODE TOGGLE ── */
 .edit-bar{background:var(--mac-yellow);border-bottom:1px solid #E0D080;padding:8px 1.25rem;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:300;}
@@ -347,11 +539,29 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
   <span class="nav-tag">5/1–5/4 首爾</span>
 </nav>
 
+<!-- ════════════════════════════════════════════════════════════════
+     🌸 <<HERO_全部>> 首頁 Hero 區塊（網頁最頂端那個粉藍漸層大標題）
+     ════════════════════════════════════════════════════════════════
+     ▶ 想換背景漸層？改 .hero{background:linear-gradient(...)} 那段 CSS
+     ▶ 想加新標籤？複製一個 <span class="chip">...</span>
+     ════════════════════════════════════════════════════════════════ -->
 <div class="hero">
   <div class="hero-inner">
+    
+    <!-- <<HERO_小標籤>> 上方圓角小標 -->
     <div class="hero-tag">🇰🇷 韓國首爾 · 4天3夜散心自由行</div>
+    
+    <!-- <<HERO_標題>> 大標題（首爾散心手冊）
+         ▶ 直接改下面文字
+         ▶ <br> 是換行，要不要換行自己決定 -->
     <h1 contenteditable="false">首爾<br>散心手冊</h1>
+    
+    <!-- <<HERO_副標>> 副標題（旅行日期）-->
     <p class="hero-sub" contenteditable="false">2026年 5/1（五）出發 — 5/4（一）返台</p>
+    
+    <!-- <<HERO_標籤>> 下方 5 個小標籤（白底圓角）
+         ▶ 想加新的？複製一行 <span class="chip">...</span>
+         ▶ 想刪除？整行 <span> 拿掉 -->
     <div class="hero-chips">
       <span class="chip">✈ CI164 高雄出發</span>
       <span class="chip">🏨 新村 Ever8</span>
@@ -362,6 +572,17 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
   </div>
 </div>
 
+<!-- ════════════════════════════════════════════════════════════════
+     📑 <<TAB_全部>> 上方 11 個分頁按鈕
+     ════════════════════════════════════════════════════════════════
+     ▶ 想加新分頁？需要 3 個地方都改：
+       1. 這裡加按鈕 <button class="tab-btn" onclick="switchTab('代號',this)">📝 名字</button>
+       2. 下方對應的 <div class="tab-panel" id="panel-代號"> 內容區
+       3. 兩個「代號」要一樣才會連動
+     
+     ▶ 想刪分頁？這裡的按鈕跟下方對應的 <div class="tab-panel"> 一起刪
+     ▶ 順序怎麼換？整個 <button> 移動位置即可
+     ════════════════════════════════════════════════════════════════ -->
 <div class="tab-wrap">
   <div class="tab-list-wrap">
   <div class="tab-list">
@@ -385,8 +606,35 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
 <!-- ════════════════════════════════════════════════════════════════════
      🧳 行前準備分頁（與舊版相同，未做版型變動）
      ════════════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════════════════
+     🧳 <<PREP_全部>> 行前準備分頁
+     ════════════════════════════════════════════════════════════════════
+     ▶ 結構說明：每個 .check-list-card 是一組（如「證件 & 文件」）
+     ▶ 每組裡面有多個 .check-item（單一打勾項目）
+     
+     ▶ 想加新項目？
+       點網頁上「＋ 新增項目」按鈕最簡單（會自動同步到雲端）
+     
+     ▶ 想直接在 HTML 改？
+       1. 找到對應的 <div class="check-list-card">
+       2. 複製其中一行 <div class="check-item">...</div>
+       3. 改 chk-name 的文字（項目名）和 chk-note 的文字（備註）
+     
+     ▶ 想改分組標題？
+       Ctrl+F 搜尋「<<PREP_xxx>>」找到對應分組
+     
+     ▶ 想改顏色？
+       check-list-hd 後面的 style="background:var(--mac-XX)" 換顏色：
+       - var(--mac-pink) 粉
+       - var(--mac-mint) 綠
+       - var(--mac-sky) 藍
+       - var(--mac-yellow) 黃
+       - var(--mac-lavender) 紫
+       - var(--mac-peach) 桃
+     ════════════════════════════════════════════════════════════════════ -->
 <div class="tab-panel active" id="panel-prep">
 
+  <!-- 進度條（自動計算，不用手改）-->
   <div class="progress-wrap">
     <div class="progress-top">
       <span class="progress-label">🧳 準備進度</span>
@@ -395,6 +643,9 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
     <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-bar" style="width:0%"></div></div>
   </div>
 
+  <!-- ════════════════════════════════════════
+       <<PREP_證件>> 證件 & 文件 分組
+       ════════════════════════════════════════ -->
   <div class="check-list-card">
     <div class="check-list-hd" style="background:var(--mac-sky)">📄 證件 &amp; 文件 <span>點項目打勾</span></div>
     <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">護照</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">確認有效期限 6 個月以上</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
@@ -407,6 +658,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
   </div>
 
   <div class="check-list-card">
+    <!-- <<PREP_金錢>> 金錢 & 交通卡 分組 -->
     <div class="check-list-hd" style="background:var(--mac-mint)">💴 金錢 &amp; 交通卡 <span>點數值可直接修改</span></div>
     <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">韓幣現金</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">出發前在台灣換好，或抵韓後乙支路換匯（匯率較好）</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
     <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">WOWPASS 卡</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">台灣預購，仁川機場 1F 5號門外取卡，要先在 APP 儲值</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
@@ -416,6 +668,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
   </div>
 
   <div class="check-list-card">
+    <!-- <<PREP_網路>> 網路 & APP 分組 -->
     <div class="check-list-hd" style="background:var(--mac-lavender)">📶 網路 &amp; App</div>
     <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">網路卡 / eSIM</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">填入你選的方案，例如：KT Olleh 5天 / SKT eSIM</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
     <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">下載 NAVER Map</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">比 Google Maps 在韓國準確，可查電梯車廂位置</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
@@ -426,6 +679,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
   </div>
 
   <div class="check-list-card">
+    <!-- <<PREP_3C>> 3C & 電器 分組 -->
     <div class="check-list-hd" style="background:var(--mac-yellow)">🔌 3C &amp; 電器</div>
     <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">手機</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">出發前充好電</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
     <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">行動電源</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">⚠️ 必須隨身攜帶，不可托運！</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
@@ -437,6 +691,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
   </div>
 
   <div class="check-list-card">
+    <!-- <<PREP_衣物>> 衣物 & 盥洗 分組 -->
     <div class="check-list-hd" style="background:var(--mac-pink)">👕 衣物 &amp; 盥洗</div>
     <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">上衣</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">穿一帶幾件，依天數調整</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
     <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">下半身（褲子/裙子）</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">穿一帶幾件</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
@@ -449,6 +704,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
   </div>
 
   <div class="check-list-card">
+    <!-- <<PREP_藥物>> 常備藥物 分組 -->
     <div class="check-list-hd" style="background:var(--mac-peach)">💊 常備藥物</div>
     <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">腸胃藥</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">吃辣或換水土不適備用</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
     <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">暈車藥</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">搭機或交通工具備用</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
@@ -459,6 +715,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
   </div>
 
   <div class="check-list-card">
+    <!-- <<PREP_行李>> 行李規定（華航 CI164）-->
     <div class="check-list-hd" style="background:var(--mac-mint)">🧳 行李規定（華航 CI164）</div>
     <div class="luggage-grid">
       <div class="lug-box">
@@ -485,9 +742,25 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
 <!-- ════════════════════════════════════════════════════════════════════
      🚌 交通分頁
      ════════════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════════════════
+     🚌 <<TAB_交通>> 交通分頁
+     ════════════════════════════════════════════════════════════════════
+     ▶ 內容：航班資訊 + 機場巴士 6002 搭車說明
+     ▶ Ctrl+F「<<FLIGHT_去程>>」「<<FLIGHT_回程>>」找航班資訊
+     ▶ Ctrl+F「<<CHECK_IN>>」找華航網路報到連結
+     ════════════════════════════════════════════════════════════════════ -->
 <div class="tab-panel" id="panel-transport">
 
   <div class="sec-hd"><div class="sec-dot"></div><h2>✈ 航班資訊</h2></div>
+  
+  <!-- ════════════════════════════════════════════════════════════════
+       ✈ 航班卡片
+       ────────────────────────────────────────────────────────────────
+       ▶ <<FLIGHT_去程>> 去程航班資訊
+       ▶ <<FLIGHT_回程>> 回程航班資訊
+       ▶ <<CHECK_IN>> 華航網路報到連結
+       ▶ 想改航班號 / 時間 / 訂單號？直接改下面的文字
+       ════════════════════════════════════════════════════════════════ -->
   <div class="spot-card" style="margin-bottom:14px">
     <div class="spot-body">
       <div style="display:flex;flex-direction:column;gap:10px">
@@ -564,13 +837,49 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
 
       <div class="link-row">
         <a href="https://airportlimousine.co.kr/cn/sub/sub01.php" target="_blank" class="link-btn">🚌 機場巴士官網時刻表</a>
-        <!-- <<NAVER_梨大下車處>> NAVER 梨大下車處 -->
+        <!-- ════════════════════════════════════════════════
+        🟢 <<NAVER_梨大下車處>>  梨大下車處 NAVER Map 連結
+        ────────────────────────────────────────────────
+        ▶ 怎麼取得 NAVER 連結？
+          1. 用手機 NAVER Map App 找到目的地
+          2. 點「分享」→「複製連結」
+          3. 連結會像：https://naver.me/xxxxxxx
+        ▶ 改的方式：
+          把下面整個 #TODO_NAVER_梨大下車處 換成複製到的網址
+          例：href="https://naver.me/abc123"
+        ════════════════════════════════════════════════ -->
         <a href="#TODO_NAVER_梨大下車處" target="_blank" class="link-btn naver">🟢 NAVER（梨大下車處）</a>
-        <!-- <<HANCHAO_梨大下車處>> -->
+        <!-- ════════════════════════════════════════════════
+        🗺 <<HANCHAO_梨大下車處>>  梨大下車處 韓巢地圖連結
+        ────────────────────────────────────────────────
+        ▶ 韓巢是中文版的韓國地圖（給台港澳人用的）
+        ▶ 怎麼取得連結？
+          1. 上 https://map.hanchao.com/ 搜尋目的地
+          2. 複製網址（會像 dforum/762 這種編號）
+        ▶ 想換？把下面 href="..." 引號裡的網址換掉
+        ════════════════════════════════════════════════ -->
         <a href="https://map.hanchao.com/dstop/2582" target="_blank" class="link-btn hanchao">🗺️ 韓巢（梨大下車處）</a>
-        <!-- <<NAVER_EVER8>> NAVER Ever8 -->
+        <!-- ════════════════════════════════════════════════
+        🟢 <<NAVER_EVER8>>  EVER8 NAVER Map 連結
+        ────────────────────────────────────────────────
+        ▶ 怎麼取得 NAVER 連結？
+          1. 用手機 NAVER Map App 找到目的地
+          2. 點「分享」→「複製連結」
+          3. 連結會像：https://naver.me/xxxxxxx
+        ▶ 改的方式：
+          把下面整個 #TODO_NAVER_EVER8 換成複製到的網址
+          例：href="https://naver.me/abc123"
+        ════════════════════════════════════════════════ -->
         <a href="#TODO_NAVER_EVER8" target="_blank" class="link-btn naver">🟢 NAVER（Ever8）</a>
-        <!-- <<HANCHAO_EVER8>> -->
+        <!-- ════════════════════════════════════════════════
+        🗺 <<HANCHAO_EVER8>>  EVER8 韓巢地圖連結
+        ────────────────────────────────────────────────
+        ▶ 韓巢是中文版的韓國地圖（給台港澳人用的）
+        ▶ 怎麼取得連結？
+          1. 上 https://map.hanchao.com/ 搜尋目的地
+          2. 複製網址（會像 dforum/762 這種編號）
+        ▶ 想換？把下面 href="..." 引號裡的網址換掉
+        ════════════════════════════════════════════════ -->
         <a href="https://map.hanchao.com/dforum/12907" target="_blank" class="link-btn hanchao">🗺️ 韓巢（Ever8）</a>
       </div>
     </div>
@@ -607,6 +916,13 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
 <!-- ════════════════════════════════════════════════════════════════════
      🏨 住宿分頁
      ════════════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════════════════
+     🏨 <<TAB_住宿>> 住宿分頁
+     ════════════════════════════════════════════════════════════════════
+     ▶ 內容：Ever8 飯店資訊 + 周邊景點
+     ▶ Ctrl+F「<<IMG_EVER8>>」改飯店圖片
+     ▶ Ctrl+F「<<NAVER_EVER8>>」改 NAVER 連結
+     ════════════════════════════════════════════════════════════════════ -->
 <div class="tab-panel" id="panel-hotel">
 
   <div class="sec-hd"><div class="sec-dot"></div><h2>🏨 住宿資訊</h2></div>
@@ -620,7 +936,13 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
        ④ Agoda 訂房：搜尋「<<AGODA_EVER8>>」
        ════════════════════════════════════════════════════════════════════ -->
   <div class="spot-card">
-    <!-- <<IMG_EVER8>> -->
+    <!-- ════════════════════════════════════════════════
+       🖼 <<IMG_EVER8>>  EVER8 景點圖片
+       ────────────────────────────────────────────────
+       ▶ 想換圖片？把下面 src="..." 引號裡的網址換掉
+       ▶ 推薦尺寸：寬 800px 以上
+       ▶ onerror 是備援圖（主圖掛掉時顯示）
+       ════════════════════════════════════════════════ -->
     <img class="spot-img" src="https://cf.bstatic.com/xdata/images/hotel/max1280x900/204511450.jpg" alt="Ever8 新村" onerror="this.src='https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800'">
     <div class="spot-body">
       <div class="spot-top">
@@ -656,11 +978,34 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
         </div>
       </div>
       <div class="link-row">
-        <!-- <<AGODA_EVER8>> -->
+        <!-- ════════════════════════════════════════════════
+        🌐 <<AGODA_EVER8>>  EVER8 Agoda 訂房連結
+        ────────────────────────────────────────────────
+        ▶ Agoda 是訂飯店平台（中文介面）
+        ▶ 想換？改下面 href="..." 引號裡的網址
+        ════════════════════════════════════════════════ -->
         <a href="https://www.agoda.com/zh-tw/shinchon-ever8-serviced-residence/hotel/seoul-kr.html" target="_blank" class="link-btn map">🌐 Agoda 訂房</a>
-        <!-- <<NAVER_EVER8>> -->
+        <!-- ════════════════════════════════════════════════
+        🟢 <<NAVER_EVER8>>  EVER8 NAVER Map 連結
+        ────────────────────────────────────────────────
+        ▶ 怎麼取得 NAVER 連結？
+          1. 用手機 NAVER Map App 找到目的地
+          2. 點「分享」→「複製連結」
+          3. 連結會像：https://naver.me/xxxxxxx
+        ▶ 改的方式：
+          把下面整個 #TODO_NAVER_EVER8 換成複製到的網址
+          例：href="https://naver.me/abc123"
+        ════════════════════════════════════════════════ -->
         <a href="#TODO_NAVER_EVER8" target="_blank" class="link-btn naver">🟢 NAVER Map</a>
-        <!-- <<HANCHAO_EVER8>> -->
+        <!-- ════════════════════════════════════════════════
+        🗺 <<HANCHAO_EVER8>>  EVER8 韓巢地圖連結
+        ────────────────────────────────────────────────
+        ▶ 韓巢是中文版的韓國地圖（給台港澳人用的）
+        ▶ 怎麼取得連結？
+          1. 上 https://map.hanchao.com/ 搜尋目的地
+          2. 複製網址（會像 dforum/762 這種編號）
+        ▶ 想換？把下面 href="..." 引號裡的網址換掉
+        ════════════════════════════════════════════════ -->
         <a href="https://map.hanchao.com/dforum/12907" target="_blank" class="link-btn hanchao">🗺️ 韓巢地圖</a>
         <a href="https://helena.tw/ever8-hotel/" target="_blank" class="link-btn">📖 住宿心得</a>
       </div>
@@ -677,6 +1022,12 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
 
 <!-- ════════════════════════════════════════════════════════════════════
      📅 Day 1 (5/1) 抵達首爾 + 廣藏市場
+     ════════════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════════════════
+     📅 <<TAB_Day1>> Day 1 (5/1) 抵達首爾 + 廣藏市場
+     ════════════════════════════════════════════════════════════════════
+     ▶ 路線：仁川機場 → Ever8 → 廣藏市場 → 孔陵一隻雞 → Ever8
+     ▶ 景點：廣藏市場、孔陵一隻雞
      ════════════════════════════════════════════════════════════════════ -->
 <div class="tab-panel" id="panel-day1">
 
@@ -723,7 +1074,13 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
        ④ 想加按鈕：複製 <a class="link-btn">...</a> 貼到 .link-row 內
        ════════════════════════════════════════════════════════════════════ -->
   <div class="spot-card">
-    <!-- <<IMG_廣藏市場>> -->
+    <!-- ════════════════════════════════════════════════
+       🖼 <<IMG_廣藏市場>>  廣藏市場 景點圖片
+       ────────────────────────────────────────────────
+       ▶ 想換圖片？把下面 src="..." 引號裡的網址換掉
+       ▶ 推薦尺寸：寬 800px 以上
+       ▶ onerror 是備援圖（主圖掛掉時顯示）
+       ════════════════════════════════════════════════ -->
     <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Gwangjang_Market_in_Seoul.jpg/1280px-Gwangjang_Market_in_Seoul.jpg" alt="廣藏市場" onerror="this.style.display='none'">
     <div class="spot-body">
       <div class="spot-top">
@@ -800,9 +1157,27 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       </div>
 
       <div class="link-row">
-        <!-- <<NAVER_廣藏市場>> -->
+        <!-- ════════════════════════════════════════════════
+        🟢 <<NAVER_廣藏市場>>  廣藏市場 NAVER Map 連結
+        ────────────────────────────────────────────────
+        ▶ 怎麼取得 NAVER 連結？
+          1. 用手機 NAVER Map App 找到目的地
+          2. 點「分享」→「複製連結」
+          3. 連結會像：https://naver.me/xxxxxxx
+        ▶ 改的方式：
+          把下面整個 #TODO_NAVER_廣藏市場 換成複製到的網址
+          例：href="https://naver.me/abc123"
+        ════════════════════════════════════════════════ -->
         <a href="#TODO_NAVER_廣藏市場" target="_blank" class="link-btn naver">🟢 NAVER Map</a>
-        <!-- <<HANCHAO_廣藏市場>> -->
+        <!-- ════════════════════════════════════════════════
+        🗺 <<HANCHAO_廣藏市場>>  廣藏市場 韓巢地圖連結
+        ────────────────────────────────────────────────
+        ▶ 韓巢是中文版的韓國地圖（給台港澳人用的）
+        ▶ 怎麼取得連結？
+          1. 上 https://map.hanchao.com/ 搜尋目的地
+          2. 複製網址（會像 dforum/762 這種編號）
+        ▶ 想換？把下面 href="..." 引號裡的網址換掉
+        ════════════════════════════════════════════════ -->
         <a href="https://map.hanchao.com/dforum/607" target="_blank" class="link-btn hanchao">🗺️ 韓巢地圖</a>
         <a href="https://bobbytravel.tw/gwangjang-market/" target="_blank" class="link-btn">📖 棉被+美食攻略</a>
       </div>
@@ -818,7 +1193,13 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
        ③ 沒有韓巢專頁（小餐館），用 NAVER 地圖搜尋即可
        ════════════════════════════════════════════════════════════════════ -->
   <div class="spot-card">
-    <!-- <<IMG_孔陵>> -->
+    <!-- ════════════════════════════════════════════════
+       🖼 <<IMG_孔陵>>  孔陵 景點圖片
+       ────────────────────────────────────────────────
+       ▶ 想換圖片？把下面 src="..." 引號裡的網址換掉
+       ▶ 推薦尺寸：寬 800px 以上
+       ▶ onerror 是備援圖（主圖掛掉時顯示）
+       ════════════════════════════════════════════════ -->
     <img class="spot-img" src="https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=800" alt="孔陵一隻雞" onerror="this.style.display='none'">
     <div class="spot-body">
       <div class="spot-top">
@@ -888,7 +1269,17 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       </div>
 
       <div class="link-row">
-        <!-- <<NAVER_孔陵>> -->
+        <!-- ════════════════════════════════════════════════
+        🟢 <<NAVER_孔陵>>  孔陵 NAVER Map 連結
+        ────────────────────────────────────────────────
+        ▶ 怎麼取得 NAVER 連結？
+          1. 用手機 NAVER Map App 找到目的地
+          2. 點「分享」→「複製連結」
+          3. 連結會像：https://naver.me/xxxxxxx
+        ▶ 改的方式：
+          把下面整個 #TODO_NAVER_孔陵 換成複製到的網址
+          例：href="https://naver.me/abc123"
+        ════════════════════════════════════════════════ -->
         <a href="#TODO_NAVER_孔陵" target="_blank" class="link-btn naver">🟢 NAVER Map</a>
         <a href="https://map.naver.com/v5/search/%EA%B3%B5%EB%A6%89%EB%8B%AD%ED%95%9C%EB%A7%88%EB%A6%AC%EC%8B%A0%EC%B4%8C" target="_blank" class="link-btn">🗺️ NAVER 搜尋</a>
       </div>
@@ -901,6 +1292,12 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
 
 <!-- ════════════════════════════════════════════════════════════════════
      📅 Day 2 (5/2) 景福宮韓服 + 北村 + 益善洞 + 陳玉華
+     ════════════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════════════════
+     📅 <<TAB_Day2>> Day 2 (5/2) 景福宮 + 北村 + 益善洞 + 陳玉華
+     ════════════════════════════════════════════════════════════════════
+     ▶ 路線：Ever8 → 景福宮 → 北村 → 三清洞 → 益善洞 → 陳玉華 → Ever8
+     ▶ 景點：景福宮、北村韓屋村、三清洞、益善洞、陳玉華一隻雞
      ════════════════════════════════════════════════════════════════════ -->
 <div class="tab-panel" id="panel-day2">
 
@@ -949,7 +1346,13 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
        ④ Klook 韓服：搜尋「<<KLOOK_景福宮韓服>>」
        ════════════════════════════════════════════════════════════════════ -->
   <div class="spot-card">
-    <!-- <<IMG_景福宮>> -->
+    <!-- ════════════════════════════════════════════════
+       🖼 <<IMG_景福宮>>  景福宮 景點圖片
+       ────────────────────────────────────────────────
+       ▶ 想換圖片？把下面 src="..." 引號裡的網址換掉
+       ▶ 推薦尺寸：寬 800px 以上
+       ▶ onerror 是備援圖（主圖掛掉時顯示）
+       ════════════════════════════════════════════════ -->
     <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Gyeongbokgung_panorama_from_Bugaksan.jpg/1280px-Gyeongbokgung_panorama_from_Bugaksan.jpg" alt="景福宮" onerror="this.src='https://images.unsplash.com/photo-1601621915196-2621bfb0cd6e?w=800'">
     <div class="spot-body">
       <div class="spot-top">
@@ -1026,11 +1429,35 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       </div>
 
       <div class="link-row">
-        <!-- <<NAVER_景福宮>> -->
+        <!-- ════════════════════════════════════════════════
+        🟢 <<NAVER_景福宮>>  景福宮 NAVER Map 連結
+        ────────────────────────────────────────────────
+        ▶ 怎麼取得 NAVER 連結？
+          1. 用手機 NAVER Map App 找到目的地
+          2. 點「分享」→「複製連結」
+          3. 連結會像：https://naver.me/xxxxxxx
+        ▶ 改的方式：
+          把下面整個 #TODO_NAVER_景福宮 換成複製到的網址
+          例：href="https://naver.me/abc123"
+        ════════════════════════════════════════════════ -->
         <a href="#TODO_NAVER_景福宮" target="_blank" class="link-btn naver">🟢 NAVER Map</a>
-        <!-- <<HANCHAO_景福宮>> -->
+        <!-- ════════════════════════════════════════════════
+        🗺 <<HANCHAO_景福宮>>  景福宮 韓巢地圖連結
+        ────────────────────────────────────────────────
+        ▶ 韓巢是中文版的韓國地圖（給台港澳人用的）
+        ▶ 怎麼取得連結？
+          1. 上 https://map.hanchao.com/ 搜尋目的地
+          2. 複製網址（會像 dforum/762 這種編號）
+        ▶ 想換？把下面 href="..." 引號裡的網址換掉
+        ════════════════════════════════════════════════ -->
         <a href="https://map.hanchao.com/dforum/762" target="_blank" class="link-btn hanchao">🗺️ 韓巢地圖</a>
-        <!-- <<KLOOK_景福宮韓服>> -->
+        <!-- ════════════════════════════════════════════════
+        🎫 <<KLOOK_景福宮韓服>>  景福宮韓服 Klook 訂票連結
+        ────────────────────────────────────────────────
+        ▶ Klook 是訂票/行程平台（中文介面）
+        ▶ 怎麼取得？上 klook.com 找商品 → 複製網址
+        ▶ 想換？改下面 href="..." 引號裡的網址
+        ════════════════════════════════════════════════ -->
         <a href="https://www.klook.com/zh-TW/activity/1099-hanbok-rental-gyeongbokgung-palace-seoul/" target="_blank" class="link-btn reserve">👘 Klook 韓服</a>
       </div>
     </div>
@@ -1045,7 +1472,13 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
        ③ NAVER：搜尋「<<NAVER_北村>>」 ← 待填
        ════════════════════════════════════════════════════════════════════ -->
   <div class="spot-card">
-    <!-- <<IMG_北村>> -->
+    <!-- ════════════════════════════════════════════════
+       🖼 <<IMG_北村>>  北村 景點圖片
+       ────────────────────────────────────────────────
+       ▶ 想換圖片？把下面 src="..." 引號裡的網址換掉
+       ▶ 推薦尺寸：寬 800px 以上
+       ▶ onerror 是備援圖（主圖掛掉時顯示）
+       ════════════════════════════════════════════════ -->
     <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Bukchon_Hanok_Village.jpg/1280px-Bukchon_Hanok_Village.jpg" alt="北村韓屋村" onerror="this.src='https://images.unsplash.com/photo-1548115184-bc6544d06a58?w=800'">
     <div class="spot-body">
       <div class="spot-top">
@@ -1119,9 +1552,27 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       </div>
 
       <div class="link-row">
-        <!-- <<NAVER_北村>> -->
+        <!-- ════════════════════════════════════════════════
+        🟢 <<NAVER_北村>>  北村 NAVER Map 連結
+        ────────────────────────────────────────────────
+        ▶ 怎麼取得 NAVER 連結？
+          1. 用手機 NAVER Map App 找到目的地
+          2. 點「分享」→「複製連結」
+          3. 連結會像：https://naver.me/xxxxxxx
+        ▶ 改的方式：
+          把下面整個 #TODO_NAVER_北村 換成複製到的網址
+          例：href="https://naver.me/abc123"
+        ════════════════════════════════════════════════ -->
         <a href="#TODO_NAVER_北村" target="_blank" class="link-btn naver">🟢 NAVER Map</a>
-        <!-- <<HANCHAO_北村>> -->
+        <!-- ════════════════════════════════════════════════
+        🗺 <<HANCHAO_北村>>  北村 韓巢地圖連結
+        ────────────────────────────────────────────────
+        ▶ 韓巢是中文版的韓國地圖（給台港澳人用的）
+        ▶ 怎麼取得連結？
+          1. 上 https://map.hanchao.com/ 搜尋目的地
+          2. 複製網址（會像 dforum/762 這種編號）
+        ▶ 想換？把下面 href="..." 引號裡的網址換掉
+        ════════════════════════════════════════════════ -->
         <a href="https://map.hanchao.com/dforum/26545" target="_blank" class="link-btn hanchao">🗺️ 韓巢地圖</a>
       </div>
     </div>
@@ -1136,7 +1587,13 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
        ③ NAVER：搜尋「<<NAVER_三清洞>>」 ← 待填
        ════════════════════════════════════════════════════════════════════ -->
   <div class="spot-card">
-    <!-- <<IMG_三清洞>> -->
+    <!-- ════════════════════════════════════════════════
+       🖼 <<IMG_三清洞>>  三清洞 景點圖片
+       ────────────────────────────────────────────────
+       ▶ 想換圖片？把下面 src="..." 引號裡的網址換掉
+       ▶ 推薦尺寸：寬 800px 以上
+       ▶ onerror 是備援圖（主圖掛掉時顯示）
+       ════════════════════════════════════════════════ -->
     <img class="spot-img" src="https://images.unsplash.com/photo-1601471453756-c5d2f4d793f6?w=800" alt="三清洞" onerror="this.src='https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800'">
     <div class="spot-body">
       <div class="spot-top">
@@ -1193,9 +1650,27 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       </div>
 
       <div class="link-row">
-        <!-- <<NAVER_三清洞>> -->
+        <!-- ════════════════════════════════════════════════
+        🟢 <<NAVER_三清洞>>  三清洞 NAVER Map 連結
+        ────────────────────────────────────────────────
+        ▶ 怎麼取得 NAVER 連結？
+          1. 用手機 NAVER Map App 找到目的地
+          2. 點「分享」→「複製連結」
+          3. 連結會像：https://naver.me/xxxxxxx
+        ▶ 改的方式：
+          把下面整個 #TODO_NAVER_三清洞 換成複製到的網址
+          例：href="https://naver.me/abc123"
+        ════════════════════════════════════════════════ -->
         <a href="#TODO_NAVER_三清洞" target="_blank" class="link-btn naver">🟢 NAVER Map</a>
-        <!-- <<HANCHAO_三清洞>> -->
+        <!-- ════════════════════════════════════════════════
+        🗺 <<HANCHAO_三清洞>>  三清洞 韓巢地圖連結
+        ────────────────────────────────────────────────
+        ▶ 韓巢是中文版的韓國地圖（給台港澳人用的）
+        ▶ 怎麼取得連結？
+          1. 上 https://map.hanchao.com/ 搜尋目的地
+          2. 複製網址（會像 dforum/762 這種編號）
+        ▶ 想換？把下面 href="..." 引號裡的網址換掉
+        ════════════════════════════════════════════════ -->
         <a href="https://map.hanchao.com/dforum/339" target="_blank" class="link-btn hanchao">🗺️ 韓巢地圖</a>
       </div>
     </div>
@@ -1210,7 +1685,13 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
        ③ NAVER：搜尋「<<NAVER_益善洞>>」 ← 待填
        ════════════════════════════════════════════════════════════════════ -->
   <div class="spot-card">
-    <!-- <<IMG_益善洞>> -->
+    <!-- ════════════════════════════════════════════════
+       🖼 <<IMG_益善洞>>  益善洞 景點圖片
+       ────────────────────────────────────────────────
+       ▶ 想換圖片？把下面 src="..." 引號裡的網址換掉
+       ▶ 推薦尺寸：寬 800px 以上
+       ▶ onerror 是備援圖（主圖掛掉時顯示）
+       ════════════════════════════════════════════════ -->
     <img class="spot-img" src="https://images.unsplash.com/photo-1601471453756-c5d2f4d793f6?w=800" alt="益善洞" onerror="this.style.display='none'">
     <div class="spot-body">
       <div class="spot-top">
@@ -1275,9 +1756,27 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       </div>
 
       <div class="link-row">
-        <!-- <<NAVER_益善洞>> -->
+        <!-- ════════════════════════════════════════════════
+        🟢 <<NAVER_益善洞>>  益善洞 NAVER Map 連結
+        ────────────────────────────────────────────────
+        ▶ 怎麼取得 NAVER 連結？
+          1. 用手機 NAVER Map App 找到目的地
+          2. 點「分享」→「複製連結」
+          3. 連結會像：https://naver.me/xxxxxxx
+        ▶ 改的方式：
+          把下面整個 #TODO_NAVER_益善洞 換成複製到的網址
+          例：href="https://naver.me/abc123"
+        ════════════════════════════════════════════════ -->
         <a href="#TODO_NAVER_益善洞" target="_blank" class="link-btn naver">🟢 NAVER Map</a>
-        <!-- <<HANCHAO_益善洞>> -->
+        <!-- ════════════════════════════════════════════════
+        🗺 <<HANCHAO_益善洞>>  益善洞 韓巢地圖連結
+        ────────────────────────────────────────────────
+        ▶ 韓巢是中文版的韓國地圖（給台港澳人用的）
+        ▶ 怎麼取得連結？
+          1. 上 https://map.hanchao.com/ 搜尋目的地
+          2. 複製網址（會像 dforum/762 這種編號）
+        ▶ 想換？把下面 href="..." 引號裡的網址換掉
+        ════════════════════════════════════════════════ -->
         <a href="https://map.hanchao.com/dforum/17577" target="_blank" class="link-btn hanchao">🗺️ 韓巢地圖</a>
       </div>
     </div>
@@ -1292,7 +1791,13 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
        ③ NAVER：搜尋「<<NAVER_陳玉華>>」 ← 待填
        ════════════════════════════════════════════════════════════════════ -->
   <div class="spot-card">
-    <!-- <<IMG_陳玉華>> -->
+    <!-- ════════════════════════════════════════════════
+       🖼 <<IMG_陳玉華>>  陳玉華 景點圖片
+       ────────────────────────────────────────────────
+       ▶ 想換圖片？把下面 src="..." 引號裡的網址換掉
+       ▶ 推薦尺寸：寬 800px 以上
+       ▶ onerror 是備援圖（主圖掛掉時顯示）
+       ════════════════════════════════════════════════ -->
     <img class="spot-img" src="https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=800" alt="陳玉華一隻雞" onerror="this.src='https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800'">
     <div class="spot-body">
       <div class="spot-top">
@@ -1354,9 +1859,27 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       </div>
 
       <div class="link-row">
-        <!-- <<NAVER_陳玉華>> -->
+        <!-- ════════════════════════════════════════════════
+        🟢 <<NAVER_陳玉華>>  陳玉華 NAVER Map 連結
+        ────────────────────────────────────────────────
+        ▶ 怎麼取得 NAVER 連結？
+          1. 用手機 NAVER Map App 找到目的地
+          2. 點「分享」→「複製連結」
+          3. 連結會像：https://naver.me/xxxxxxx
+        ▶ 改的方式：
+          把下面整個 #TODO_NAVER_陳玉華 換成複製到的網址
+          例：href="https://naver.me/abc123"
+        ════════════════════════════════════════════════ -->
         <a href="#TODO_NAVER_陳玉華" target="_blank" class="link-btn naver">🟢 NAVER Map</a>
-        <!-- <<HANCHAO_陳玉華>> -->
+        <!-- ════════════════════════════════════════════════
+        🗺 <<HANCHAO_陳玉華>>  陳玉華 韓巢地圖連結
+        ────────────────────────────────────────────────
+        ▶ 韓巢是中文版的韓國地圖（給台港澳人用的）
+        ▶ 怎麼取得連結？
+          1. 上 https://map.hanchao.com/ 搜尋目的地
+          2. 複製網址（會像 dforum/762 這種編號）
+        ▶ 想換？把下面 href="..." 引號裡的網址換掉
+        ════════════════════════════════════════════════ -->
         <a href="https://map.hanchao.com/dforum/440" target="_blank" class="link-btn hanchao">🗺️ 韓巢地圖</a>
       </div>
     </div>
@@ -1368,6 +1891,12 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
 
 <!-- ════════════════════════════════════════════════════════════════════
      📅 Day 3 (5/3) 明洞 + 南山首爾塔 + 東大門 + 烤肉
+     ════════════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════════════════
+     📅 <<TAB_Day3>> Day 3 (5/3) 明洞 + 南山首爾塔 + 東大門 + 烤肉
+     ════════════════════════════════════════════════════════════════════
+     ▶ 路線：Ever8 → 明洞 → 南山塔 → 清溪川 → Homeplus → DDP → 新村食堂
+     ▶ 景點：明洞、南山首爾塔、清溪川、Homeplus、東大門 DDP、新村食堂
      ════════════════════════════════════════════════════════════════════ -->
 <div class="tab-panel" id="panel-day3">
 
@@ -1415,7 +1944,13 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
        ③ NAVER：搜尋「<<NAVER_明洞>>」 ← 待填
        ════════════════════════════════════════════════════════════════════ -->
   <div class="spot-card">
-    <!-- <<IMG_明洞>> -->
+    <!-- ════════════════════════════════════════════════
+       🖼 <<IMG_明洞>>  明洞 景點圖片
+       ────────────────────────────────────────────────
+       ▶ 想換圖片？把下面 src="..." 引號裡的網址換掉
+       ▶ 推薦尺寸：寬 800px 以上
+       ▶ onerror 是備援圖（主圖掛掉時顯示）
+       ════════════════════════════════════════════════ -->
     <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Seoul_Myeongdong_02.jpg/1280px-Seoul_Myeongdong_02.jpg" alt="明洞" onerror="this.src='https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800'">
     <div class="spot-body">
       <div class="spot-top">
@@ -1473,9 +2008,27 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       </div>
 
       <div class="link-row">
-        <!-- <<NAVER_明洞>> -->
+        <!-- ════════════════════════════════════════════════
+        🟢 <<NAVER_明洞>>  明洞 NAVER Map 連結
+        ────────────────────────────────────────────────
+        ▶ 怎麼取得 NAVER 連結？
+          1. 用手機 NAVER Map App 找到目的地
+          2. 點「分享」→「複製連結」
+          3. 連結會像：https://naver.me/xxxxxxx
+        ▶ 改的方式：
+          把下面整個 #TODO_NAVER_明洞 換成複製到的網址
+          例：href="https://naver.me/abc123"
+        ════════════════════════════════════════════════ -->
         <a href="#TODO_NAVER_明洞" target="_blank" class="link-btn naver">🟢 NAVER Map</a>
-        <!-- <<HANCHAO_明洞>> -->
+        <!-- ════════════════════════════════════════════════
+        🗺 <<HANCHAO_明洞>>  明洞 韓巢地圖連結
+        ────────────────────────────────────────────────
+        ▶ 韓巢是中文版的韓國地圖（給台港澳人用的）
+        ▶ 怎麼取得連結？
+          1. 上 https://map.hanchao.com/ 搜尋目的地
+          2. 複製網址（會像 dforum/762 這種編號）
+        ▶ 想換？把下面 href="..." 引號裡的網址換掉
+        ════════════════════════════════════════════════ -->
         <a href="https://map.hanchao.com/dforum/26850" target="_blank" class="link-btn hanchao">🗺️ 韓巢地圖</a>
       </div>
     </div>
@@ -1491,7 +2044,13 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
        ④ Klook 套票：搜尋「<<KLOOK_南山塔>>」
        ════════════════════════════════════════════════════════════════════ -->
   <div class="spot-card">
-    <!-- <<IMG_南山塔>> -->
+    <!-- ════════════════════════════════════════════════
+       🖼 <<IMG_南山塔>>  南山塔 景點圖片
+       ────────────────────────────────────────────────
+       ▶ 想換圖片？把下面 src="..." 引號裡的網址換掉
+       ▶ 推薦尺寸：寬 800px 以上
+       ▶ onerror 是備援圖（主圖掛掉時顯示）
+       ════════════════════════════════════════════════ -->
     <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/N_Seoul_Tower_from_below.jpg/800px-N_Seoul_Tower_from_below.jpg" alt="南山首爾塔" onerror="this.src='https://images.unsplash.com/photo-1546874177-9e664107314e?w=800'">
     <div class="spot-body">
       <div class="spot-top">
@@ -1558,11 +2117,35 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       </div>
 
       <div class="link-row">
-        <!-- <<NAVER_南山塔>> -->
+        <!-- ════════════════════════════════════════════════
+        🟢 <<NAVER_南山塔>>  南山塔 NAVER Map 連結
+        ────────────────────────────────────────────────
+        ▶ 怎麼取得 NAVER 連結？
+          1. 用手機 NAVER Map App 找到目的地
+          2. 點「分享」→「複製連結」
+          3. 連結會像：https://naver.me/xxxxxxx
+        ▶ 改的方式：
+          把下面整個 #TODO_NAVER_南山塔 換成複製到的網址
+          例：href="https://naver.me/abc123"
+        ════════════════════════════════════════════════ -->
         <a href="#TODO_NAVER_南山塔" target="_blank" class="link-btn naver">🟢 NAVER Map</a>
-        <!-- <<HANCHAO_南山塔>> -->
+        <!-- ════════════════════════════════════════════════
+        🗺 <<HANCHAO_南山塔>>  南山塔 韓巢地圖連結
+        ────────────────────────────────────────────────
+        ▶ 韓巢是中文版的韓國地圖（給台港澳人用的）
+        ▶ 怎麼取得連結？
+          1. 上 https://map.hanchao.com/ 搜尋目的地
+          2. 複製網址（會像 dforum/762 這種編號）
+        ▶ 想換？把下面 href="..." 引號裡的網址換掉
+        ════════════════════════════════════════════════ -->
         <a href="https://map.hanchao.com/dforum/802" target="_blank" class="link-btn hanchao">🗺️ 韓巢地圖</a>
-        <!-- <<KLOOK_南山塔>> -->
+        <!-- ════════════════════════════════════════════════
+        🎫 <<KLOOK_南山塔>>  南山塔 Klook 訂票連結
+        ────────────────────────────────────────────────
+        ▶ Klook 是訂票/行程平台（中文介面）
+        ▶ 怎麼取得？上 klook.com 找商品 → 複製網址
+        ▶ 想換？改下面 href="..." 引號裡的網址
+        ════════════════════════════════════════════════ -->
         <a href="https://www.klook.com/zh-TW/activity/298-n-seoul-tower-ticket-seoul/" target="_blank" class="link-btn reserve">🎫 Klook 套票</a>
       </div>
     </div>
@@ -1638,9 +2221,27 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       </div>
 
       <div class="link-row">
-        <!-- <<NAVER_清溪川>> -->
+        <!-- ════════════════════════════════════════════════
+        🟢 <<NAVER_清溪川>>  清溪川 NAVER Map 連結
+        ────────────────────────────────────────────────
+        ▶ 怎麼取得 NAVER 連結？
+          1. 用手機 NAVER Map App 找到目的地
+          2. 點「分享」→「複製連結」
+          3. 連結會像：https://naver.me/xxxxxxx
+        ▶ 改的方式：
+          把下面整個 #TODO_NAVER_清溪川 換成複製到的網址
+          例：href="https://naver.me/abc123"
+        ════════════════════════════════════════════════ -->
         <a href="#TODO_NAVER_清溪川" target="_blank" class="link-btn naver">🟢 NAVER Map</a>
-        <!-- <<HANCHAO_清溪川>> -->
+        <!-- ════════════════════════════════════════════════
+        🗺 <<HANCHAO_清溪川>>  清溪川 韓巢地圖連結
+        ────────────────────────────────────────────────
+        ▶ 韓巢是中文版的韓國地圖（給台港澳人用的）
+        ▶ 怎麼取得連結？
+          1. 上 https://map.hanchao.com/ 搜尋目的地
+          2. 複製網址（會像 dforum/762 這種編號）
+        ▶ 想換？把下面 href="..." 引號裡的網址換掉
+        ════════════════════════════════════════════════ -->
         <a href="https://map.hanchao.com/dforum/839" target="_blank" class="link-btn hanchao">🗺️ 韓巢地圖</a>
       </div>
     </div>
@@ -1713,9 +2314,27 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       </div>
 
       <div class="link-row">
-        <!-- <<NAVER_HOMEPLUS>> -->
+        <!-- ════════════════════════════════════════════════
+        🟢 <<NAVER_HOMEPLUS>>  HOMEPLUS NAVER Map 連結
+        ────────────────────────────────────────────────
+        ▶ 怎麼取得 NAVER 連結？
+          1. 用手機 NAVER Map App 找到目的地
+          2. 點「分享」→「複製連結」
+          3. 連結會像：https://naver.me/xxxxxxx
+        ▶ 改的方式：
+          把下面整個 #TODO_NAVER_HOMEPLUS 換成複製到的網址
+          例：href="https://naver.me/abc123"
+        ════════════════════════════════════════════════ -->
         <a href="#TODO_NAVER_HOMEPLUS" target="_blank" class="link-btn naver">🟢 NAVER Map</a>
-        <!-- <<HANCHAO_HOMEPLUS>> -->
+        <!-- ════════════════════════════════════════════════
+        🗺 <<HANCHAO_HOMEPLUS>>  HOMEPLUS 韓巢地圖連結
+        ────────────────────────────────────────────────
+        ▶ 韓巢是中文版的韓國地圖（給台港澳人用的）
+        ▶ 怎麼取得連結？
+          1. 上 https://map.hanchao.com/ 搜尋目的地
+          2. 複製網址（會像 dforum/762 這種編號）
+        ▶ 想換？把下面 href="..." 引號裡的網址換掉
+        ════════════════════════════════════════════════ -->
         <a href="https://map.hanchao.com/dforum/11164" target="_blank" class="link-btn hanchao">🗺️ 韓巢地圖</a>
       </div>
     </div>
@@ -1730,7 +2349,13 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
        ③ NAVER：搜尋「<<NAVER_DDP>>」 ← 待填
        ════════════════════════════════════════════════════════════════════ -->
   <div class="spot-card">
-    <!-- <<IMG_DDP>> -->
+    <!-- ════════════════════════════════════════════════
+       🖼 <<IMG_DDP>>  DDP 景點圖片
+       ────────────────────────────────────────────────
+       ▶ 想換圖片？把下面 src="..." 引號裡的網址換掉
+       ▶ 推薦尺寸：寬 800px 以上
+       ▶ onerror 是備援圖（主圖掛掉時顯示）
+       ════════════════════════════════════════════════ -->
     <img class="spot-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Dongdaemun_Design_Plaza_%28DDP%29_at_night.jpg/1280px-Dongdaemun_Design_Plaza_%28DDP%29_at_night.jpg" alt="東大門DDP" onerror="this.src='https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800'">
     <div class="spot-body">
       <div class="spot-top">
@@ -1786,9 +2411,27 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       </div>
 
       <div class="link-row">
-        <!-- <<NAVER_DDP>> -->
+        <!-- ════════════════════════════════════════════════
+        🟢 <<NAVER_DDP>>  DDP NAVER Map 連結
+        ────────────────────────────────────────────────
+        ▶ 怎麼取得 NAVER 連結？
+          1. 用手機 NAVER Map App 找到目的地
+          2. 點「分享」→「複製連結」
+          3. 連結會像：https://naver.me/xxxxxxx
+        ▶ 改的方式：
+          把下面整個 #TODO_NAVER_DDP 換成複製到的網址
+          例：href="https://naver.me/abc123"
+        ════════════════════════════════════════════════ -->
         <a href="#TODO_NAVER_DDP" target="_blank" class="link-btn naver">🟢 NAVER Map</a>
-        <!-- <<HANCHAO_DDP>> -->
+        <!-- ════════════════════════════════════════════════
+        🗺 <<HANCHAO_DDP>>  DDP 韓巢地圖連結
+        ────────────────────────────────────────────────
+        ▶ 韓巢是中文版的韓國地圖（給台港澳人用的）
+        ▶ 怎麼取得連結？
+          1. 上 https://map.hanchao.com/ 搜尋目的地
+          2. 複製網址（會像 dforum/762 這種編號）
+        ▶ 想換？把下面 href="..." 引號裡的網址換掉
+        ════════════════════════════════════════════════ -->
         <a href="https://map.hanchao.com/dforum/13001" target="_blank" class="link-btn hanchao">🗺️ 韓巢地圖</a>
       </div>
     </div>
@@ -1803,7 +2446,13 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
        ③ 沒有韓巢專頁，用 NAVER 搜尋即可
        ════════════════════════════════════════════════════════════════════ -->
   <div class="spot-card">
-    <!-- <<IMG_新村食堂>> -->
+    <!-- ════════════════════════════════════════════════
+       🖼 <<IMG_新村食堂>>  新村食堂 景點圖片
+       ────────────────────────────────────────────────
+       ▶ 想換圖片？把下面 src="..." 引號裡的網址換掉
+       ▶ 推薦尺寸：寬 800px 以上
+       ▶ onerror 是備援圖（主圖掛掉時顯示）
+       ════════════════════════════════════════════════ -->
     <img class="spot-img" src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=800" alt="新村食堂" onerror="this.src='https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800'">
     <div class="spot-body">
       <div class="spot-top">
@@ -1866,7 +2515,17 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       </div>
 
       <div class="link-row">
-        <!-- <<NAVER_新村食堂>> -->
+        <!-- ════════════════════════════════════════════════
+        🟢 <<NAVER_新村食堂>>  新村食堂 NAVER Map 連結
+        ────────────────────────────────────────────────
+        ▶ 怎麼取得 NAVER 連結？
+          1. 用手機 NAVER Map App 找到目的地
+          2. 點「分享」→「複製連結」
+          3. 連結會像：https://naver.me/xxxxxxx
+        ▶ 改的方式：
+          把下面整個 #TODO_NAVER_新村食堂 換成複製到的網址
+          例：href="https://naver.me/abc123"
+        ════════════════════════════════════════════════ -->
         <a href="#TODO_NAVER_新村食堂" target="_blank" class="link-btn naver">🟢 NAVER Map</a>
       </div>
     </div>
@@ -1876,6 +2535,12 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
 
 <!-- ════════════════════════════════════════════════════════════════════
      📅 Day 4 (5/4) 退房 + 回家
+     ════════════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════════════════
+     📅 <<TAB_Day4>> <<DAY4_時間表>> Day 4 (5/4) 退房 + 回家
+     ════════════════════════════════════════════════════════════════════
+     ▶ 路線：Ever8 退房 → 6002 巴士 → 仁川機場 → 高雄
+     ▶ 主要是時間表，沒有景點，不需要 NAVER 連結
      ════════════════════════════════════════════════════════════════════ -->
 <div class="tab-panel" id="panel-day4">
 
@@ -1971,6 +2636,12 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
      🛠 維護指南：
      ① 圖片都是用佔位 emoji，不需要換
      ② 想加東西，複製任一個 .step-card 整塊貼下來，改裡面文字即可
+     ════════════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════════════════
+     🚕 <<TAB_KAKAO>> KAKAO TAXI 完整教學分頁
+     ════════════════════════════════════════════════════════════════════
+     ▶ 內容：3 階段教學（台灣設定 + 韓國叫車 + 注意事項）
+     ▶ 加 Checklist 給家人勾選
      ════════════════════════════════════════════════════════════════════ -->
 <div class="tab-panel" id="panel-kakao">
 
@@ -2270,6 +2941,13 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
 <!-- ════════════════════════════════════════════════════════════════════
      💴 記帳分頁
      ════════════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════════════════
+     💴 <<TAB_記帳>> 旅遊記帳分頁
+     ════════════════════════════════════════════════════════════════════
+     ▶ 自動計算 KRW 與 NT$（匯率寫死 0.0234）
+     ▶ 想改匯率？Ctrl+F 搜尋 0.0234 改成新數字
+     ▶ 資料會同步到雲端 Google Sheet
+     ════════════════════════════════════════════════════════════════════ -->
 <div class="tab-panel" id="panel-budget">
 
   <div class="sec-hd"><div class="sec-dot"></div><h2>💴 旅遊記帳</h2></div>
@@ -2336,6 +3014,13 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
      ② 資料儲存：notes 陣列存 GAS 雲端
      ③ 想加新欄位？修改 saveNote() 函式
      ════════════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════════════════
+     📝 <<TAB_隨手記>> 隨手記分頁
+     ════════════════════════════════════════════════════════════════════
+     ▶ 重要：隨手記只存在這台裝置（瀏覽器 localStorage）
+     ▶ 換手機 / 清快取 → 資料消失！
+     ▶ 想改成同步到雲端？太複雜，目前不建議
+     ════════════════════════════════════════════════════════════════════ -->
 <div class="tab-panel" id="panel-notes">
 
   <div class="sec-hd"><div class="sec-dot"></div><h2>📝 隨手記</h2></div>
@@ -2381,6 +3066,14 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
 
 <!-- ════════════════════════════════════════════════════════════════════
      📸 相簿分頁
+     ════════════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════════════════
+     📸 <<TAB_相簿>> 相簿分頁
+     ════════════════════════════════════════════════════════════════════
+     ▶ 分 Day 1-4 上傳，每天獨立
+     ▶ 照片直接以 base64 存到雲端 Sheet
+     ▶ ⚠️ 不要存太多張！Sheet 單格上限 50,000 字元
+     ▶ 建議：每天最多 5-8 張小尺寸照片
      ════════════════════════════════════════════════════════════════════ -->
 <div class="tab-panel" id="panel-photos">
 
@@ -2448,12 +3141,134 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
 <div class="toast" id="toast">已複製</div>
 
 <!-- Footer -->
-<div class="footer">2026 首爾散心開心手冊 · 5/1–5/4 · made with ❤</div>
+<div class="footer">2026 首爾散心手冊 · 5/1–5/4 · made with ❤</div>
+
+
+<!--
+================================================================================
+  📚 ╔═════ 快 速 索 引 附 錄 ═════╗
+  
+  📌 怎麼用？想改某個部分時，照下面的代號 Ctrl+F 搜尋
+  
+  ─── 🎨 顏色設定 ───────────────────────────
+  <<COLOR_全部>>      所有顏色變數的總入口
+  <<COLOR_標籤>>      6 種馬卡龍標籤色
+  <<COLOR_主色>>      藍色主題色（按鈕、連結）
+  <<COLOR_文字>>      文字深淺三色
+  <<COLOR_狀態>>      綠橘紅紫四種狀態色
+  <<COLOR_背景>>      背景米白色
+  <<COLOR_圓角>>      圓角弧度
+  
+  ─── 📝 字體設定 ───────────────────────────
+  <<FONT_主字體>>     Google Noto Sans TC
+  <<FONT_全站>>       全站基本字體大小（14px）
+  
+  ─── 🌸 首頁 Hero 區 ───────────────────────
+  <<HERO_全部>>       整個 Hero 區塊
+  <<HERO_標題>>       大標題「首爾散心手冊」
+  <<HERO_副標>>       副標題（旅行日期）
+  <<HERO_小標籤>>     上方圓角小標
+  <<HERO_標籤>>       下方 5 個白色標籤
+  
+  ─── 📑 分頁 ──────────────────────────────
+  <<TAB_全部>>        11 個分頁按鈕總入口
+  <<TAB_交通>>        🚌 交通分頁
+  <<TAB_住宿>>        🏨 住宿分頁
+  <<TAB_Day1>>        5/1 Day 1
+  <<TAB_Day2>>        5/2 Day 2
+  <<TAB_Day3>>        5/3 Day 3
+  <<TAB_Day4>>        5/4 Day 4
+  <<TAB_KAKAO>>       🚕 KAKAO TAXI
+  <<TAB_記帳>>        💴 記帳
+  <<TAB_隨手記>>      📝 隨手記
+  <<TAB_相簿>>        📸 相簿
+  
+  ─── 🧳 行前準備分組 ──────────────────────
+  <<PREP_全部>>       行前準備總入口
+  <<PREP_證件>>       證件 & 文件
+  <<PREP_金錢>>       金錢 & 交通卡
+  <<PREP_網路>>       網路 & APP
+  <<PREP_3C>>         3C & 電器
+  <<PREP_衣物>>       衣物 & 盥洗
+  <<PREP_藥物>>       常備藥物
+  <<PREP_行李>>       行李規定
+  
+  ─── ✈ 航班 ───────────────────────────────
+  <<FLIGHT_去程>>     去程 CI164
+  <<FLIGHT_回程>>     回程 CI164
+  <<CHECK_IN>>        華航網路報到連結
+  
+  ─── 🏨 住宿 ───────────────────────────────
+  <<IMG_EVER8>>       Ever8 圖片
+  <<NAVER_EVER8>>     Ever8 NAVER 連結
+  <<HANCHAO_EVER8>>   Ever8 韓巢連結
+  <<AGODA_EVER8>>     Agoda 訂房
+  
+  ─── 📍 Day 1 景點 ─────────────────────────
+  <<IMG_廣藏市場>>    <<NAVER_廣藏市場>>    <<HANCHAO_廣藏市場>>
+  <<IMG_孔陵>>        <<NAVER_孔陵>>
+  
+  ─── 📍 Day 2 景點 ─────────────────────────
+  <<IMG_景福宮>>      <<NAVER_景福宮>>      <<HANCHAO_景福宮>>      <<KLOOK_景福宮韓服>>
+  <<IMG_北村>>        <<NAVER_北村>>        <<HANCHAO_北村>>
+  <<IMG_三清洞>>      <<NAVER_三清洞>>      <<HANCHAO_三清洞>>
+  <<IMG_益善洞>>      <<NAVER_益善洞>>      <<HANCHAO_益善洞>>
+  <<IMG_陳玉華>>      <<NAVER_陳玉華>>      <<HANCHAO_陳玉華>>
+  
+  ─── 📍 Day 3 景點 ─────────────────────────
+  <<IMG_明洞>>        <<NAVER_明洞>>        <<HANCHAO_明洞>>
+  <<IMG_南山塔>>      <<NAVER_南山塔>>      <<HANCHAO_南山塔>>      <<KLOOK_南山塔>>
+  <<NAVER_清溪川>>    <<HANCHAO_清溪川>>
+  <<NAVER_HOMEPLUS>>  <<HANCHAO_HOMEPLUS>>
+  <<IMG_DDP>>         <<NAVER_DDP>>         <<HANCHAO_DDP>>
+  <<IMG_新村食堂>>    <<NAVER_新村食堂>>
+  
+  ─── 📍 Day 4 ─────────────────────────────
+  <<DAY4_時間表>>     回程時間表
+  
+  ─── ✈ 機場巴士 ──────────────────────────
+  <<NAVER_梨大下車處>>
+  
+  ─── ⚙ 雲端設定 ──────────────────────────
+  <<API_URL>>         GAS 網頁應用程式網址
+  
+  ╚════════════════════════════════╝
+  
+  💡 修改流程提醒：
+    1. 找到要改的位置（Ctrl+F 索引代號）
+    2. 看註解了解這段做什麼用
+    3. 改完存檔
+    4. 推送到 GitHub（覆蓋舊 index.html）
+    5. 等部署 → 強制重新整理（Ctrl+Shift+R）
+
+================================================================================
+-->
 
 <script>
 /* ════════════════════════════════════════════════════════════════════
-   ⚙️ 雲端同步設定（GAS 部署）
-   👉 將下方 API_URL 換成你的 GAS 網頁應用程式網址
+   ⚙️ <<API_URL>> 雲端同步設定（GAS 部署網址）
+   ════════════════════════════════════════════════════════════════════
+   ⚠️ 這是最重要的設定！沒有它就無法同步雲端
+   
+   ▶ 怎麼取得這個網址？
+     1. 打開 https://script.google.com
+     2. 開啟你的「首爾散心」專案
+     3. 右上角「部署」→「管理部署作業」
+     4. 點 ✏️ 鉛筆 → 版本選「新版本」→「部署」
+     5. 跳出網址 → 點「複製」
+   
+   ▶ 怎麼換？
+     把下面引號 '...' 裡面整串網址換掉
+     例：const API_URL = 'https://script.google.com/macros/s/XXX/exec';
+   
+   ▶ 重要提醒：
+     - 引號 ' ' 不能拿掉
+     - 結尾分號 ; 不能拿掉
+     - 網址結尾要有 /exec
+   
+   ▶ 萬一想關掉雲端功能？
+     改成：const API_URL = '請在這裡貼上你的_GAS_網頁應用程式網址';
+     系統會自動偵測並停用雲端功能（但資料就不會同步了）
    ════════════════════════════════════════════════════════════════════ */
 const API_URL = 'https://script.google.com/macros/s/AKfycbwM-gjdtxHVaqfcpiEfah23LrXFIS_CIc6yWwuvCqFL6FKgyjAie_3tsnS0n_Jl9DNaLQ/exec';
 
