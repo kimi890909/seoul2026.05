@@ -91,6 +91,24 @@
   【9. 雲端同步】
     <<API_URL>>         GAS 網頁應用程式網址（重要！）
 
+  【10. 🆕 v4 新增功能】
+    <<NEW_韓文拼音>>      韓文下方台式拼音註解 (.kr 和 .romaji)
+    <<NEW_機票複製>>      機票號碼複製按鈕 (.ticket-row)
+    <<NEW_迷你連結>>      行前清單項目下方加連結/圖片
+    <<NEW_迷你彈窗>>      新增連結/圖片時跳的小視窗
+    <<NEW_meal圖片>>     三餐區塊縮圖（早餐/午餐/晚餐）
+    <<MEAL_Day1>>        Day 1 三餐（含圖片+拼音）
+    <<MEAL_Day2>>        Day 2 三餐（含圖片+拼音）
+    <<MEAL_Day3>>        Day 3 三餐（含圖片+拼音）
+    <<IMG_HOMEPLUS>>     Homeplus 圖片
+    <<SOUVENIR_必買>>    超市必買伴手禮清單
+    <<MINI_MODAL>>       輸入網址的小彈窗 HTML
+    <<JS_機票複製>>      機票複製函式
+    <<JS_迷你彈窗>>      開彈窗的函式
+    <<JS_加連結>>        加連結到 extras 的函式
+    <<JS_加圖片>>        加圖片到 extras 的函式
+    <<JS_刪連結>>/<<JS_刪圖片>>/<<JS_點圖看大圖>>
+
   ╚═══════════════════════╝
 
 
@@ -167,8 +185,9 @@
   
   /* ── <<COLOR_文字>> 字體顏色 ── */
   --text:#2C2C2C;         /* 主要文字色（深灰，不用純黑比較舒服）*/
-  --text-sub:#4A4A4A;     /* 次要文字（中灰）*/
-  --text-muted:#7A7A7A;   /* 提示文字（淺灰）*/
+  --text-sub:#3A3A3A;     /* 次要文字（再深一點的灰，比較好看清楚）*/
+  --text-muted:#5A5A5A;   /* ⭐ 提示文字（深灰，比之前的淺灰還清楚）*/
+  --text-soft:#6A6A6A;    /* 🆕 真正比較淡的文字（給「點此新增」這種真的需要弱化的）*/
   
   /* ── <<COLOR_主色>> 主題色（藍色系，按鈕、連結都用這個）── */
   --accent:#5B8DEF;       /* ⭐ 主題色 - 改這個整站氣氛都變 */
@@ -524,6 +543,75 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(44,44,44,0.9);color:#fff;padding:10px 20px;border-radius:30px;font-size:13px;font-weight:500;z-index:1000;display:none;box-shadow:0 4px 12px rgba(0,0,0,0.15);}
 .toast.show{display:block;animation:fadeUp 0.3s ease;}
 @keyframes fadeUp{from{opacity:0;transform:translate(-50%,10px);}to{opacity:1;transform:translate(-50%,0);}}
+
+/* ════════════════════════════════════════════════════════════════
+   🆕 v4 新增功能：韓文拼音 / 機票複製 / 迷你連結 / 迷你圖片
+   ────────────────────────────────────────────────────────────────
+   ▶ 想找這些樣式 → Ctrl+F 搜尋 <<NEW_韓文拼音>> 等
+   ════════════════════════════════════════════════════════════════ */
+
+/* 🆕 <<NEW_韓文拼音>> 韓文下方的台式拼音註解
+   ────────────────────────────────────────────
+   ▶ 用法：<span class="kr">광장시장 <span class="romaji">(Gwang-jang Si-jang)</span></span>
+   ▶ romaji 是台灣人可以拼出來的羅馬拼音（不是專業韓語拼音）
+   ▶ 顏色用深灰，比之前淺灰好讀很多 */
+.kr{display:inline-flex;align-items:baseline;gap:4px;flex-wrap:wrap;}
+.romaji{font-size:0.78em;color:var(--text-muted);font-weight:400;font-style:italic;letter-spacing:0.2px;display:inline-block;white-space:normal;}
+/* 🆕 在景點標題裡的拼音另起一行（標題太擠時自動換行） */
+.spot-title .romaji{display:block;margin-top:1px;font-size:11px;font-style:normal;color:var(--text-muted);}
+.meal-name .romaji{display:inline-block;font-size:0.85em;}
+.chk-name .romaji{display:inline-block;font-size:0.82em;}
+
+/* 🆕 <<NEW_機票複製>> 機票號碼複製按鈕（同 phone-row 但小一點）
+   ────────────────────────────────────────────
+   ▶ 用法看 <<FLIGHT_去程>> 區塊 */
+.ticket-row{display:inline-flex;align-items:center;gap:6px;margin-top:2px;}
+.ticket-num{font-family:monospace;font-weight:600;color:var(--text);background:rgba(255,255,255,0.55);padding:1px 7px;border-radius:6px;font-size:12px;}
+.ticket-copy{font-size:10px;padding:2px 8px;border-radius:14px;border:none;cursor:pointer;font-family:'Noto Sans TC',sans-serif;font-weight:600;background:var(--mac-mint);color:var(--green);transition:all 0.2s;}
+.ticket-copy:hover{background:var(--green);color:#fff;}
+.ticket-copy.copied{background:var(--green);color:#fff;}
+
+/* 🆕 <<NEW_迷你連結>> 行前準備項目下方的小連結 / 圖片區
+   ────────────────────────────────────────────
+   ▶ 出現在「證件 & 文件」「金錢 & 交通卡」「網路 & APP」三組
+   ▶ 結構：<div class="extras">...<a class="extra-link">...<img class="extra-img">...</div>
+   ▶ 點 + 按鈕可新增（都會自動同步到雲端） */
+.extras{margin-top:6px;display:flex;flex-direction:column;gap:6px;}
+.extras:empty{display:none;}
+.extra-row{display:flex;flex-wrap:wrap;gap:6px;}
+.extra-link{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;padding:4px 9px;border-radius:14px;text-decoration:none;background:var(--mac-sky);color:var(--accent-dark);border:1px solid #C8DDF0;transition:all 0.15s;}
+.extra-link:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+.extra-link .ex-del{margin-left:3px;color:var(--red);font-weight:700;cursor:pointer;opacity:0;transition:opacity 0.15s;font-size:13px;}
+.extra-link:hover .ex-del{opacity:1;}
+.extra-img-row{display:flex;flex-wrap:wrap;gap:6px;}
+.extra-img-wrap{position:relative;width:60px;height:60px;border-radius:8px;overflow:hidden;border:1px solid var(--border);}
+.extra-img-wrap img{width:100%;height:100%;object-fit:cover;cursor:pointer;display:block;}
+.extra-img-del{position:absolute;top:-4px;right:-4px;width:18px;height:18px;border-radius:50%;background:var(--red);color:#fff;border:2px solid #fff;font-size:10px;cursor:pointer;display:none;align-items:center;justify-content:center;line-height:1;padding:0;}
+.extra-img-wrap:hover .extra-img-del{display:flex;}
+
+/* 🆕 <<NEW_迷你新增按鈕>> 在每個項目下方的「+ 新增連結 / + 新增圖片」 */
+.extra-add-row{display:flex;gap:5px;margin-top:2px;}
+.extra-add-btn{font-size:10px;padding:3px 9px;border-radius:14px;border:1px dashed var(--border);background:transparent;color:var(--text-soft);cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all 0.15s;}
+.extra-add-btn:hover{background:var(--mac-yellow);color:#7A6000;border-style:solid;border-color:#D0C060;}
+
+/* 🆕 <<NEW_迷你彈窗>> 用來輸入連結網址或圖片網址的小視窗 */
+.mini-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1500;align-items:center;justify-content:center;padding:20px;}
+.mini-modal.show{display:flex;}
+.mini-modal-box{background:#fff;border-radius:16px;padding:18px 20px;max-width:420px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,0.2);}
+.mini-modal-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.mini-modal-hint{font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.55;}
+.mini-modal input{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-family:'Noto Sans TC',sans-serif;outline:none;margin-bottom:8px;}
+.mini-modal input:focus{border-color:var(--accent);}
+.mini-modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:6px;}
+.mini-modal-btn{padding:7px 16px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:'Noto Sans TC',sans-serif;}
+.mini-modal-cancel{background:var(--bg);color:var(--text-sub);border:1px solid var(--border);}
+.mini-modal-ok{background:var(--accent);color:#fff;}
+.mini-modal-ok:hover{background:var(--accent-dark);}
+
+/* 🆕 <<NEW_meal圖片>> 三餐區塊新增可掛圖片的版面（給早餐/午餐用） */
+.meal-row{align-items:center;}
+.meal-thumb{width:54px;height:54px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border);background:var(--bg);}
+.meal-row .meal-body{flex:1;}
 </style>
 </head>
 <body>
@@ -646,36 +734,36 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
   <!-- ════════════════════════════════════════
        <<PREP_證件>> 證件 & 文件 分組
        ════════════════════════════════════════ -->
-  <div class="check-list-card">
+  <div class="check-list-card" data-prep-group="docs">
     <div class="check-list-hd" style="background:var(--mac-sky)">📄 證件 &amp; 文件 <span>點項目打勾</span></div>
-    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">護照</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">確認有效期限 6 個月以上</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
-    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">電子機票，紙本/截圖，或存PDF在雲端資料夾</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">列印兩份備用，去回程都要帶</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
-    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">護照影本一份，萬一遺失時可以加速補辦，或存PDF在雲端資料夾</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">正反面各一份</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
-    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">身分證正反面影本一份，不太會用到，但放著</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">備用</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
-    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">兩吋大頭照2張</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">2張</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
-    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">韓國電子入境卡，出發前72小時要辦理（Q-Code）</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">⚠️ 2026年新制！出發前3天在網路申請，網址：qcode.kr</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">護照</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">確認有效期限 6 個月以上</span><div class="extras" data-extras></div><div class="extra-add-row"><button class="extra-add-btn" onclick="event.stopPropagation();openAddLink(this)">+ 連結</button><button class="extra-add-btn" onclick="event.stopPropagation();openAddImage(this)">+ 圖片</button></div></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">電子機票，紙本/截圖，或存PDF在雲端資料夾</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">列印兩份備用，去回程都要帶</span><div class="extras" data-extras></div><div class="extra-add-row"><button class="extra-add-btn" onclick="event.stopPropagation();openAddLink(this)">+ 連結</button><button class="extra-add-btn" onclick="event.stopPropagation();openAddImage(this)">+ 圖片</button></div></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">護照影本一份，萬一遺失時可以加速補辦，或存PDF在雲端資料夾</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">正反面各一份</span><div class="extras" data-extras></div><div class="extra-add-row"><button class="extra-add-btn" onclick="event.stopPropagation();openAddLink(this)">+ 連結</button><button class="extra-add-btn" onclick="event.stopPropagation();openAddImage(this)">+ 圖片</button></div></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">身分證正反面影本一份，不太會用到，但放著</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">備用</span><div class="extras" data-extras></div><div class="extra-add-row"><button class="extra-add-btn" onclick="event.stopPropagation();openAddLink(this)">+ 連結</button><button class="extra-add-btn" onclick="event.stopPropagation();openAddImage(this)">+ 圖片</button></div></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">兩吋大頭照2張</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">2張</span><div class="extras" data-extras></div><div class="extra-add-row"><button class="extra-add-btn" onclick="event.stopPropagation();openAddLink(this)">+ 連結</button><button class="extra-add-btn" onclick="event.stopPropagation();openAddImage(this)">+ 圖片</button></div></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">韓國電子入境卡，出發前72小時要辦理（Q-Code）</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">⚠️ 2026年新制！出發前3天在網路申請，網址：qcode.kr</span><div class="extras" data-extras><div class="extra-row"><a class="extra-link" href="https://e-arrivalcard.go.kr/" target="_blank">🌐 Q-Code 申請官網<span class="ex-del" onclick="event.preventDefault();event.stopPropagation();delExtraLink(this)">×</span></a></div></div><div class="extra-add-row"><button class="extra-add-btn" onclick="event.stopPropagation();openAddLink(this)">+ 連結</button><button class="extra-add-btn" onclick="event.stopPropagation();openAddImage(this)">+ 圖片</button></div></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
     <button class="add-item-btn" onclick="addItem(this)">＋ 新增項目</button>
   </div>
 
-  <div class="check-list-card">
+  <div class="check-list-card" data-prep-group="money">
     <!-- <<PREP_金錢>> 金錢 & 交通卡 分組 -->
     <div class="check-list-hd" style="background:var(--mac-mint)">💴 金錢 &amp; 交通卡 <span>點數值可直接修改</span></div>
-    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">韓幣KRW</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">不要在台灣換錢，去到韓國的WOWPASS機台就可以換</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
-    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">WOWPASS卡</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">拿護照，在WOWPASS機台辦理，裡面含T-Money交通卡功能，要另外存韓幣進去才可搭地鐵</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
-    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">T-money卡</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">如果單純想買交通卡，便利商店可購買，或用 WOWPASS 的交通卡功能替代</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
-    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">氣候同行卡 </span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">韓國最新，可以買3日卷，無限搭地鐵，不怕進錯出入口要浪費錢；去CU或便利超商找</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
-    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">台幣備用金</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">在台灣機場去回程時，想吃東西還是要有點台幣</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">韓幣 KRW <span class="romaji">(Won)</span></span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">不要在台灣換錢，去到韓國的 WOWPASS 機台就可以換</span><div class="extras" data-extras><div class="extra-row"><a class="extra-link" href="https://www.wowpass.io/page/howto" target="_blank">🌐 WOWPASS 機台位置查詢<span class="ex-del" onclick="event.preventDefault();event.stopPropagation();delExtraLink(this)">×</span></a></div></div><div class="extra-add-row"><button class="extra-add-btn" onclick="event.stopPropagation();openAddLink(this)">+ 連結</button><button class="extra-add-btn" onclick="event.stopPropagation();openAddImage(this)">+ 圖片</button></div></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">WOWPASS 卡 <span class="romaji">(哇喔配斯)</span></span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">拿護照，在 WOWPASS 機台辦理，裡面含 T-Money 交通卡功能，要另外存韓幣進去才可搭地鐵</span><div class="extras" data-extras><div class="extra-row"><a class="extra-link" href="https://www.wowpass.io/" target="_blank">🌐 WOWPASS 官網<span class="ex-del" onclick="event.preventDefault();event.stopPropagation();delExtraLink(this)">×</span></a></div></div><div class="extra-add-row"><button class="extra-add-btn" onclick="event.stopPropagation();openAddLink(this)">+ 連結</button><button class="extra-add-btn" onclick="event.stopPropagation();openAddImage(this)">+ 圖片</button></div></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">T-money 卡 <span class="romaji">(踢-money)</span></span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">如果單純想買交通卡，便利商店可購買，或用 WOWPASS 的交通卡功能替代</span><div class="extras" data-extras></div><div class="extra-add-row"><button class="extra-add-btn" onclick="event.stopPropagation();openAddLink(this)">+ 連結</button><button class="extra-add-btn" onclick="event.stopPropagation();openAddImage(this)">+ 圖片</button></div></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">氣候同行卡 <span class="romaji">(기후동행카드 / Gi-hu-dong-haeng-Card)</span></span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">韓國最新，可以買3日卷，無限搭地鐵，不怕進錯出入口要浪費錢；去 CU 或便利超商找</span><div class="extras" data-extras><div class="extra-row"><a class="extra-link" href="https://news.seoul.go.kr/traffic/archives/520768" target="_blank">🌐 氣候同行卡官方說明<span class="ex-del" onclick="event.preventDefault();event.stopPropagation();delExtraLink(this)">×</span></a></div></div><div class="extra-add-row"><button class="extra-add-btn" onclick="event.stopPropagation();openAddLink(this)">+ 連結</button><button class="extra-add-btn" onclick="event.stopPropagation();openAddImage(this)">+ 圖片</button></div></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">台幣備用金</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">在台灣機場去回程時，想吃東西還是要有點台幣</span><div class="extras" data-extras></div><div class="extra-add-row"><button class="extra-add-btn" onclick="event.stopPropagation();openAddLink(this)">+ 連結</button><button class="extra-add-btn" onclick="event.stopPropagation();openAddImage(this)">+ 圖片</button></div></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
     <button class="add-item-btn" onclick="addItem(this)">＋ 新增項目</button>
   </div>
 
-  <div class="check-list-card">
+  <div class="check-list-card" data-prep-group="net">
     <!-- <<PREP_網路>> 網路 & APP 分組 -->
     <div class="check-list-hd" style="background:var(--mac-lavender)">📶 網路 &amp; App</div>
-    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">網路卡</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">填入你選的方案，例如：KT Olleh 5天 / SKT eSIM</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
-    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">下載NAVER Map</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">比 Google Maps 在韓國準確，可查電梯車廂位置</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
-    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">下載KAKAO TAXI</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">出發前在台灣先下載並綁定手機號碼</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
-    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">下載WOWPASS App</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">先在台灣綁定，到韓國買到卡片可直接儲值使用，裡面有許多優惠卷含便利商店的優惠都可以使用</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
-    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">Chat GPT直接問或拍照</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">善用你的GPT，韓國自由行必備</span></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">網路卡</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">填入你選的方案，例如：KT Olleh 5天 / SKT eSIM</span><div class="extras" data-extras></div><div class="extra-add-row"><button class="extra-add-btn" onclick="event.stopPropagation();openAddLink(this)">+ 連結</button><button class="extra-add-btn" onclick="event.stopPropagation();openAddImage(this)">+ 圖片</button></div></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">下載 NAVER Map <span class="romaji">(內波 Map)</span></span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">比 Google Maps 在韓國準確，可查電梯車廂位置</span><div class="extras" data-extras><div class="extra-row"><a class="extra-link" href="https://apps.apple.com/app/naver-map-navigation/id311867728" target="_blank">🍎 iOS 下載<span class="ex-del" onclick="event.preventDefault();event.stopPropagation();delExtraLink(this)">×</span></a><a class="extra-link" href="https://play.google.com/store/apps/details?id=com.nhn.android.nmap" target="_blank">🤖 Android 下載<span class="ex-del" onclick="event.preventDefault();event.stopPropagation();delExtraLink(this)">×</span></a></div></div><div class="extra-add-row"><button class="extra-add-btn" onclick="event.stopPropagation();openAddLink(this)">+ 連結</button><button class="extra-add-btn" onclick="event.stopPropagation();openAddImage(this)">+ 圖片</button></div></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">下載 KAKAO TAXI <span class="romaji">(卡考 Taxi)</span></span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">出發前在台灣先下載並綁定手機號碼</span><div class="extras" data-extras><div class="extra-row"><a class="extra-link" href="https://apps.apple.com/app/kakao-t/id981110422" target="_blank">🍎 iOS 下載<span class="ex-del" onclick="event.preventDefault();event.stopPropagation();delExtraLink(this)">×</span></a><a class="extra-link" href="https://play.google.com/store/apps/details?id=com.kakao.t" target="_blank">🤖 Android 下載<span class="ex-del" onclick="event.preventDefault();event.stopPropagation();delExtraLink(this)">×</span></a></div></div><div class="extra-add-row"><button class="extra-add-btn" onclick="event.stopPropagation();openAddLink(this)">+ 連結</button><button class="extra-add-btn" onclick="event.stopPropagation();openAddImage(this)">+ 圖片</button></div></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">下載 WOWPASS App</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">先在台灣綁定，到韓國買到卡片可直接儲值使用，裡面有許多優惠卷含便利商店的優惠都可以使用</span><div class="extras" data-extras><div class="extra-row"><a class="extra-link" href="https://apps.apple.com/app/wowpass/id1601875892" target="_blank">🍎 iOS 下載<span class="ex-del" onclick="event.preventDefault();event.stopPropagation();delExtraLink(this)">×</span></a><a class="extra-link" href="https://play.google.com/store/apps/details?id=io.wowpass.app" target="_blank">🤖 Android 下載<span class="ex-del" onclick="event.preventDefault();event.stopPropagation();delExtraLink(this)">×</span></a></div></div><div class="extra-add-row"><button class="extra-add-btn" onclick="event.stopPropagation();openAddLink(this)">+ 連結</button><button class="extra-add-btn" onclick="event.stopPropagation();openAddImage(this)">+ 圖片</button></div></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="chk-circle"><span class="chk-tick">✓</span></div><div class="chk-body"><span class="chk-name">Chat GPT 直接問或拍照</span><span class="chk-note" contenteditable="true" onclick="event.stopPropagation()">善用你的 GPT，韓國自由行必備</span><div class="extras" data-extras><div class="extra-row"><a class="extra-link" href="https://chat.openai.com/" target="_blank">🌐 ChatGPT 網頁版<span class="ex-del" onclick="event.preventDefault();event.stopPropagation();delExtraLink(this)">×</span></a></div></div><div class="extra-add-row"><button class="extra-add-btn" onclick="event.stopPropagation();openAddLink(this)">+ 連結</button><button class="extra-add-btn" onclick="event.stopPropagation();openAddImage(this)">+ 圖片</button></div></div><div class="chk-right"><button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div></div>
     <button class="add-item-btn" onclick="addItem(this)">＋ 新增項目</button>
   </div>
 
@@ -772,10 +860,11 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
           </div>
           <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px">CI 164 　高雄 KHH → 首爾仁川 ICN</div>
           <div style="font-size:13px;color:var(--text-sub)">5月1日（五）　07:05 起飛　→　11:00 抵達　飛行 2 時 55 分</div>
-          <div style="font-size:12px;color:var(--text-muted);margin-top:4px">Agoda 訂單編號：<strong style="font-family:monospace;color:var(--text)">1685390329</strong></div>
-          <div style="font-size:12px;color:var(--text-muted);margin-top:4px">PNR航空公司預訂編號：<strong style="font-family:monospace;color:var(--text)">A53OVP, A53OVP</strong></div>
-          <div style="font-size:12px;color:var(--text-muted);margin-top:4px">信宏機票號碼：<strong style="font-family:monospace;color:var(--text)">2977398259206</strong></div>
-          <div style="font-size:12px;color:var(--text-muted);margin-top:4px">小賢機票號碼：<strong style="font-family:monospace;color:var(--text)">2977398259207</strong></div>
+          <!-- 🆕 機票號碼一律使用 ticket-row 樣式，可一鍵複製給網路報到用 -->
+          <div style="font-size:12px;color:var(--text-muted);margin-top:6px">Agoda 訂單編號：<span class="ticket-row"><span class="ticket-num">1685390329</span><button class="ticket-copy" onclick="copyTicket(this,'1685390329')">📋</button></span></div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:4px">PNR 航空公司預訂編號：<span class="ticket-row"><span class="ticket-num">A53OVP</span><button class="ticket-copy" onclick="copyTicket(this,'A53OVP')">📋</button></span></div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:4px">信宏機票號碼：<span class="ticket-row"><span class="ticket-num">2977398259206</span><button class="ticket-copy" onclick="copyTicket(this,'2977398259206')">📋</button></span></div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:4px">小賢機票號碼：<span class="ticket-row"><span class="ticket-num">2977398259207</span><button class="ticket-copy" onclick="copyTicket(this,'2977398259207')">📋</button></span></div>
         </div>
         <div style="background:var(--mac-mint);border-radius:var(--radius-sm);padding:12px 14px">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
@@ -952,7 +1041,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       <div class="spot-top">
         <div class="spot-icon si-pink">🏨</div>
         <div>
-          <div class="spot-title">新村 Ever8 服務式公寓</div>
+          <div class="spot-title">新村 Ever8 服務式公寓 <span class="romaji">(에버8 / E-bo-8)</span></div>
           <div class="spot-en">Shinchon Ever8 Serviced Residence</div>
         </div>
       </div>
@@ -1061,11 +1150,41 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
     </div>
   </div>
 
+  <!-- ════════════════════════════════════════════════════════════════════
+       🍽 <<MEAL_Day1>> Day 1 三餐（已附圖：可換成你拍的照片網址）
+       ────────────────────────────────────────────────────────────────────
+       ▶ 想換圖片？把下面 src="..." 引號裡的網址換成你雲端圖片網址
+       ▶ 雲端圖片要拿「直接連結」（Google Drive / Dropbox / 圖床都可）
+       ▶ Google Drive 圖片直連格式：
+         原網址：https://drive.google.com/file/d/檔案ID/view
+         直連網址：https://drive.google.com/uc?export=view&id=檔案ID
+       ════════════════════════════════════════════════════════════════════ -->
   <div class="meal-list" style="margin-bottom:14px">
     <div class="meal-hd">🍽 今日三餐</div>
-    <div class="meal-row"><span class="meal-badge mb-l">午餐</span><div><div class="meal-name">便利商店或新村簡餐</div><div class="meal-detail">抵達後輕便解決，留肚子吃廣藏市場小吃</div></div></div>
-    <div class="meal-row"><span class="meal-badge mb-d">晚餐 1</span><div><div class="meal-name">廣藏市場小吃</div><div class="meal-detail">麻藥飯捲、綠豆煎餅、辣炒年糕邊逛邊吃</div></div></div>
-    <div class="meal-row"><span class="meal-badge mb-s">宵夜</span><div><div class="meal-name">⭐ 孔陵一隻雞</div><div class="meal-detail">飯店旁步行 2 分鐘，暖呼呼結束第一天</div></div></div>
+    <div class="meal-row">
+      <span class="meal-badge mb-l">午餐</span>
+      <img class="meal-thumb" src="https://images.unsplash.com/photo-1553978297-833d09932d65?w=200" alt="便利商店" onerror="this.style.display='none'">
+      <div class="meal-body">
+        <div class="meal-name">CU 香蕉牛奶 + 飯卷 <span class="romaji">(빠나나우유 / Bbanana-uyu)</span></div>
+        <div class="meal-detail">抵達後在機場 CU 解決，留肚子吃廣藏市場小吃；或上 6002 巴士前在 CU 買零食帶上車吃</div>
+      </div>
+    </div>
+    <div class="meal-row">
+      <span class="meal-badge mb-d">晚餐 1</span>
+      <img class="meal-thumb" src="https://images.unsplash.com/photo-1583187858516-49b6e8da9b59?w=200" alt="廣藏市場小吃" onerror="this.style.display='none'">
+      <div class="meal-body">
+        <div class="meal-name">廣藏市場小吃 <span class="romaji">(광장시장 / Gwang-jang Si-jang)</span></div>
+        <div class="meal-detail">麻藥飯捲 (마약김밥 / Ma-yak Kim-bap)、綠豆煎餅 (빈대떡 / Bin-dae-ddok)、辣炒年糕邊逛邊吃</div>
+      </div>
+    </div>
+    <div class="meal-row">
+      <span class="meal-badge mb-s">宵夜</span>
+      <img class="meal-thumb" src="https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=200" alt="一隻雞" onerror="this.style.display='none'">
+      <div class="meal-body">
+        <div class="meal-name">⭐ 孔陵一隻雞 <span class="romaji">(공릉닭한마리 / Gong-neung Dak-han-ma-ri)</span></div>
+        <div class="meal-detail">飯店旁步行 2 分鐘，暖呼呼結束第一天</div>
+      </div>
+    </div>
   </div>
 
 
@@ -1090,7 +1209,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       <div class="spot-top">
         <div class="spot-icon si-yellow">🛏</div>
         <div>
-          <div class="spot-title">廣藏市場（광장시장）</div>
+          <div class="spot-title">廣藏市場 <span class="romaji">(광장시장 / Gwang-jang Si-jang)</span></div>
           <div class="spot-en">Gwangjang Market · 棉被 + 美食天堂</div>
         </div>
       </div>
@@ -1209,7 +1328,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       <div class="spot-top">
         <div class="spot-icon si-pink">🍗</div>
         <div>
-          <div class="spot-title">孔陵一隻雞（공릉 닭한마리）</div>
+          <div class="spot-title">孔陵一隻雞 <span class="romaji">(공릉 닭한마리 / Gong-neung Dak-han-ma-ri)</span></div>
           <div class="spot-en">Gongneung Dakhanmari · Ever8 步行 2 分鐘</div>
         </div>
       </div>
@@ -1333,11 +1452,35 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
     </div>
   </div>
 
+  <!-- ════════════════════════════════════════════════════════════════════
+       🍽 <<MEAL_Day2>> Day 2 三餐
+       ════════════════════════════════════════════════════════════════════ -->
   <div class="meal-list" style="margin-bottom:14px">
     <div class="meal-hd">🍽 今日三餐</div>
-    <div class="meal-row"><span class="meal-badge mb-b">早餐</span><div><div class="meal-name">EGG DROP 蛋蛋吐司</div><div class="meal-detail">新村或梨大附近分店，08:30 開賣</div></div></div>
-    <div class="meal-row"><span class="meal-badge mb-l">午餐</span><div><div class="meal-name">三清洞咖啡廳輕食</div><div class="meal-detail">摩西年糕鍋、麵疙瘩、貝果都行</div></div></div>
-    <div class="meal-row"><span class="meal-badge mb-d">晚餐</span><div><div class="meal-name">⭐ 陳玉華一隻雞</div><div class="meal-detail">益善洞旁，<strong>強烈建議訂位</strong>！</div></div></div>
+    <div class="meal-row">
+      <span class="meal-badge mb-b">早餐</span>
+      <img class="meal-thumb" src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=200" alt="EGG DROP" onerror="this.style.display='none'">
+      <div class="meal-body">
+        <div class="meal-name">EGG DROP 蛋蛋吐司 <span class="romaji">(에그드랍 / Egg-De-Rab)</span></div>
+        <div class="meal-detail">新村或梨大附近分店，08:30 開賣；推薦點 BACON CHEESE</div>
+      </div>
+    </div>
+    <div class="meal-row">
+      <span class="meal-badge mb-l">午餐</span>
+      <img class="meal-thumb" src="https://images.unsplash.com/photo-1576487248805-cf45f6bcc67f?w=200" alt="三清洞咖啡輕食" onerror="this.style.display='none'">
+      <div class="meal-body">
+        <div class="meal-name">三清洞咖啡廳輕食 <span class="romaji">(삼청동 / Sam-cheong-dong)</span></div>
+        <div class="meal-detail">摩西年糕鍋 (모세떡볶이)、麵疙瘩 (수제비 / Su-je-bi)、貝果都行</div>
+      </div>
+    </div>
+    <div class="meal-row">
+      <span class="meal-badge mb-d">晚餐</span>
+      <img class="meal-thumb" src="https://images.unsplash.com/photo-1632558060432-9a1a7e63a01e?w=200" alt="陳玉華一隻雞" onerror="this.style.display='none'">
+      <div class="meal-body">
+        <div class="meal-name">⭐ 陳玉華一隻雞 <span class="romaji">(진옥화 닭한마리 / Jin-ok-hwa Dak-han-ma-ri)</span></div>
+        <div class="meal-detail">益善洞旁，<strong>強烈建議訂位</strong>！</div>
+      </div>
+    </div>
   </div>
 
 
@@ -1362,7 +1505,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       <div class="spot-top">
         <div class="spot-icon si-mint">🏯</div>
         <div>
-          <div class="spot-title">景福宮（경복궁）</div>
+          <div class="spot-title">景福宮 <span class="romaji">(경복궁 / Gyeong-bok-gung)</span></div>
           <div class="spot-en">Gyeongbokgung Palace · 穿韓服免費入場</div>
         </div>
       </div>
@@ -1488,7 +1631,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       <div class="spot-top">
         <div class="spot-icon si-sky">🏘</div>
         <div>
-          <div class="spot-title">北村韓屋村（북촌한옥마을）</div>
+          <div class="spot-title">北村韓屋村 <span class="romaji">(북촌한옥마을 / Buk-chon Han-ok Ma-eul)</span></div>
           <div class="spot-en">Bukchon Hanok Village</div>
         </div>
       </div>
@@ -1603,7 +1746,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       <div class="spot-top">
         <div class="spot-icon si-lavender">☕</div>
         <div>
-          <div class="spot-title">三清洞（삼청동）</div>
+          <div class="spot-title">三清洞 <span class="romaji">(삼청동 / Sam-cheong-dong)</span></div>
           <div class="spot-en">Samcheong-dong · 文青咖啡廳街</div>
         </div>
       </div>
@@ -1701,7 +1844,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       <div class="spot-top">
         <div class="spot-icon si-peach">🏮</div>
         <div>
-          <div class="spot-title">益善洞含烏村（익선동）</div>
+          <div class="spot-title">益善洞含烏村 <span class="romaji">(익선동 / Ik-seon-dong)</span></div>
           <div class="spot-en">Ikseon-dong · 韓屋咖啡街</div>
         </div>
       </div>
@@ -1807,7 +1950,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       <div class="spot-top">
         <div class="spot-icon si-pink">🍗</div>
         <div>
-          <div class="spot-title">陳玉華一隻雞（진옥화 닭한마리）</div>
+          <div class="spot-title">陳玉華一隻雞 <span class="romaji">(진옥화 닭한마리 / Jin-ok-hwa Dak-han-ma-ri)</span></div>
           <div class="spot-en">Jin Ok Hwa Dakhanmari · 東大門名店</div>
         </div>
       </div>
@@ -1932,11 +2075,35 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
     </div>
   </div>
 
+  <!-- ════════════════════════════════════════════════════════════════════
+       🍽 <<MEAL_Day3>> Day 3 三餐
+       ════════════════════════════════════════════════════════════════════ -->
   <div class="meal-list" style="margin-bottom:14px">
     <div class="meal-hd">🍽 今日三餐</div>
-    <div class="meal-row"><span class="meal-badge mb-b">早餐</span><div><div class="meal-name">EGG DROP / 飯店便利商店</div><div class="meal-detail">早點出發避開明洞人潮</div></div></div>
-    <div class="meal-row"><span class="meal-badge mb-l">午餐</span><div><div class="meal-name">明洞街頭小吃</div><div class="meal-detail">炸雞排、雞蛋糕、烤干貝、辣炒年糕邊走邊吃</div></div></div>
-    <div class="meal-row"><span class="meal-badge mb-d">晚餐</span><div><div class="meal-name">⭐ 新村食堂烤肉 + 燒酒</div><div class="meal-detail">回新村吃烤肉收尾，營業到凌晨 4 點</div></div></div>
+    <div class="meal-row">
+      <span class="meal-badge mb-b">早餐</span>
+      <img class="meal-thumb" src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=200" alt="早餐" onerror="this.style.display='none'">
+      <div class="meal-body">
+        <div class="meal-name">EGG DROP / 飯店便利商店 GS25 <span class="romaji">(지에스25 / Gi-e-su-i-shi-bo)</span></div>
+        <div class="meal-detail">早點出發避開明洞人潮；GS25 推薦：飯卷、香蕉牛奶</div>
+      </div>
+    </div>
+    <div class="meal-row">
+      <span class="meal-badge mb-l">午餐</span>
+      <img class="meal-thumb" src="https://images.unsplash.com/photo-1583187858516-49b6e8da9b59?w=200" alt="明洞小吃" onerror="this.style.display='none'">
+      <div class="meal-body">
+        <div class="meal-name">明洞街頭小吃 <span class="romaji">(명동 / Myeong-dong)</span></div>
+        <div class="meal-detail">炸雞排、雞蛋糕 (계란빵 / Gye-ran-bbang)、烤干貝、辣炒年糕 (떡볶이 / Tteok-bbo-gi) 邊走邊吃</div>
+      </div>
+    </div>
+    <div class="meal-row">
+      <span class="meal-badge mb-d">晚餐</span>
+      <img class="meal-thumb" src="https://images.unsplash.com/photo-1635363638580-c2809d049eee?w=200" alt="韓式烤肉" onerror="this.style.display='none'">
+      <div class="meal-body">
+        <div class="meal-name">⭐ 新村食堂烤肉 + 燒酒 <span class="romaji">(새마을식당 / Sae-ma-eul Sik-dang)</span></div>
+        <div class="meal-detail">回新村吃烤肉收尾，營業到凌晨 4 點</div>
+      </div>
+    </div>
   </div>
 
 
@@ -1960,7 +2127,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       <div class="spot-top">
         <div class="spot-icon si-pink">🛍</div>
         <div>
-          <div class="spot-title">明洞（명동）</div>
+          <div class="spot-title">明洞 <span class="romaji">(명동 / Myeong-dong)</span></div>
           <div class="spot-en">Myeong-dong · 首爾購物天堂</div>
         </div>
       </div>
@@ -2060,7 +2227,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       <div class="spot-top">
         <div class="spot-icon si-sky">🗼</div>
         <div>
-          <div class="spot-title">南山首爾塔（N Seoul Tower）</div>
+          <div class="spot-title">南山首爾塔 <span class="romaji">(남산타워 / Nam-san-Tower)</span></div>
           <div class="spot-en">Namsan N Seoul Tower · 360 度觀景台</div>
         </div>
       </div>
@@ -2167,7 +2334,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       <div class="spot-top">
         <div class="spot-icon si-sky">🌊</div>
         <div>
-          <div class="spot-title">清溪川（청계천）</div>
+          <div class="spot-title">清溪川 <span class="romaji">(청계천 / Cheong-gye-cheon)</span></div>
           <div class="spot-en">Cheonggyecheon Stream · 都市綠帶散步</div>
         </div>
       </div>
@@ -2257,21 +2424,48 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
        🛠 維護指南：
        ① 韓巢：搜尋「<<HANCHAO_HOMEPLUS>>」（dforum/11164）
        ② NAVER：搜尋「<<NAVER_HOMEPLUS>>」 ← 待填
+       ③ 圖片：搜尋「<<IMG_HOMEPLUS>>」（v4 新增）
+       ④ 伴手禮清單：搜尋「<<SOUVENIR_必買>>」（v4 新增）
        ════════════════════════════════════════════════════════════════════ -->
   <div class="spot-card">
+    <!-- ════════════════════════════════════════════════
+       🖼 <<IMG_HOMEPLUS>>  Homeplus 圖片（v4 新增）
+       ▶ 想換？把下面 src="..." 引號裡換成你雲端圖片網址
+       ════════════════════════════════════════════════ -->
+    <img class="spot-img" src="https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=800" alt="Homeplus 超市" onerror="this.style.display='none'">
     <div class="spot-body">
       <div class="spot-top">
         <div class="spot-icon si-mint">🛒</div>
         <div>
-          <div class="spot-title">Homeplus 合井店（합정점）</div>
+          <div class="spot-title">Homeplus 合井店 <span class="romaji">(홈플러스 합정점 / Hom-pul-le-su Hap-jeong-jeom)</span></div>
           <div class="spot-en">伴手禮、零食、泡麵一站購足</div>
         </div>
       </div>
       <div class="spot-tags">
         <span class="tag tag-mint">B1 直達</span>
         <span class="tag tag-yellow">5/3 正常營業 ✅</span>
+        <span class="tag tag-pink">伴手禮天堂</span>
       </div>
       <div class="spot-desc">伴手禮在這裡買最划算！買完直接回 Ever8 放，再去東大門。</div>
+
+      <!-- ════════════════════════════════════════════════
+           🛍 <<SOUVENIR_必買>>  超市必買伴手禮清單（v4 新增）
+           ────────────────────────────────────────────────
+           ▶ 結構：每個 .tip 是一類伴手禮
+           ▶ 想加新項目？複製其中一個 <div class="tip"> 區塊改文字
+           ▶ 想刪？整個 <div class="tip"> 拿掉
+           ════════════════════════════════════════════════ -->
+      <div style="background:var(--mac-yellow);border-radius:var(--radius-sm);padding:10px 14px;margin:12px 0 10px;font-size:13px;font-weight:700;color:#7A6000;">🛍 必買伴手禮清單（給家人朋友帶回去）</div>
+      <div class="tip pink"><div class="ticon">🍯</div><div><div class="tip-title">蜂蜜柚子茶 / 蜂蜜大棗茶 <span class="romaji">(꿀유자차 / Ggul-yu-ja-cha)</span></div><div class="tip-text">玻璃罐裝最受歡迎，泡熱水即沖；推薦品牌：담터 (Dam-teo)、꽃샘 (Kkot-saem)</div></div></div>
+      <div class="tip mint"><div class="ticon">🍜</div><div><div class="tip-title">辛拉麵 / 不倒翁起司拉麵 <span class="romaji">(신라면 / Sin-ra-myeon)</span></div><div class="tip-text">5 入裝 / 20 入裝。<strong>真ramyun (진라면 / Jin-ra-myeon)</strong> 比辛拉麵不辣，給長輩超適合</div></div></div>
+      <div class="tip lavender"><div class="ticon">🍫</div><div><div class="tip-title">韓國餅乾 & 巧克力派 <span class="romaji">(과자 / Gwa-ja)</span></div><div class="tip-text">Market O 布朗尼、樂天巧克力派 (초코파이 / Cho-co-pa-i)、海太蜂蜜奶油薯片 (허니버터칩 / Honey-Butter-Chip)</div></div></div>
+      <div class="tip yellow"><div class="ticon">🌶</div><div><div class="tip-title">辣醬 / 韓式調味料 <span class="romaji">(고추장 / Go-chu-jang)</span></div><div class="tip-text">辣椒醬 고추장、大醬 된장 (Dwen-jang)、燒酒醬油 (불고기 양념)；推薦 CJ 백설 / Beksul</div></div></div>
+      <div class="tip sky"><div class="ticon">🍵</div><div><div class="tip-title">玉米鬚茶 / 大麥茶 <span class="romaji">(옥수수수염차 / Ok-su-su-su-yeom-cha)</span></div><div class="tip-text">韓國最熱門茶飲，瓶裝/茶包都有；消水腫聖品，女生最愛</div></div></div>
+      <div class="tip peach"><div class="ticon">🥢</div><div><div class="tip-title">海苔 / 韓式紫菜 <span class="romaji">(김 / Gim)</span></div><div class="tip-text">兩班 (양반 / Yang-ban)、清海 (청해)；橄欖油海苔最香，配飯超讚</div></div></div>
+      <div class="tip pink"><div class="ticon">🧴</div><div><div class="tip-title">面膜 / 化妝品 <span class="romaji">(마스크팩 / Mask-Pack)</span></div><div class="tip-text">Mediheal、JM Solution、Innisfree；超市比 Olive Young 便宜 30%</div></div></div>
+      <div class="tip mint"><div class="ticon">🍪</div><div><div class="tip-title">韓國糖果 & 軟糖 <span class="romaji">(젤리 / Jelly)</span></div><div class="tip-text">蜂蜜薄荷糖 (꿀맛캔디)、烏龜軟糖 (마이쮸 / My-Chew)、蜂窩糖 (벌집사탕)</div></div></div>
+      <div class="tip lavender"><div class="ticon">🍶</div><div><div class="tip-title">真露燒酒 / 馬格利 <span class="romaji">(소주 / So-ju · 막걸리 / Mak-geol-li)</span></div><div class="tip-text">真露 (참이슬 / Cham-i-seul)、處音初樂 (처음처럼)；要托運不能隨身帶</div></div></div>
+      <div class="tip yellow"><div class="ticon">☕</div><div><div class="tip-title">麥心咖啡 / 即溶咖啡棒 <span class="romaji">(맥심 / Maek-sim)</span></div><div class="tip-text">100 入家庭號最划算；長輩超愛</div></div></div>
 
       <div class="route-tabs">
         <button class="route-tab active" onclick="switchRoute(this,'r11-h')">🏨 從 Ever8 飯店</button>
@@ -2315,6 +2509,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       <div class="info-card">
         <div class="kv"><span class="kk">營業</span><div class="kv_">10:00–22:00（5/3 是第一個週日 ✅ 正常營業）</div></div>
         <div class="kv"><span class="kk">電話</span><div class="kv_"><div class="phone-row"><span class="phone-num">02-3279-4500</span><button class="copy-btn" onclick="copyPhone(this,'02-3279-4500')">📋 複製</button></div></div></div>
+        <div class="kv"><span class="kk">買多省力</span><div class="kv_">超市可宅配回飯店（韓文櫃台溝通會困難，建議直接拖回 Ever8）</div></div>
       </div>
 
       <div class="link-row">
@@ -2365,7 +2560,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       <div class="spot-top">
         <div class="spot-icon si-lavender">🌙</div>
         <div>
-          <div class="spot-title">東大門設計廣場（DDP）</div>
+          <div class="spot-title">東大門設計廣場 DDP <span class="romaji">(동대문디자인플라자 / Dong-dae-mun Di-ja-in Pul-la-ja)</span></div>
           <div class="spot-en">Dongdaemun Design Plaza · 夜晚最美</div>
         </div>
       </div>
@@ -2462,7 +2657,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       <div class="spot-top">
         <div class="spot-icon si-pink">🥩</div>
         <div>
-          <div class="spot-title">新村食堂（새마을식당）</div>
+          <div class="spot-title">新村食堂 <span class="romaji">(새마을식당 / Sae-ma-eul Sik-dang)</span></div>
           <div class="spot-en">Sinchon Sikdang · 平價烤肉到凌晨</div>
         </div>
       </div>
@@ -3141,6 +3336,20 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
   <button class="lightbox-del" onclick="deleteLightboxPhoto()">🗑️ 刪除這張</button>
 </div>
 
+<!-- 🆕 <<MINI_MODAL>> 行前清單新增連結/圖片用的小視窗 -->
+<div class="mini-modal" id="mini-modal" onclick="if(event.target.id==='mini-modal')closeMiniModal()">
+  <div class="mini-modal-box">
+    <div class="mini-modal-title" id="mm-title">新增</div>
+    <div class="mini-modal-hint" id="mm-hint"></div>
+    <input id="mm-input1" type="text" placeholder="按鈕顯示文字">
+    <input id="mm-input2" type="text" placeholder="網址">
+    <div class="mini-modal-actions">
+      <button class="mini-modal-btn mini-modal-cancel" onclick="closeMiniModal()">取消</button>
+      <button class="mini-modal-btn mini-modal-ok" onclick="confirmMiniModal()">確定</button>
+    </div>
+  </div>
+</div>
+
 <!-- Toast -->
 <div class="toast" id="toast">已複製</div>
 
@@ -3273,6 +3482,11 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
    ▶ 萬一想關掉雲端功能？
      改成：const API_URL = '請在這裡貼上你的_GAS_網頁應用程式網址';
      系統會自動偵測並停用雲端功能（但資料就不會同步了）
+   
+   🆕 v4 補充：行前清單下方新增的「連結 + 圖片」也會一起同步
+     - 整包以 JSON 格式存入 prep 欄位
+     - 不需要額外修改 GAS 程式碼，只要 GAS 接受任意 data 物件就會自動存
+     - 重整網頁時會自動還原（不會跟硬編碼的連結重複）
    ════════════════════════════════════════════════════════════════════ */
 const API_URL = 'https://script.google.com/macros/s/AKfycbwM-gjdtxHVaqfcpiEfah23LrXFIS_CIc6yWwuvCqFL6FKgyjAie_3tsnS0n_Jl9DNaLQ/exec';
 
@@ -3374,9 +3588,16 @@ function addItem(btn){
   const div = document.createElement('div');
   div.className = 'check-item';
   div.onclick = function(){toggleCheck(this);};
+  // 🆕 新增的項目自動帶上 extras 容器和「+ 連結 / + 圖片」按鈕，
+  //    這樣所有清單組（不只證件、金錢、網路 APP）也都能用同樣的功能
   div.innerHTML = `<div class="chk-circle"><span class="chk-tick">✓</span></div>
     <div class="chk-body"><span class="chk-name" contenteditable="true">新項目</span>
-    <span class="chk-note" contenteditable="true" onclick="event.stopPropagation()"></span></div>
+    <span class="chk-note" contenteditable="true" onclick="event.stopPropagation()"></span>
+    <div class="extras" data-extras></div>
+    <div class="extra-add-row">
+      <button class="extra-add-btn" onclick="event.stopPropagation();openAddLink(this)">+ 連結</button>
+      <button class="extra-add-btn" onclick="event.stopPropagation();openAddImage(this)">+ 圖片</button>
+    </div></div>
     <div class="chk-right">
     <button class="chk-del" onclick="event.stopPropagation();delItem(this)">×</button></div>`;
   card.insertBefore(div, btn);
@@ -3409,11 +3630,25 @@ function savePrep(){
       const nameEl = item.querySelector('.chk-name');
       const noteEl = item.querySelector('.chk-note');
       const valEl = item.querySelector('.chk-val');
+      // 🆕 把這個項目下面的 extras 連結與圖片一起存起來
+      const extras = {links:[], images:[]};
+      const extrasBox = item.querySelector('[data-extras]');
+      if(extrasBox){
+        extrasBox.querySelectorAll('a.extra-link').forEach(a=>{
+          // 抓「文字內容」（去掉那個刪除 ×）和「網址」
+          const txt = a.childNodes[0] ? a.childNodes[0].textContent.trim() : a.textContent.replace('×','').trim();
+          extras.links.push({text: txt, href: a.getAttribute('href')||''});
+        });
+        extrasBox.querySelectorAll('img').forEach(img=>{
+          extras.images.push(img.getAttribute('src')||'');
+        });
+      }
       group.items.push({
         name: nameEl ? nameEl.textContent : '',
         note: noteEl ? noteEl.textContent : '',
         val: valEl ? valEl.textContent : '',
-        done: item.classList.contains('done')
+        done: item.classList.contains('done'),
+        extras: extras   // 🆕
       });
     });
     data.push(group);
@@ -3432,6 +3667,25 @@ function applyPrep(data){
     const valEl = item.querySelector('.chk-val');
     if(noteEl && it.note!==undefined) noteEl.textContent = it.note;
     if(valEl && it.val!==undefined) valEl.textContent = it.val;
+    // 🆕 還原這個項目下面的 extras（連結和圖片）
+    const extrasBox = item.querySelector('[data-extras]');
+    if(extrasBox && it.extras){
+      // 為了不重複，先把雲端版本要還原的清掉，再重建
+      // 但要保留 HTML 中已經有的硬編碼連結（透過比對 href 是否重複）
+      const existingHrefs = Array.from(extrasBox.querySelectorAll('a.extra-link')).map(a=>a.getAttribute('href'));
+      const existingSrcs = Array.from(extrasBox.querySelectorAll('img')).map(img=>img.getAttribute('src'));
+
+      (it.extras.links||[]).forEach(lk=>{
+        if(!lk||!lk.href) return;
+        if(existingHrefs.indexOf(lk.href) >= 0) return;  // 已有相同連結，不重複加
+        addExtraLinkToBox(extrasBox, lk.text||'連結', lk.href);
+      });
+      (it.extras.images||[]).forEach(src=>{
+        if(!src) return;
+        if(existingSrcs.indexOf(src) >= 0) return;
+        addExtraImageToBox(extrasBox, src);
+      });
+    }
   });
   updateProgress();
 }
@@ -3573,6 +3827,12 @@ function closeLightbox(e){
 
 function deleteLightboxPhoto(){
   if(!lightboxCurrent) return;
+  // 🆕 從 extras（行前清單迷你圖片）打開的，不在這裡刪，要回去點圖片右上角的 ×
+  if(lightboxCurrent.fromExtra){
+    showToast('💡 請點圖片右上角的 × 刪除');
+    closeLightbox();
+    return;
+  }
   if(!confirm('確定要刪除這張照片嗎？')) return;
   // 隨手記中的照片
   if(lightboxCurrent.fromNote){
@@ -3818,6 +4078,154 @@ function loadNotesFromLocal(){
 function applyNotes(data){
   // 不再從雲端載入，因為改存本機
   return;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   🆕 v4 新增：機票號碼複製、行前清單迷你連結/圖片
+   ════════════════════════════════════════════════════════════════════ */
+
+/* 🆕 <<JS_機票複製>> 機票號碼複製 */
+function copyTicket(btn, code){
+  navigator.clipboard.writeText(code).then(()=>{
+    btn.classList.add('copied');
+    btn.textContent = '✓';
+    showToast('📋 已複製：' + code);
+    setTimeout(()=>{btn.classList.remove('copied'); btn.textContent='📋';}, 1500);
+  }).catch(()=>{
+    showToast('⚠️ 複製失敗，請手動長按');
+  });
+}
+
+/* 🆕 <<JS_迷你彈窗>> 用一個共用彈窗請使用者輸入連結網址或圖片網址
+   ────────────────────────────────────────────
+   ▶ pendingExtras 暫存：使用者點哪個按鈕、要加什麼類型 */
+let pendingExtras = null;   // {chkBody:HTMLElement, type:'link'|'image'}
+
+function openAddLink(btn){
+  const chkBody = btn.closest('.chk-body');
+  pendingExtras = {chkBody: chkBody, type:'link'};
+  document.getElementById('mm-title').textContent = '🔗 新增連結';
+  document.getElementById('mm-hint').innerHTML = '貼上網址（例：APP 下載連結、官網），按確定就會出現一顆小按鈕。<br>也可以同時設定按鈕上要顯示的文字。';
+  document.getElementById('mm-input1').placeholder = '按鈕顯示文字（例：iOS 下載）';
+  document.getElementById('mm-input2').placeholder = '網址（https://...）';
+  document.getElementById('mm-input1').value = '';
+  document.getElementById('mm-input2').value = '';
+  document.getElementById('mm-input1').style.display = 'block';
+  document.getElementById('mini-modal').classList.add('show');
+  setTimeout(()=>document.getElementById('mm-input1').focus(), 80);
+}
+
+function openAddImage(btn){
+  const chkBody = btn.closest('.chk-body');
+  pendingExtras = {chkBody: chkBody, type:'image'};
+  document.getElementById('mm-title').textContent = '🖼 新增圖片';
+  document.getElementById('mm-hint').innerHTML = '貼上雲端圖片的「直接連結」（例：Google Drive、Dropbox、IMGUR）。<br>Google Drive 直連格式：<code style="background:var(--mac-yellow);padding:1px 4px;border-radius:4px">https://drive.google.com/uc?export=view&amp;id=檔案ID</code>';
+  document.getElementById('mm-input2').placeholder = '圖片網址（https://...）';
+  document.getElementById('mm-input1').style.display = 'none';
+  document.getElementById('mm-input2').value = '';
+  document.getElementById('mini-modal').classList.add('show');
+  setTimeout(()=>document.getElementById('mm-input2').focus(), 80);
+}
+
+function closeMiniModal(){
+  document.getElementById('mini-modal').classList.remove('show');
+  pendingExtras = null;
+}
+
+function confirmMiniModal(){
+  if(!pendingExtras) return closeMiniModal();
+  const url = document.getElementById('mm-input2').value.trim();
+  if(!url){ showToast('⚠️ 請輸入網址'); return; }
+  // 簡單檢查 URL 開頭
+  if(!/^https?:\/\//i.test(url)){
+    showToast('⚠️ 網址要以 http:// 或 https:// 開頭');
+    return;
+  }
+  let extrasBox = pendingExtras.chkBody.querySelector('[data-extras]');
+  if(!extrasBox){
+    // 若沒有 extras 容器（理論上不會，但保險處理），自動補一個
+    extrasBox = document.createElement('div');
+    extrasBox.className = 'extras';
+    extrasBox.dataset.extras = '';
+    pendingExtras.chkBody.querySelector('.extra-add-row').before(extrasBox);
+  }
+  if(pendingExtras.type === 'link'){
+    const txt = document.getElementById('mm-input1').value.trim() || '🔗 連結';
+    addExtraLinkToBox(extrasBox, txt, url);
+    showToast('✅ 連結已加入');
+  } else {
+    addExtraImageToBox(extrasBox, url);
+    showToast('✅ 圖片已加入');
+  }
+  closeMiniModal();
+  savePrep();   // 🆕 同步到雲端
+}
+
+/* 🆕 <<JS_加連結>> 在 extras 容器裡塞一顆連結按鈕 */
+function addExtraLinkToBox(extrasBox, text, href){
+  // 找出或建立 .extra-row（連結用）
+  let row = extrasBox.querySelector('.extra-row');
+  if(!row){
+    row = document.createElement('div');
+    row.className = 'extra-row';
+    extrasBox.appendChild(row);
+  }
+  const a = document.createElement('a');
+  a.className = 'extra-link';
+  a.target = '_blank';
+  a.href = href;
+  a.innerHTML = `${escapeHtmlSimple(text)}<span class="ex-del" onclick="event.preventDefault();event.stopPropagation();delExtraLink(this)">×</span>`;
+  row.appendChild(a);
+}
+
+/* 🆕 <<JS_加圖片>> 在 extras 容器裡塞一張縮圖 */
+function addExtraImageToBox(extrasBox, src){
+  let imgRow = extrasBox.querySelector('.extra-img-row');
+  if(!imgRow){
+    imgRow = document.createElement('div');
+    imgRow.className = 'extra-img-row';
+    extrasBox.appendChild(imgRow);
+  }
+  const wrap = document.createElement('div');
+  wrap.className = 'extra-img-wrap';
+  wrap.innerHTML = `<img src="${src.replace(/"/g,'&quot;')}" onclick="openExtraLightbox(this)" onerror="this.parentElement.style.opacity='0.4';this.parentElement.title='圖片載入失敗，請確認網址正確'">
+    <button class="extra-img-del" onclick="event.stopPropagation();delExtraImage(this)">×</button>`;
+  imgRow.appendChild(wrap);
+}
+
+/* 🆕 <<JS_刪連結>> 刪除單顆連結 */
+function delExtraLink(spanX){
+  const a = spanX.closest('a.extra-link');
+  if(!a) return;
+  const row = a.parentElement;
+  a.remove();
+  if(row && !row.querySelector('a.extra-link')) row.remove();
+  savePrep();
+}
+
+/* 🆕 <<JS_刪圖片>> 刪除單張圖片 */
+function delExtraImage(btn){
+  const wrap = btn.closest('.extra-img-wrap');
+  if(!wrap) return;
+  const row = wrap.parentElement;
+  wrap.remove();
+  if(row && !row.querySelector('.extra-img-wrap')) row.remove();
+  savePrep();
+}
+
+/* 🆕 <<JS_點圖看大圖>> 用既有的 lightbox 顯示 */
+function openExtraLightbox(img){
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src = img.src;
+  // 用一個特殊 flag 標示這不是相簿照片，所以「刪除」按鈕的行為要不一樣
+  lightboxCurrent = {fromExtra: true};
+  lb.classList.add('show');
+}
+
+/* 簡單 HTML escape，避免 text 含 < > & 變成標籤 */
+function escapeHtmlSimple(str){
+  if(str==null) return '';
+  return String(str).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
 /* ════════════════════════════════════════════════════════════════════
