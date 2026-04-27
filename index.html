@@ -698,6 +698,49 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
 .d4-plan-badge.plan-a{background:var(--mac-mint);color:var(--green);border:1px solid #A8D9C0;}
 .d4-plan-badge.plan-b{background:var(--mac-sky);color:var(--accent-dark);border:1px solid #A8CCE0;}
 
+/* ═══ 📋 <<MENU_CARD>> 早餐菜單卡片 v11 ═══ */
+.menu-card{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;margin:10px 0;box-shadow:var(--shadow);}
+.menu-card-hd{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1.5px dashed var(--border);}
+.menu-card-icon{font-size:22px;}
+.menu-card-title{font-size:15px;font-weight:700;color:var(--text);flex:1;}
+.menu-card-tag{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;background:var(--mac-yellow);color:#7A6000;}
+.menu-card-tag.recommend{background:var(--mac-pink);color:var(--red);}
+.menu-card-tag.classic{background:var(--mac-mint);color:var(--green);}
+.menu-card-tag.kdrama{background:#E8DAEF;color:#5B3D8A;border:1px solid #C8A8DD;}
+
+.menu-list{display:grid;gap:6px;}
+.menu-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 10px;background:var(--bg);border-radius:8px;font-size:13px;}
+.menu-item.star{background:var(--mac-pink);}
+.menu-item-name{color:var(--text);font-weight:500;flex:1;}
+.menu-item-name .romaji{font-size:11px;color:var(--text-muted);font-weight:400;margin-left:4px;}
+.menu-item-price{color:var(--accent-dark);font-weight:700;font-size:13px;flex-shrink:0;white-space:nowrap;}
+
+/* ═══ 💴 退稅級距表 ═══ */
+.refund-table{background:var(--white);border:1.5px solid var(--border);border-radius:12px;margin:10px 0;overflow:hidden;}
+.refund-row{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:0;padding:10px 12px;border-bottom:1px solid var(--border);font-size:12px;}
+.refund-row:last-child{border-bottom:none;}
+.refund-row.head{background:var(--mac-yellow);font-weight:700;color:#7A6000;}
+.refund-row.alt{background:var(--bg);}
+.refund-row > div{padding:0 4px;line-height:1.5;}
+.refund-row > div strong{color:var(--accent-dark);font-size:13px;}
+
+/* ═══ 🎒 備選景點卡 ═══ */
+.backup-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:12px;box-shadow:var(--shadow);border-left:4px solid var(--accent);}
+.backup-card.b-rain{border-left-color:#5DCAA5;}
+.backup-card.b-shop{border-left-color:#D4537E;}
+.backup-card.b-night{border-left-color:#7F77DD;}
+.backup-card.b-quiet{border-left-color:#EF9F27;}
+.backup-card-hd{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.backup-card-emoji{font-size:24px;}
+.backup-card-title{font-size:15px;font-weight:700;color:var(--text);flex:1;}
+.backup-list{margin:0;padding-left:18px;font-size:13px;line-height:1.85;color:var(--text-sub);}
+.backup-list li{margin-bottom:4px;}
+.backup-list li strong{color:var(--text);}
+.backup-list .romaji{color:var(--text-muted);font-size:11px;margin-left:4px;}
+
+/* ═══ 🎬 韓劇追星徽章 ═══ */
+.kdrama-badge{display:inline-block;padding:2px 8px;background:linear-gradient(135deg,#E8DAEF,#FCE4F0);color:#5B3D8A;border-radius:10px;font-size:11px;font-weight:600;border:1px solid #C8A8DD;margin-left:6px;}
+
 /* ════════════════════════════════════════════════════════════════
    👥 v6 多人版：信宏 / 小賢 切換 + 對方狀態 + 付款人標籤
    ────────────────────────────────────────────────────────────────
@@ -834,6 +877,8 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
     <button class="tab-btn" onclick="switchTab('day2',this)">5/2 Day 2</button>
     <button class="tab-btn" onclick="switchTab('day3',this)">5/3 Day 3</button>
     <button class="tab-btn" onclick="switchTab('day4',this)">5/4 Day 4</button>
+    <button class="tab-btn" onclick="switchTab('backup',this)">🎒 備選景點</button>
+    <button class="tab-btn" onclick="switchTab('refund',this)">💴 退稅攻略</button>
     <button class="tab-btn" onclick="switchTab('kakao',this)">🚕 KAKAO TAXI</button>
     <button class="tab-btn" onclick="switchTab('budget',this)">💴 記帳</button>
     <button class="tab-btn" onclick="switchTab('notes',this)">📝 隨手記</button>
@@ -1860,8 +1905,8 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       <span class="meal-badge mb-b">早餐</span>
       <img class="meal-thumb" src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=200" alt="EGG DROP" onerror="this.style.display='none'">
       <div class="meal-body">
-        <div class="meal-name">EGG DROP / Isaac 吐司 <span class="romaji">(에그드랍 / Egg-De-Rab)</span></div>
-        <div class="meal-detail">新村或梨大附近分店，08:30 開賣；推薦點 BACON CHEESE</div>
+        <div class="meal-name">EGG DROP / Isaac / 飲料店 三選一 <span class="romaji">(에그드랍 / 이삭토스트)</span></div>
+        <div class="meal-detail">新村或梨大附近分店都有，08:30 開賣；下方有完整菜單比較 ⬇️</div>
       </div>
     </div>
     <div class="meal-row">
@@ -1895,6 +1940,81 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
         <div class="meal-name">雪冰 Sulbing <span class="romaji">(설빙 / Seol-bing)</span></div>
         <div class="meal-detail">韓國國民冰品連鎖店！必點黃豆粉雪冰 (인절미빙수) 或草莓雪冰 (딸기빙수)</div>
       </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       🥪 <<MENU_早餐三選一>> v11 三家早餐店菜單比較
+       ─────────────────────────────────────────────────────────── -->
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🥪 早餐三選一菜單</h2></div>
+
+  <div class="info-card" style="margin-bottom:12px;background:var(--mac-yellow);border-color:#D0C060">
+    <div style="font-size:13px;color:#7A6000;line-height:1.7"><strong>💡 怎麼選？</strong><br>
+    ① 想吃<strong>厚蛋滑嫩溏心</strong>吐司 → EGG DROP（價位略高、要等 20-40 分鐘）<br>
+    ② 想吃<strong>奶油香煎吐司</strong> + 平價 → ISAAC（5-10 分鐘可拿、便宜大碗）<br>
+    ③ 不想吃吐司、要喝<strong>飲料</strong> → COMPOSE / MEGA / PAIK'S（冰美式 NT$ 35）</div>
+  </div>
+
+  <!-- 🍳 EGG DROP -->
+  <div class="menu-card">
+    <div class="menu-card-hd">
+      <span class="menu-card-icon">🍳</span>
+      <span class="menu-card-title">EGG DROP（에그드랍）厚蛋吐司</span>
+      <span class="menu-card-tag recommend">⭐ 招牌</span>
+    </div>
+    <div class="menu-list">
+      <div class="menu-item star"><span class="menu-item-name">Mr. Egg 經典蛋吐司 <span class="romaji">(미스터에그)</span></span><span class="menu-item-price">₩3,900</span></div>
+      <div class="menu-item"><span class="menu-item-name">American Ham Cheese 美式火腿起司</span><span class="menu-item-price">₩4,900</span></div>
+      <div class="menu-item"><span class="menu-item-name">Bacon Double Cheese 培根雙倍起司</span><span class="menu-item-price">₩5,000</span></div>
+      <div class="menu-item star"><span class="menu-item-name">⭐ Garlic Bacon Cheese 蒜香培根起司（最推）</span><span class="menu-item-price">₩5,400</span></div>
+      <div class="menu-item"><span class="menu-item-name">Avo Holic 酪梨吐司</span><span class="menu-item-price">₩5,900</span></div>
+      <div class="menu-item"><span class="menu-item-name">Beef Teriyaki 照燒牛肉</span><span class="menu-item-price">₩6,500</span></div>
+      <div class="menu-item"><span class="menu-item-name">套餐升級（薯餅 + 飲料）</span><span class="menu-item-price">+₩2,000 起</span></div>
+    </div>
+    <div style="font-size:11px;color:var(--text-muted);margin-top:8px;line-height:1.7">
+      📍 中文/英文/日文點餐機；分店 100+ 間<br>⏱ 尖峰要等 20-40 分鐘，08:30 開店就到最快
+    </div>
+  </div>
+
+  <!-- 🥪 ISAAC TOAST -->
+  <div class="menu-card">
+    <div class="menu-card-hd">
+      <span class="menu-card-icon">🥪</span>
+      <span class="menu-card-title">ISAAC TOAST（이삭토스트）奶油吐司</span>
+      <span class="menu-card-tag classic">經典・平價</span>
+    </div>
+    <div class="menu-list">
+      <div class="menu-item"><span class="menu-item-name">火腿起司吐司 <span class="romaji">(햄치즈)</span></span><span class="menu-item-price">₩3,000</span></div>
+      <div class="menu-item star"><span class="menu-item-name">⭐ 培根馬鈴薯比薩吐司 <span class="romaji">(베이컨포테이토피자)</span></span><span class="menu-item-price">₩3,800</span></div>
+      <div class="menu-item"><span class="menu-item-name">炒蛋火腿起司</span><span class="menu-item-price">₩3,800</span></div>
+      <div class="menu-item star"><span class="menu-item-name">⭐ 烤肉吐司 / Grilled Bulgogi（甜辣）</span><span class="menu-item-price">₩4,500</span></div>
+      <div class="menu-item"><span class="menu-item-name">辣味雞肉 MVP / Spicy Chicken</span><span class="menu-item-price">₩4,500</span></div>
+      <div class="menu-item"><span class="menu-item-name">飲料：奇異果汁 / 草莓汁（100% 鮮榨）</span><span class="menu-item-price">₩3,200</span></div>
+      <div class="menu-item"><span class="menu-item-name">熱美式咖啡</span><span class="menu-item-price">₩2,500</span></div>
+    </div>
+    <div style="font-size:11px;color:var(--text-muted);margin-top:8px;line-height:1.7">
+      📍 韓國 800+ 間分店；點餐機支援中文，可內用<br>⏱ 比 EGG DROP 快很多，5-10 分鐘可拿
+    </div>
+  </div>
+
+  <!-- ☕ 飲料店 -->
+  <div class="menu-card">
+    <div class="menu-card-hd">
+      <span class="menu-card-icon">☕</span>
+      <span class="menu-card-title">韓國平價飲料店（早上配吐司或飯卷）</span>
+      <span class="menu-card-tag">2026 流行</span>
+    </div>
+    <div class="menu-list">
+      <div class="menu-item star"><span class="menu-item-name">⭐ COMPOSE Coffee <span class="romaji">(컴포즈커피)</span> 美式</span><span class="menu-item-price">₩1,500</span></div>
+      <div class="menu-item"><span class="menu-item-name">COMPOSE 拿鐵</span><span class="menu-item-price">₩2,500</span></div>
+      <div class="menu-item star"><span class="menu-item-name">⭐ MEGA COFFEE <span class="romaji">(메가커피)</span> 美式</span><span class="menu-item-price">₩1,500</span></div>
+      <div class="menu-item"><span class="menu-item-name">MEGA 香草拿鐵 / 草莓奶昔</span><span class="menu-item-price">₩3,500</span></div>
+      <div class="menu-item"><span class="menu-item-name">PAIK'S COFFEE <span class="romaji">(빽다방)</span> 美式</span><span class="menu-item-price">₩1,500</span></div>
+      <div class="menu-item"><span class="menu-item-name">PAIK'S 招牌香蕉拿鐵 / 巧克力奶昔</span><span class="menu-item-price">₩3,000</span></div>
+    </div>
+    <div style="font-size:11px;color:var(--text-muted);margin-top:8px;line-height:1.7">
+      📍 大街小巷都有，<strong>韓國年輕人最愛平價咖啡王</strong>；冰美式只要約 NT$ 35<br>💡 早上飯店便利商店買飯卷時，搭一杯這個最划算
     </div>
   </div>
 
@@ -2021,6 +2141,85 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
         ▶ 想換？改下面 href="..." 引號裡的網址
         ════════════════════════════════════════════════ -->
         <a href="https://www.klook.com/zh-TW/activity/1099-hanbok-rental-gyeongbokgung-palace-seoul/" target="_blank" class="link-btn reserve">👘 Klook 韓服</a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══ 👘 <<HANBOK_租借>> v11 景福宮韓服租借步行路線 ═══ -->
+  <div class="spot-card" style="border:2px solid #C8A8DD;background:linear-gradient(180deg, #FCE4F0, var(--white))">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon" style="background:#E8DAEF">👘</div>
+        <div>
+          <div class="spot-title">景福宮 ─ 韓服租借步行路線 <span class="romaji">(한복대여 / Han-bok-dae-yeo)</span></div>
+          <div class="spot-en">Hanbok Rental near Gyeongbokgung</div>
+        </div>
+      </div>
+      <div class="spot-tags">
+        <span class="tag tag-pink">2 小時 ₩15,000 起</span>
+        <span class="tag tag-mint">穿韓服免景福宮門票</span>
+        <span class="tag tag-yellow">建議事先預約</span>
+      </div>
+      <div class="spot-desc">
+        景福宮站 <strong>3 號出口</strong>出來附近就是韓服店密集區，走路 2-5 分鐘可達。<br>
+        穿韓服進景福宮 <strong>免 3,000 KRW 門票</strong>，又能拍超美照片，CP 值超高！
+      </div>
+
+      <div class="route-detail" style="margin-top:10px">
+        <div class="rd-summary">
+          <span class="rd-time">⏱ 步行 2-5 分</span>
+          <span class="rd-fare">💴 ₩15,000-25,000</span>
+          <span class="rd-extra">含髮飾 / 包包 / 編髮</span>
+        </div>
+        <div class="rd-step"><div class="rd-num">1</div><span>地鐵 <span class="line-badge l3">3號線</span> <span class="station-badge">경복궁역 327</span> 景福宮站，<span class="exit-badge">3 號出口</span>出來（不是 5 號喔！）</span></div>
+        <div class="rd-step"><div class="rd-num">2</div><span>出來後<strong>右轉直走</strong>，會看到一條巷子叫「孝子路 (효자로)」，附近就有 10+ 家韓服店</span></div>
+        <div class="rd-step"><div class="rd-num">3</div><span>選店家 → 換衣服 + 編髮 → 拍照（店家會幫你保管自己的衣服和包包）</span></div>
+        <div class="rd-step"><div class="rd-num">4</div><span>從韓服店<strong>走 5 分鐘</strong>到景福宮正門（光化門），出示韓服直接<strong>免費入宮</strong>！</span></div>
+        <div class="rd-step"><div class="rd-num">5</div><span>2 小時內回來還衣服（可加錢延長到 4 小時 / 一整天）</span></div>
+      </div>
+
+      <!-- 推薦 3 家韓服店 -->
+      <div class="info-card" style="margin-top:12px">
+        <div class="kv">
+          <span class="kk" style="background:var(--mac-pink);color:var(--red)">⭐ 推薦</span>
+          <div class="kv_">
+            <strong>1. OneDay 韓服 (원데이한복)</strong><br>
+            👉 景福宮站 3 號出口走 3 分鐘<br>
+            💴 2 小時 15,000 KRW（含髮飾、包包、編髮）<br>
+            ✨ CP 值最高，台灣人最常推薦
+          </div>
+        </div>
+        <div class="kv">
+          <span class="kk" style="background:var(--mac-sky);color:var(--accent-dark)">高級</span>
+          <div class="kv_">
+            <strong>2. 漢陽女子韓服 (한복남)</strong><br>
+            👉 景福宮站 3 號出口走 5 分鐘<br>
+            💴 2 小時 25,000 KRW（精緻款）<br>
+            ✨ 衣服材質好、款式新，網美最愛
+          </div>
+        </div>
+        <div class="kv">
+          <span class="kk" style="background:var(--mac-yellow);color:#7A6000">便宜</span>
+          <div class="kv_">
+            <strong>3. 西花韓服 (서화한복)</strong><br>
+            👉 景福宮站 3 號出口走 4 分鐘<br>
+            💴 2 小時 12,000 KRW 起<br>
+            ✨ 預算有限的好選擇，款式也算多
+          </div>
+        </div>
+      </div>
+
+      <div class="tip mint" style="margin-top:12px"><div class="ticon">💡</div><div><div class="tip-title">小撇步</div><div class="tip-text">
+        ① <strong>事先網路預約</strong>有折扣（Klook、Naver Map 上預約 8-9 折）<br>
+        ② 5/2 是週六，建議 09:30 前到，10:00 後人會爆多<br>
+        ③ 一早寄行李在飯店，<strong>輕便去</strong>才能換韓服<br>
+        ④ 韓服內穿 T 恤即可（會冷的話加件薄外套，套韓服外面也很搭）
+      </div></div></div>
+
+      <div class="link-row">
+        <a href="https://www.klook.com/zh-TW/activity/1099-hanbok-rental-gyeongbokgung-palace-seoul/" target="_blank" class="link-btn reserve">👘 Klook 預約</a>
+        <a href="https://map.hanchao.com/dforum/762" target="_blank" class="link-btn hanchao">🗺️ 韓巢地圖</a>
       </div>
     </div>
   </div>
@@ -2521,13 +2720,90 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
     </div>
     <div class="meal-row">
       <span class="meal-badge mb-d">晚餐</span>
-      <img class="meal-thumb" src="https://images.unsplash.com/photo-1635363638580-c2809d049eee?w=200" alt="韓式烤肉" onerror="this.style.display='none'">
+      <img class="meal-thumb" src="https://images.unsplash.com/photo-1635363638580-c2809d049eee?w=200" alt="韓式晚餐" onerror="this.style.display='none'">
       <div class="meal-body">
-        <div class="meal-name">⭐ 肉典食堂 / 金豬食堂 二選一 <span class="romaji">(육전식당 / 금돼지식당)</span></div>
-        <div class="meal-detail">A：肉典食堂 (Yuk-jeon Sik-dang)，五花肉必點<br>B：金豬食堂 (Geum-dwae-ji Sik-dang)，藥泉站排隊名店<br>備案：回新村食堂 (새마을식당)，營業到凌晨 4 點</div>
+        <div class="meal-name">⭐ 三選一晚餐 <span class="kdrama-badge">🎬 21世紀大君夫人</span></div>
+        <div class="meal-detail">
+          🥩 <strong>A 烤肉</strong>：肉典食堂 / 金豬食堂（明洞）<br>
+          🍗 <strong>B 炸雞</strong>：PURADAK 明洞店（IU 代言、劇中第一集出現）<br>
+          🦵 <strong>C 豬腳</strong>：Myth Jokbal 豬腳小姐（明洞排隊店）<br>
+          ⏰ 備案：回新村食堂烤肉，營業到凌晨 4 點
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- ═══ 🎬 <<KDRAMA_PURADAK>> v11 IU 代言 21世紀大君夫人炸雞 ═══ -->
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🎬 21世紀大君夫人 ─ IU 同款炸雞</h2></div>
+
+  <div class="info-card" style="margin-bottom:12px;background:linear-gradient(135deg,#E8DAEF,#FCE4F0);border-color:#C8A8DD">
+    <div style="font-size:13px;color:#5B3D8A;line-height:1.7">
+      <strong>🍗 PURADAK CHICKEN（푸라닭치킨）</strong>
+      <span class="kdrama-badge">IU 代言</span>
+      <span class="kdrama-badge">第 1 集出現</span><br>
+      Disney+《21世紀大君夫人》(Perfect Crown) 第 1 集 IU 吃的就是這家！「炸雞界的 PRADA」採用「先烤後炸」獨家工法，雞皮薄脆、肉質多汁不柴。連韓國人都激推！
+    </div>
+  </div>
+
+  <!-- 🍗 PURADAK 菜單 -->
+  <div class="menu-card">
+    <div class="menu-card-hd">
+      <span class="menu-card-icon">🍗</span>
+      <span class="menu-card-title">PURADAK CHICKEN（푸라닭치킨）</span>
+      <span class="menu-card-tag kdrama">🎬 IU 代言</span>
+    </div>
+    <div class="menu-list">
+      <div class="menu-item star"><span class="menu-item-name">⭐ 黑蒜炸雞 <span class="romaji">(블랙알리오 / Black Alio)</span> 招牌！</span><span class="menu-item-price">₩18,900</span></div>
+      <div class="menu-item star"><span class="menu-item-name">⭐ 起司蒜香炸雞（IU 代言款，雪花起司粉）</span><span class="menu-item-price">₩18,900</span></div>
+      <div class="menu-item"><span class="menu-item-name">烤玉米起司炸雞 <span class="romaji">(콘소메이징)</span></span><span class="menu-item-price">₩18,900</span></div>
+      <div class="menu-item"><span class="menu-item-name">辣椒蛋黃醬炸雞（墨西哥辣椒美乃滋）</span><span class="menu-item-price">₩18,900</span></div>
+      <div class="menu-item"><span class="menu-item-name">招牌原味炸雞</span><span class="menu-item-price">₩16,900</span></div>
+      <div class="menu-item"><span class="menu-item-name">半半套餐（兩種口味各半，2 人份）</span><span class="menu-item-price">₩9,900 起</span></div>
+    </div>
+    <div style="font-size:11px;color:var(--text-muted);margin-top:8px;line-height:1.7">
+      📍 <strong>明洞店</strong>：明洞炸雞一條街，乙支路入口站 5 號出口走 4 分（12:00-23:20）<br>
+      📍 <strong>弘大店</strong>：弘大入口站 9 號出口走 8-10 分（核心商圈內）<br>
+      📍 <strong>西江大店</strong>：西江大站附近，<strong>離新村 Ever8 最近</strong>！<br>
+      🛍 外帶包裝：黑色不織布袋 + 黑金 LOGO 紙盒，<strong>儀式感滿滿像名牌包</strong><br>
+      💡 第一次吃推薦點「半半」，可一次吃到黑蒜 + 起司蒜香兩種招牌
+    </div>
+    <div class="link-row" style="margin-top:10px">
+      <a href="https://www.puradakchicken.com/" target="_blank" class="link-btn">🍗 官網</a>
+      <a href="#TODO_NAVER_PURADAK" target="_blank" class="link-btn naver">🟢 NAVER（明洞店）</a>
+    </div>
+  </div>
+
+  <!-- 🦵 豬腳菜單 -->
+  <div class="menu-card">
+    <div class="menu-card-hd">
+      <span class="menu-card-icon">🦵</span>
+      <span class="menu-card-title">Myth Jokbal 豬腳小姐（명동 미쓰족발）</span>
+      <span class="menu-card-tag recommend">明洞排隊店</span>
+    </div>
+    <div class="menu-list">
+      <div class="menu-item star"><span class="menu-item-name">⭐ 招牌冷盤豬腳 <span class="romaji">(족발 / Jok-bal)</span> 中份</span><span class="menu-item-price">₩35,000</span></div>
+      <div class="menu-item"><span class="menu-item-name">辣味豬腳 (불족발)</span><span class="menu-item-price">₩38,000</span></div>
+      <div class="menu-item"><span class="menu-item-name">綜合豬腳（原味+辣味各半）</span><span class="menu-item-price">₩40,000</span></div>
+      <div class="menu-item"><span class="menu-item-name">韓式蒸蛋 <span class="romaji">(계란찜)</span></span><span class="menu-item-price">₩6,000</span></div>
+      <div class="menu-item"><span class="menu-item-name">海鮮蔥煎餅 (해물파전)</span><span class="menu-item-price">₩15,000</span></div>
+      <div class="menu-item"><span class="menu-item-name">真露燒酒 (참이슬)</span><span class="menu-item-price">₩5,000</span></div>
+    </div>
+    <div style="font-size:11px;color:var(--text-muted);margin-top:8px;line-height:1.7">
+      📍 明洞站 6 號出口走 5 分鐘<br>
+      🍻 韓國人最愛<strong>豬腳配燒酒</strong>，2-3 人吃中份剛好<br>
+      💡 包生菜 + 蒜片 + 辣味噌一起吃最道地，配烤蝦醬超級香！
+    </div>
+    <div class="link-row" style="margin-top:10px">
+      <a href="#TODO_NAVER_MythJokbal" target="_blank" class="link-btn naver">🟢 NAVER（明洞店）</a>
+    </div>
+  </div>
+
+  <div class="tip yellow" style="margin-bottom:14px"><div class="ticon">💡</div><div><div class="tip-title">怎麼選晚餐？</div><div class="tip-text">
+    🥩 <strong>想吃肉吃到飽配燒酒</strong> → 烤肉（肉典/金豬食堂）<br>
+    🍗 <strong>追星派、想體驗劇中味道</strong> → PURADAK（IU 同款）<br>
+    🦵 <strong>想吃韓國夜店常見配酒菜</strong> → 豬腳<br>
+    ⏰ <strong>太晚才回新村想宵夜</strong> → 新村食堂（凌晨 4 點都營業）
+  </div></div></div>
 
 
   <!-- ════════════════════════════════════════════════════════════════════
@@ -3403,9 +3679,242 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
   </div>
 
   <!-- 共用：兩個方案都要的提醒 -->
-  <div class="tip yellow" style="margin-top:14px"><div class="ticon">💴</div><div><div class="tip-title">退稅小提醒（兩方案都通用）</div><div class="tip-text">買滿 30,000 KRW 以上的小票要保留，到機場 1F 退稅機掃描，現金退款上限 75,000 KRW，超過要回信用卡。</div></div></div>
+  <div class="tip yellow" style="margin-top:14px"><div class="ticon">💴</div><div><div class="tip-title">退稅小提醒（兩方案都通用）</div><div class="tip-text">⚠️ 2024 年起新規：<strong>單筆滿 15,000 KRW 即可退稅</strong>（從原本 30,000 降低）。退稅金額 ≤75,000 KRW 用機台、>75,000 須櫃檯。完整級距見「💴 退稅攻略」分頁。</div></div></div>
 
   <div class="tip pink"><div class="ticon">🛂</div><div><div class="tip-title">SES 快速通關（兩方案都通用）</div><div class="tip-text">如果有申辦 SES 快速通關（兩吋照片那個），出境可從快速通道，省 30 分鐘排隊。</div></div></div>
+
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     🎒 <<TAB_BACKUP>> v11 備選景點分頁（雨備案 / 購物備案 / 夜景 / 安靜）
+     ════════════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-backup">
+
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🎒 備選景點 ─ 行程有變化時的備案</h2></div>
+
+  <div class="info-card" style="margin-bottom:14px;background:var(--mac-yellow);border-color:#D0C060">
+    <div style="font-size:13px;color:#7A6000;line-height:1.7">
+      <strong>💡 什麼時候用？</strong><br>
+      ① 下雨天 → 看 🌧 雨備案<br>
+      ② 不想走太多路 → 看 🛍 購物備案<br>
+      ③ 晚上想看夜景 → 看 🌃 夜景備案<br>
+      ④ 想安靜放空 → 看 🌿 安靜備案
+    </div>
+  </div>
+
+  <!-- 🌧 雨備案 -->
+  <div class="backup-card b-rain">
+    <div class="backup-card-hd">
+      <span class="backup-card-emoji">🌧</span>
+      <span class="backup-card-title">雨天備案 ─ 室內活動</span>
+    </div>
+    <ul class="backup-list">
+      <li><strong>戰爭紀念館</strong> <span class="romaji">(전쟁기념관)</span><br>免費！4 個樓層展覽，地鐵 4/6 號線「三角地站」1 號出口</li>
+      <li><strong>樂天世界塔 SEOUL SKY</strong> <span class="romaji">(서울스카이)</span><br>117-123 樓觀景台，韓國最高大樓，地鐵 2 號線「蠶室站」1 號出口直達</li>
+      <li><strong>COEX MALL 水族館 + 星空圖書館</strong><br>巨大地下商場 + 韓國最美星空圖書館（拍照打卡聖地）</li>
+      <li><strong>北村工藝博物館</strong><br>傳統工藝體驗（韓國結、刺繡），北村裡的免費小博物館</li>
+      <li><strong>韓國汗蒸幕</strong>（Spareland / 龍山汗蒸城）<br>下雨天泡湯放鬆超讚，10,000-20,000 KRW</li>
+    </ul>
+  </div>
+
+  <!-- 🛍 購物備案 -->
+  <div class="backup-card b-shop">
+    <div class="backup-card-hd">
+      <span class="backup-card-emoji">🛍</span>
+      <span class="backup-card-title">購物備案 ─ 想多逛街時</span>
+    </div>
+    <ul class="backup-list">
+      <li><strong>聖水洞 (성수동) Olive Young N 旗艦店</strong><br>韓國最潮的工業風咖啡廳街區，新美妝集散地</li>
+      <li><strong>新沙洞 ─ 林蔭大道 (가로수길)</strong><br>韓國的「東京表參道」，潮店 + 設計師品牌密集</li>
+      <li><strong>仁寺洞 (인사동)</strong><br>韓國傳統工藝品 + 文青小店，買紀念品最好</li>
+      <li><strong>東大門 DOOTA / 美利來 (밀리오레)</strong><br>批發服飾平價之都，營業到深夜 4-5 點</li>
+      <li><strong>梨大商圈 (이대)</strong><br>學生街便宜衣服 + 美妝，離 Ever8 走路 10 分鐘</li>
+    </ul>
+  </div>
+
+  <!-- 🌃 夜景備案 -->
+  <div class="backup-card b-night">
+    <div class="backup-card-hd">
+      <span class="backup-card-emoji">🌃</span>
+      <span class="backup-card-title">夜景備案 ─ 想看美景時</span>
+    </div>
+    <ul class="backup-list">
+      <li><strong>漢江公園 (한강공원)</strong><br>盤浦大橋彩虹噴泉（4-10 月每天 20:00-21:30）<br>地鐵 9 號線「新盤浦站」1 號出口</li>
+      <li><strong>梨花壁畫村 (이화벽화마을)</strong><br>傍晚街景變藝術品，免費拍照景點</li>
+      <li><strong>樂天世界塔 SEOUL SKY 夜景</strong><br>117 樓玻璃地板觀景台，看遍全首爾</li>
+      <li><strong>清溪川夜燈</strong><br>市中心散步聖地，沿著河燈光拍照超美</li>
+      <li><strong>仁王山 (인왕산) 夜景</strong><br>韓國人推薦的免費夜景點，看景福宮 + 全市區</li>
+    </ul>
+  </div>
+
+  <!-- 🌿 安靜備案 -->
+  <div class="backup-card b-quiet">
+    <div class="backup-card-hd">
+      <span class="backup-card-emoji">🌿</span>
+      <span class="backup-card-title">安靜備案 ─ 想放鬆時</span>
+    </div>
+    <ul class="backup-list">
+      <li><strong>弘大延南洞「京義線林蔭道」 (경의선 숲길)</strong><br>廢棄鐵道改造的綠帶，超多文青咖啡廳</li>
+      <li><strong>三清公園 (삼청공원)</strong><br>北村旁的小山公園，可俯瞰首爾景觀</li>
+      <li><strong>梨花女子大學校園</strong><br>免費入校，超美的歐式建築 + 玻璃宮（離 Ever8 走 10 分鐘）</li>
+      <li><strong>德壽宮 (덕수궁)</strong><br>市中心的小宮殿，比景福宮更安靜</li>
+      <li><strong>聖水洞咖啡廳街</strong><br>Onion 聖水店、藍瓶咖啡，工業風 + 韓屋風混搭</li>
+    </ul>
+  </div>
+
+  <div class="tip mint" style="margin-top:14px"><div class="ticon">💡</div><div><div class="tip-title">小提醒</div><div class="tip-text">這些備案<strong>都不用預約</strong>，臨時想去隨時可以走！如果原本行程取消（下雨、累了、店家公休），翻來這邊找一個替代景點即可。</div></div></div>
+
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     💴 <<TAB_REFUND>> v11 退稅攻略分頁（級距 + 3 種退稅方式）
+     ════════════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-refund">
+
+  <div class="sec-hd"><div class="sec-dot"></div><h2>💴 韓國退稅完整攻略</h2></div>
+
+  <div class="info-card" style="margin-bottom:14px;background:linear-gradient(135deg,#FFF8DC,#FFE4B5);border-color:#D0C060">
+    <div style="font-size:13px;color:#7A6000;line-height:1.8">
+      <strong>📌 2024 新制重點</strong><br>
+      ✅ 單筆<strong>滿 15,000 KRW</strong>即可退稅（原本是 30,000）<br>
+      ✅ 韓國 VAT 增值稅 10%，實際退稅 <strong>3-7%</strong>（金額越大比率越高）<br>
+      ✅ 必須是貼有「<strong>Tax Free</strong>」標誌的商店<br>
+      ✅ 護照本人必帶，購買後 <strong>3 個月內</strong>離境
+    </div>
+  </div>
+
+  <!-- 退稅級距表 -->
+  <h3 style="font-size:15px;font-weight:700;margin:16px 0 8px">📊 退稅金額級距表（參考 Global Blue）</h3>
+  <div class="refund-table">
+    <div class="refund-row head">
+      <div>消費金額（KRW）</div>
+      <div>退稅金額（KRW）</div>
+      <div>實際退稅率</div>
+    </div>
+    <div class="refund-row">
+      <div><strong>15,000-29,999</strong></div>
+      <div>約 700-1,500</div>
+      <div>約 5%</div>
+    </div>
+    <div class="refund-row alt">
+      <div><strong>30,000-49,999</strong></div>
+      <div>約 1,500-2,500</div>
+      <div>約 5-6%</div>
+    </div>
+    <div class="refund-row">
+      <div><strong>50,000-99,999</strong></div>
+      <div>約 3,000-6,000</div>
+      <div>約 6-7%</div>
+    </div>
+    <div class="refund-row alt">
+      <div><strong>100,000-299,999</strong></div>
+      <div>約 6,500-21,000</div>
+      <div>約 7%</div>
+    </div>
+    <div class="refund-row">
+      <div><strong>300,000-499,999</strong></div>
+      <div>約 21,000-35,000</div>
+      <div>約 7%</div>
+    </div>
+    <div class="refund-row alt">
+      <div><strong>500,000-999,999</strong></div>
+      <div>約 35,000-70,000</div>
+      <div>約 7-8%</div>
+    </div>
+    <div class="refund-row">
+      <div><strong>1,000,000 +</strong></div>
+      <div>約 70,000+ <em style="font-size:10px">(必須機場退)</em></div>
+      <div>約 7-9%</div>
+    </div>
+  </div>
+
+  <div class="tip yellow" style="margin-bottom:14px"><div class="ticon">📋</div><div><div class="tip-title">幾個重要關鍵數字</div><div class="tip-text">
+    🔢 單筆<strong>≥ 15,000 KRW</strong> → 才能退稅<br>
+    🔢 單筆<strong>≤ 1,000,000 KRW</strong> → 可以「現場退稅」（直接結帳扣稅）<br>
+    🔢 單筆<strong>退稅 ≤ 75,000 KRW</strong> → 機場用「自助機台」就好<br>
+    🔢 單筆<strong>退稅 > 75,000 KRW</strong> → 機場必須走「人工櫃檯」+ 海關蓋章<br>
+    🔢 整趟旅行<strong>總額 ≤ 5,000,000 KRW</strong>（約 NT$ 117,000）
+  </div></div></div>
+
+  <!-- 三種退稅方式 -->
+  <h3 style="font-size:15px;font-weight:700;margin:16px 0 8px">🎯 三種退稅方式（看店家而定）</h3>
+
+  <!-- 方式 1：現場退稅 -->
+  <div class="spot-card">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-mint">①</div>
+        <div>
+          <div class="spot-title">現場退稅 ─ 最方便！</div>
+          <div class="spot-en">Tax Free at Counter（即時退稅）</div>
+        </div>
+      </div>
+      <div class="spot-desc">在貼有「Tax Free」標誌的店家，<strong>結帳時直接出示護照</strong>，店員幫你扣掉稅金，付的就是退稅後的價格。完全不用後續處理！</div>
+      <div class="info-card" style="margin-top:8px">
+        <div class="kv"><span class="kk">適用</span><div class="kv_">大型超市（樂天 / 新世界）、藥妝店（<strong>Olive Young</strong>）、便利商店、百貨公司專櫃</div></div>
+        <div class="kv"><span class="kk">條件</span><div class="kv_">單筆 15,000 KRW 以上、總額不超過 5,000,000 KRW</div></div>
+        <div class="kv"><span class="kk">流程</span><div class="kv_">結帳時說「Tax Free, please」+ 出示護照</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 方式 2：市區退稅 -->
+  <div class="spot-card">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-yellow">②</div>
+        <div>
+          <div class="spot-title">市區退稅 ─ 中型購物</div>
+          <div class="spot-en">Downtown Tax Refund</div>
+        </div>
+      </div>
+      <div class="spot-desc">在<strong>不能現場退稅的店</strong>買東西時，店家會給你退稅單。拿著單據去明洞、東大門、弘大的「市區退稅機」自助處理。</div>
+      <div class="info-card" style="margin-top:8px">
+        <div class="kv"><span class="kk">機台位置</span><div class="kv_">明洞、東大門、弘大、江南站、樂天百貨等</div></div>
+        <div class="kv"><span class="kk">流程</span><div class="kv_">掃護照 → 掃退稅單 → 插信用卡（擔保）→ 領退稅單 → <strong>出境前還是要在機場掃描護照</strong>確認離境！</div></div>
+        <div class="kv"><span class="kk">注意</span><div class="kv_">如果忘記在機場掃描，信用卡擔保款會被扣走</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 方式 3：機場退稅 -->
+  <div class="spot-card">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-sky">③</div>
+        <div>
+          <div class="spot-title">機場退稅 ─ 大筆購物 / 漏退</div>
+          <div class="spot-en">Airport Tax Refund</div>
+        </div>
+      </div>
+      <div class="spot-desc">最後一招！如果忘記在市區退稅或購物超過 100 萬 KRW，回國當天去仁川機場辦。</div>
+      <div class="route-detail" style="margin-top:8px">
+        <div class="rd-summary"><span class="rd-time">⏱ 預留 30-60 分</span><span class="rd-fare">💴 現金 / 信用卡</span><span class="rd-extra">⚠️ 退稅金額 >75,000 要海關蓋章</span></div>
+        <div class="rd-step"><div class="rd-num">1</div><span>到仁川機場 T1 <strong>1F 出境大廳</strong></span></div>
+        <div class="rd-step"><div class="rd-num">2</div><span>找「<strong>自助退稅機 (Tax Refund Kiosk)</strong>」（B/E/L/M 區都有），有中文介面</span></div>
+        <div class="rd-step"><div class="rd-num">3</div><span>掃護照 → 掃退稅單 → 看金額；&lt; 75,000 KRW 直接過、&gt; 75,000 KRW 要先去海關櫃台蓋章</span></div>
+        <div class="rd-step"><div class="rd-num">4</div><span>辦完報到、行李托運後，<strong>過完安檢出境</strong>，到管制區的退稅櫃台領現金</span></div>
+        <div class="rd-step"><div class="rd-num">5</div><span>選現金（韓元）或退回信用卡</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip pink" style="margin-top:14px"><div class="ticon">⚠️</div><div><div class="tip-title">大筆購物的注意事項</div><div class="tip-text">
+    🛒 如果單筆消費 <strong>&gt; 1,000,000 KRW</strong>（如買精品、行李箱）：<br>
+    ① 不能現場退稅，<strong>必須機場退</strong><br>
+    ② 退稅金額 &gt; 75,000 KRW，商品要先<strong>給海關檢查</strong>才能托運<br>
+    ③ 報到時跟櫃台說「I have items to claim tax refund」，他們會引導<br>
+    ④ <strong>退稅商品要隨身手提到出境後檢查</strong>，不要先托運！
+  </div></div></div>
+
+  <div class="tip mint" style="margin-top:10px"><div class="ticon">💡</div><div><div class="tip-title">出發前小撇步</div><div class="tip-text">
+    ✅ 建議帶<strong>同名信用卡</strong>（用本人護照辦退稅，本人卡擔保最不會出問題）<br>
+    ✅ 把退稅單和發票<strong>放一起收</strong>，不要弄丟<br>
+    ✅ 想退多少 = 看商品標價 × 退稅率（約 5-7%）<br>
+    ✅ <strong>Olive Young 美妝、Homeplus 伴手禮</strong>都能現場退稅，最省事
+  </div></div></div>
 
 </div>
 
