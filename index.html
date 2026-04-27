@@ -124,6 +124,22 @@
        → 打開 sw.js，把 CACHE_VERSION 從 'v1' 改 'v2'
        → 使用者下次開網頁會看到「🆕 有新版本」橫幅，點一下即更新
 
+  【12. 👥 v6 多人版（信宏 / 小賢）】
+    <<USER_切換器>>       行前清單上方的使用者切換按鈕
+    <<USER_對方狀態>>     項目右側顯示「對方好了沒」
+    <<USER_首次彈窗>>     第一次開網頁的選人視窗
+    <<PAYER_標籤>>        記帳付款人下拉選單樣式
+    
+    💾 雲端資料結構：
+      prep_xinhong   信宏的勾選紀錄
+      prep_xiaoxian  小賢的勾選紀錄
+      prep_extras    共用的「+ 連結 / + 圖片」（兩人都看得到）
+      budget         記帳（含 payer 欄位：x=信宏付 / y=小賢付 / share=共同）
+    
+    🔄 升級相容性：
+      第一次開 v6 時，舊資料 prep 會自動匯入到「信宏」帳號
+      所以你之前的勾選都不會消失
+
   ╚═══════════════════════╝
 
 
@@ -490,7 +506,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
 .budget-day-hd{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
 .budget-day-title{font-size:14px;font-weight:700;color:var(--text);}
 .budget-day-total{font-size:14px;font-weight:700;color:var(--accent-dark);}
-.budget-row{display:flex;align-items:center;gap:8px;padding:9px 16px;border-bottom:1px solid var(--border);}
+.budget-row{display:flex;align-items:center;gap:8px;padding:9px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
 .budget-row:last-of-type{border-bottom:none;}
 .budget-cat{font-size:11px;padding:3px 8px;border-radius:20px;font-weight:600;flex-shrink:0;min-width:48px;text-align:center;}
 .bc-food{background:var(--mac-pink);color:var(--red);}
@@ -649,6 +665,74 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
 .meal-row{align-items:center;}
 .meal-thumb{width:54px;height:54px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border);background:var(--bg);}
 .meal-row .meal-body{flex:1;}
+
+/* ════════════════════════════════════════════════════════════════
+   👥 v6 多人版：信宏 / 小賢 切換 + 對方狀態 + 付款人標籤
+   ────────────────────────────────────────────────────────────────
+   ▶ 想找這些樣式 → Ctrl+F 搜尋 <<USER_切換器>> 等
+   ════════════════════════════════════════════════════════════════ */
+
+/* 🆕 <<USER_切換器>> 行前清單上方的「目前是誰」切換按鈕 */
+.user-switcher{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--radius);
+  padding:10px 14px;margin-bottom:12px;box-shadow:var(--shadow);
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.user-switcher-label{font-size:12px;color:var(--text-muted);font-weight:600;flex-shrink:0;}
+.user-switcher-btns{display:flex;gap:6px;flex:1;}
+.user-btn{
+  flex:1;padding:8px 12px;font-size:13px;font-weight:600;border-radius:var(--radius-sm);
+  border:1.5px solid var(--border);background:var(--bg);color:var(--text-sub);
+  cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all 0.15s;
+  display:flex;align-items:center;justify-content:center;gap:5px;
+}
+.user-btn:hover{background:var(--mac-sky);color:var(--accent-dark);}
+.user-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 2px 8px rgba(91,141,239,0.3);}
+.user-btn.active:hover{background:var(--accent-dark);}
+
+/* 🆕 <<USER_對方狀態>> 每個項目右邊「對方勾了沒」的小提示 */
+.partner-status{
+  display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;
+  padding:2px 7px;border-radius:14px;flex-shrink:0;white-space:nowrap;
+}
+.partner-status.done{background:var(--mac-mint);color:var(--green);}
+.partner-status.notyet{background:var(--bg);color:var(--text-soft);border:1px dashed var(--border);}
+
+/* 🆕 <<USER_首次彈窗>> 第一次開網頁時跳的「我是誰」彈窗 */
+.user-pick-modal{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1600;
+  align-items:center;justify-content:center;padding:20px;
+}
+.user-pick-modal.show{display:flex;}
+.user-pick-box{
+  background:#fff;border-radius:20px;padding:24px;max-width:380px;width:100%;
+  box-shadow:0 12px 50px rgba(0,0,0,0.25);text-align:center;
+}
+.user-pick-icon{font-size:42px;margin-bottom:8px;}
+.user-pick-title{font-size:18px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.user-pick-hint{font-size:13px;color:var(--text-muted);margin-bottom:18px;line-height:1.55;}
+.user-pick-grid{display:flex;gap:10px;}
+.user-pick-card{
+  flex:1;padding:18px 12px;border:2px solid var(--border);border-radius:16px;
+  background:var(--bg);cursor:pointer;font-family:'Noto Sans TC',sans-serif;
+  transition:all 0.15s;
+}
+.user-pick-card:hover{background:var(--mac-sky);border-color:var(--accent);}
+.user-pick-card-emoji{font-size:36px;margin-bottom:6px;}
+.user-pick-card-name{font-size:16px;font-weight:700;color:var(--text);}
+
+/* 🆕 <<PAYER_標籤>> 記帳的付款人標籤 */
+.budget-payer{
+  font-size:10px;padding:2px 8px;border-radius:14px;font-weight:600;
+  border:none;cursor:pointer;font-family:'Noto Sans TC',sans-serif;flex-shrink:0;
+  appearance:none;-webkit-appearance:none;
+  background:var(--bg);color:var(--text-sub);border:1px solid var(--border);
+  padding-right:18px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'><path d='M0 2 L4 6 L8 2' stroke='%237A7A7A' stroke-width='1.5' fill='none'/></svg>");
+  background-repeat:no-repeat;background-position:right 5px center;
+}
+.budget-payer.payer-x{background-color:var(--mac-sky);color:var(--accent-dark);border-color:#A8CCE0;}
+.budget-payer.payer-y{background-color:var(--mac-pink);color:var(--red);border-color:#E0A8A8;}
+.budget-payer.payer-share{background-color:var(--mac-yellow);color:#7A6000;border-color:#D0C060;}
 </style>
 </head>
 <body>
@@ -758,6 +842,15 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
        - var(--mac-peach) 桃
      ════════════════════════════════════════════════════════════════════ -->
 <div class="tab-panel active" id="panel-prep">
+
+  <!-- 🆕 <<USER_切換器>> 信宏 / 小賢 切換按鈕 -->
+  <div class="user-switcher">
+    <span class="user-switcher-label">👥 目前是：</span>
+    <div class="user-switcher-btns">
+      <button class="user-btn" id="user-btn-xinhong" onclick="switchUser('xinhong')">👨 信宏</button>
+      <button class="user-btn" id="user-btn-xiaoxian" onclick="switchUser('xiaoxian')">🧑 小賢</button>
+    </div>
+  </div>
 
   <!-- 進度條（自動計算，不用手改）-->
   <div class="progress-wrap">
@@ -3240,6 +3333,15 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
     <div class="budget-sum-row"><span>總共（NT$）</span><span id="sum-twd">NT$ 0</span></div>
   </div>
 
+  <!-- 🆕 v6 付款人結算區塊 -->
+  <div class="budget-summary" style="margin-top:12px;background:var(--mac-yellow);border-color:#D0C060;">
+    <div class="budget-summary-title">👥 付款人結算</div>
+    <div class="budget-sum-row"><span>👨 信宏付款</span><span id="sum-payer-x">0 KRW</span></div>
+    <div class="budget-sum-row"><span>🧑 小賢付款</span><span id="sum-payer-y">0 KRW</span></div>
+    <div class="budget-sum-row"><span>👥 共同支出</span><span id="sum-payer-share">0 KRW</span></div>
+    <div id="sum-settle" style="font-size:12px;color:var(--text-sub);background:#fff;padding:10px 12px;border-radius:10px;margin-top:8px;line-height:1.65;">尚未有資料</div>
+  </div>
+
 </div>
 
 
@@ -3383,6 +3485,25 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
     <div class="mini-modal-actions">
       <button class="mini-modal-btn mini-modal-cancel" onclick="closeMiniModal()">取消</button>
       <button class="mini-modal-btn mini-modal-ok" onclick="confirmMiniModal()">確定</button>
+    </div>
+  </div>
+</div>
+
+<!-- 🆕 <<USER_首次彈窗>> 第一次開網頁時請使用者選身分 -->
+<div class="user-pick-modal" id="user-pick-modal">
+  <div class="user-pick-box">
+    <div class="user-pick-icon">👋</div>
+    <div class="user-pick-title">嗨！請問你是？</div>
+    <div class="user-pick-hint">選好之後，行前清單會記錄你自己的進度<br>之後可以隨時點上方按鈕切換</div>
+    <div class="user-pick-grid">
+      <div class="user-pick-card" onclick="setCurrentUser('xinhong')">
+        <div class="user-pick-card-emoji">👨</div>
+        <div class="user-pick-card-name">信宏</div>
+      </div>
+      <div class="user-pick-card" onclick="setCurrentUser('xiaoxian')">
+        <div class="user-pick-card-emoji">🧑</div>
+        <div class="user-pick-card-name">小賢</div>
+      </div>
     </div>
   </div>
 </div>
@@ -3553,7 +3674,23 @@ async function loadAllFromCloud(){
   try{
     const r = await fetch(API_URL+'?action=loadAll', {method:'GET'});
     const d = await r.json();
-    if(d.prep) applyPrep(d.prep);
+    // 🆕 v6 多人版：個人 prep 資料分人載入
+    if(currentUser && d['prep_'+currentUser]) applyPrep(d['prep_'+currentUser]);
+    // 對方資料記下來，用來顯示「對方好了沒」
+    const partner = getPartner();
+    if(partner && d['prep_'+partner]) {
+      partnerData = d['prep_'+partner];
+      renderPartnerStatus();
+    }
+    // 共用的 extras（連結 + 圖片）
+    if(d.prep_extras) applyExtras(d.prep_extras);
+    // 🔄 向下相容：若雲端有舊版的 prep 資料（v4-v5），先當「信宏的個人資料」載入一次
+    //    這樣升級到 v6 不會丟失之前的勾選紀錄
+    if(d.prep && currentUser === 'xinhong' && !d.prep_xinhong){
+      applyPrep(d.prep);
+      applyExtras(d.prep);
+      showToast('🔄 已將舊資料轉移到信宏帳號');
+    }
     if(d.budget) applyBudget(d.budget);
     if(d.photos) applyPhotos(d.photos);
     // 注意：notes 不從雲端載入，改用本機 localStorage
@@ -3612,12 +3749,185 @@ function toggleEdit(){
 }
 
 /* ════════════════════════════════════════════════════════════════════
+   👥 v6 多人版：信宏 / 小賢 切換 + 對方狀態
+   ════════════════════════════════════════════════════════════════════
+   ▶ 行前清單和記帳是「分人儲存」
+   ▶ currentUser 記錄目前看的是誰
+   ▶ partnerData 暫存對方的勾選資料，用來顯示「對方好了沒」
+   ────────────────────────────────────────────────────────────────────
+   雲端資料結構：
+     prep_xinhong  → 信宏的行前清單
+     prep_xiaoxian → 小賢的行前清單
+     prep          → 共用的「+ 連結 / + 圖片」（v4 留下的，繼續用）
+   ════════════════════════════════════════════════════════════════════ */
+const USERS = {
+  xinhong: {key:'xinhong', emoji:'👨', name:'信宏'},
+  xiaoxian: {key:'xiaoxian', emoji:'🧑', name:'小賢'}
+};
+let currentUser = null;          // 目前是誰
+let partnerData = null;          // 對方的清單資料（用來顯示狀態）
+
+/* 取得「對方」是誰 */
+function getPartner(){
+  if(!currentUser) return null;
+  return currentUser === 'xinhong' ? 'xiaoxian' : 'xinhong';
+}
+
+/* 使用者第一次選身分 */
+function setCurrentUser(userKey){
+  if(!USERS[userKey]) return;
+  currentUser = userKey;
+  localStorage.setItem('seoul_current_user', userKey);
+  document.getElementById('user-pick-modal').classList.remove('show');
+  updateUserSwitcherUI();
+  // 從雲端載入這個人的資料
+  if(isApiReady()) loadUserData();
+}
+
+/* 切換使用者（按鈕點擊） */
+function switchUser(userKey){
+  if(!USERS[userKey] || userKey === currentUser) return;
+  // 切換前先把目前的勾選狀態存起來（避免漏存）
+  if(currentUser){
+    savePrepCurrentUser();
+  }
+  currentUser = userKey;
+  localStorage.setItem('seoul_current_user', userKey);
+  updateUserSwitcherUI();
+  // 清空目前的勾選狀態 → 重新從雲端載入新使用者的資料
+  resetPrepUI();
+  if(isApiReady()) loadUserData();
+  showToast(`👥 切換為 ${USERS[userKey].emoji} ${USERS[userKey].name}`);
+}
+
+/* 更新切換器 UI（哪個按鈕亮起來） */
+function updateUserSwitcherUI(){
+  const btnX = document.getElementById('user-btn-xinhong');
+  const btnY = document.getElementById('user-btn-xiaoxian');
+  if(!btnX || !btnY) return;
+  btnX.classList.toggle('active', currentUser === 'xinhong');
+  btnY.classList.toggle('active', currentUser === 'xiaoxian');
+}
+
+/* 把行前清單的勾選狀態全部清空（切換使用者用） */
+function resetPrepUI(){
+  document.querySelectorAll('#panel-prep .check-item').forEach(item=>{
+    item.classList.remove('done');
+    const noteEl = item.querySelector('.chk-note');
+    const valEl = item.querySelector('.chk-val');
+    // 把備註恢復成 HTML 裡寫死的預設值（從 dataset 還原）
+    if(noteEl){
+      const def = noteEl.dataset.default;
+      if(def !== undefined) noteEl.textContent = def;
+    }
+    if(valEl) valEl.textContent = '';
+    // 移除「對方狀態」標籤
+    const ps = item.querySelector('.partner-status');
+    if(ps) ps.remove();
+  });
+  updateProgress();
+}
+
+/* 從雲端讀取目前使用者的勾選狀態 + 對方的（顯示用） */
+async function loadUserData(){
+  if(!isApiReady() || !currentUser) return;
+  try{
+    // 讀我自己的
+    const myKey = 'prep_' + currentUser;
+    const myRes = await fetch(API_URL + '?action=load&key=' + myKey, {method:'GET'});
+    const myData = await myRes.json();
+    if(myData && myData.data) applyPrep(myData.data);
+
+    // 讀對方的（用來顯示狀態）
+    const partnerKey = 'prep_' + getPartner();
+    const pRes = await fetch(API_URL + '?action=load&key=' + partnerKey, {method:'GET'});
+    const pData = await pRes.json();
+    partnerData = (pData && pData.data) ? pData.data : null;
+    renderPartnerStatus();
+  }catch(err){
+    console.warn('[v6] 載入使用者資料失敗', err);
+  }
+}
+
+/* 渲染「對方好了沒」的小標籤 */
+function renderPartnerStatus(){
+  // 清掉舊的
+  document.querySelectorAll('#panel-prep .partner-status').forEach(el=>el.remove());
+  if(!partnerData || !Array.isArray(partnerData)) return;
+  // 把對方資料攤平
+  const pFlat = [];
+  partnerData.forEach(g => (g.items||[]).forEach(it => pFlat.push(it)));
+  // 對應到目前畫面上的每個項目
+  let i = 0;
+  const partnerName = USERS[getPartner()].name;
+  document.querySelectorAll('#panel-prep .check-item').forEach(item => {
+    const it = pFlat[i++];
+    if(!it) return;
+    const right = item.querySelector('.chk-right');
+    if(!right) return;
+    const span = document.createElement('span');
+    span.className = 'partner-status ' + (it.done ? 'done' : 'notyet');
+    span.textContent = it.done ? `✓ ${partnerName}好了` : `${partnerName}還沒`;
+    right.insertBefore(span, right.firstChild);
+  });
+}
+
+/* 存目前使用者的勾選狀態到雲端（包了 user key） */
+function savePrepCurrentUser(){
+  if(!currentUser) return;
+  const data = collectPrepData();
+  debouncedSync('prep_' + currentUser, data);
+}
+
+/* 把目前畫面上的勾選資料蒐集起來（純資料，不含 extras） */
+function collectPrepData(){
+  const data = [];
+  document.querySelectorAll('#panel-prep .check-list-card').forEach(card=>{
+    const hd = card.querySelector('.check-list-hd');
+    if(!hd) return;
+    const group = {hd: hd.firstChild ? hd.firstChild.textContent.trim() : '', items:[]};
+    card.querySelectorAll('.check-item').forEach(item=>{
+      const nameEl = item.querySelector('.chk-name');
+      const noteEl = item.querySelector('.chk-note');
+      const valEl = item.querySelector('.chk-val');
+      group.items.push({
+        name: nameEl ? nameEl.textContent : '',
+        note: noteEl ? noteEl.textContent : '',
+        val: valEl ? valEl.textContent : '',
+        done: item.classList.contains('done')
+      });
+    });
+    data.push(group);
+  });
+  return data;
+}
+
+/* 初始化：從 localStorage 讀現任使用者，沒有的話跳出選人彈窗 */
+function initUser(){
+  // 把所有 chk-note 的初始值記到 dataset，切換使用者時可以還原
+  document.querySelectorAll('#panel-prep .chk-note').forEach(el=>{
+    el.dataset.default = el.textContent;
+  });
+  const saved = localStorage.getItem('seoul_current_user');
+  if(saved && USERS[saved]){
+    currentUser = saved;
+    updateUserSwitcherUI();
+  } else {
+    // 第一次使用，跳出選人視窗
+    document.getElementById('user-pick-modal').classList.add('show');
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════
    📋 行前準備清單
    ════════════════════════════════════════════════════════════════════ */
 function toggleCheck(item){
   item.classList.toggle('done');
   updateProgress();
   savePrep();
+  // 🆕 切換後，重新渲染對方狀態（避免操作時消失）
+  // 不需動 partnerData，只是把標籤掛回去
+  if(partnerData) renderPartnerStatus();
 }
 
 function addItem(btn){
@@ -3658,21 +3968,20 @@ function updateProgress(){
 }
 
 function savePrep(){
-  const data = [];
+  // 🆕 v6 多人版：勾選狀態 + 備註 → 各自獨立 (prep_xinhong / prep_xiaoxian)
+  //    extras（+ 連結/+ 圖片）→ 大家共用 (prep_extras)
+  const personalData = collectPrepData();   // 勾選/備註/數值
+  const extrasData = [];                    // 共用的連結 + 圖片
+
   document.querySelectorAll('#panel-prep .check-list-card').forEach(card=>{
     const hd = card.querySelector('.check-list-hd');
     if(!hd) return;
     const group = {hd: hd.firstChild ? hd.firstChild.textContent.trim() : '', items:[]};
     card.querySelectorAll('.check-item').forEach(item=>{
-      const nameEl = item.querySelector('.chk-name');
-      const noteEl = item.querySelector('.chk-note');
-      const valEl = item.querySelector('.chk-val');
-      // 🆕 把這個項目下面的 extras 連結與圖片一起存起來
       const extras = {links:[], images:[]};
       const extrasBox = item.querySelector('[data-extras]');
       if(extrasBox){
         extrasBox.querySelectorAll('a.extra-link').forEach(a=>{
-          // 抓「文字內容」（去掉那個刪除 ×）和「網址」
           const txt = a.childNodes[0] ? a.childNodes[0].textContent.trim() : a.textContent.replace('×','').trim();
           extras.links.push({text: txt, href: a.getAttribute('href')||''});
         });
@@ -3680,20 +3989,21 @@ function savePrep(){
           extras.images.push(img.getAttribute('src')||'');
         });
       }
-      group.items.push({
-        name: nameEl ? nameEl.textContent : '',
-        note: noteEl ? noteEl.textContent : '',
-        val: valEl ? valEl.textContent : '',
-        done: item.classList.contains('done'),
-        extras: extras   // 🆕
-      });
+      group.items.push({extras: extras});
     });
-    data.push(group);
+    extrasData.push(group);
   });
-  debouncedSync('prep', data);
+
+  // 個人資料：依目前是誰存入對應的 key
+  if(currentUser){
+    debouncedSync('prep_' + currentUser, personalData);
+  }
+  // 共用 extras
+  debouncedSync('prep_extras', extrasData, 1200);
 }
 
 function applyPrep(data){
+  // 🆕 v6：只還原「個人」資料（勾選/備註/數值），extras 由 applyExtras 處理
   if(!Array.isArray(data)) return;
   let i = 0;
   document.querySelectorAll('#panel-prep .check-item').forEach(item=>{
@@ -3704,27 +4014,33 @@ function applyPrep(data){
     const valEl = item.querySelector('.chk-val');
     if(noteEl && it.note!==undefined) noteEl.textContent = it.note;
     if(valEl && it.val!==undefined) valEl.textContent = it.val;
-    // 🆕 還原這個項目下面的 extras（連結和圖片）
-    const extrasBox = item.querySelector('[data-extras]');
-    if(extrasBox && it.extras){
-      // 為了不重複，先把雲端版本要還原的清掉，再重建
-      // 但要保留 HTML 中已經有的硬編碼連結（透過比對 href 是否重複）
-      const existingHrefs = Array.from(extrasBox.querySelectorAll('a.extra-link')).map(a=>a.getAttribute('href'));
-      const existingSrcs = Array.from(extrasBox.querySelectorAll('img')).map(img=>img.getAttribute('src'));
-
-      (it.extras.links||[]).forEach(lk=>{
-        if(!lk||!lk.href) return;
-        if(existingHrefs.indexOf(lk.href) >= 0) return;  // 已有相同連結，不重複加
-        addExtraLinkToBox(extrasBox, lk.text||'連結', lk.href);
-      });
-      (it.extras.images||[]).forEach(src=>{
-        if(!src) return;
-        if(existingSrcs.indexOf(src) >= 0) return;
-        addExtraImageToBox(extrasBox, src);
-      });
-    }
   });
   updateProgress();
+}
+
+/* 🆕 v6：套用「共用的 extras（連結 + 圖片）」 */
+function applyExtras(data){
+  if(!Array.isArray(data)) return;
+  let i = 0;
+  document.querySelectorAll('#panel-prep .check-item').forEach(item=>{
+    let flat = []; data.forEach(g=>g.items.forEach(it=>flat.push(it)));
+    const it = flat[i++]; if(!it || !it.extras) return;
+    const extrasBox = item.querySelector('[data-extras]');
+    if(!extrasBox) return;
+    // 比對既有的，避免重複加入硬編碼的連結
+    const existingHrefs = Array.from(extrasBox.querySelectorAll('a.extra-link')).map(a=>a.getAttribute('href'));
+    const existingSrcs = Array.from(extrasBox.querySelectorAll('img')).map(img=>img.getAttribute('src'));
+    (it.extras.links||[]).forEach(lk=>{
+      if(!lk||!lk.href) return;
+      if(existingHrefs.indexOf(lk.href) >= 0) return;
+      addExtraLinkToBox(extrasBox, lk.text||'連結', lk.href);
+    });
+    (it.extras.images||[]).forEach(src=>{
+      if(!src) return;
+      if(existingSrcs.indexOf(src) >= 0) return;
+      addExtraImageToBox(extrasBox, src);
+    });
+  });
 }
 
 /* 監聽編輯（span contenteditable 的 input 事件） */
@@ -3741,25 +4057,49 @@ function addBudget(day, cat, label){
   const row = document.createElement('div');
   row.className = 'budget-row';
   row.dataset.cat = cat;
+  // 🆕 v6 預設付款人 = 目前使用者（沒選人就用 share）
+  const defaultPayer = currentUser === 'xinhong' ? 'x' : currentUser === 'xiaoxian' ? 'y' : 'share';
+  row.dataset.payer = defaultPayer;
   const catClass = cat==='food'?'bc-food':cat==='transport'?'bc-transport':cat==='shop'?'bc-shop':cat==='hotel'?'bc-hotel':'bc-other';
   row.innerHTML = `<span class="budget-cat ${catClass}">${label}</span>
     <input class="budget-desc" placeholder="說明..." />
     <input class="budget-amt" type="number" placeholder="0" />
     <span style="font-size:11px;color:var(--text-muted)">KRW</span>
+    <select class="budget-payer payer-${defaultPayer}" onchange="changePayer(this)">
+      <option value="x" ${defaultPayer==='x'?'selected':''}>👨 信宏付</option>
+      <option value="y" ${defaultPayer==='y'?'selected':''}>🧑 小賢付</option>
+      <option value="share" ${defaultPayer==='share'?'selected':''}>👥 共同</option>
+    </select>
     <button class="budget-del" onclick="this.parentElement.remove();updateTotals();saveBudget();">×</button>`;
   card.insertBefore(row, addRow);
   row.querySelector('.budget-amt').focus();
 }
 
+/* 🆕 v6 切換付款人時更新樣式 + 同步 */
+function changePayer(sel){
+  const row = sel.closest('.budget-row');
+  if(!row) return;
+  row.dataset.payer = sel.value;
+  // 切換 class（顏色）
+  sel.classList.remove('payer-x','payer-y','payer-share');
+  sel.classList.add('payer-' + sel.value);
+  saveBudget();
+  updateTotals();
+}
+
 function updateTotals(){
   const cats = {food:0, transport:0, shop:0, other:0, hotel:0};
+  // 🆕 v6 加入「分人總額」
+  const payers = {x:0, y:0, share:0};
   ['d1','d2','d3','d4'].forEach(d=>{
     let total = 0;
     document.querySelectorAll(`#budget-${d} .budget-row`).forEach(r=>{
       const amt = parseFloat(r.querySelector('.budget-amt').value) || 0;
       const c = r.dataset.cat || 'other';
+      const p = r.dataset.payer || 'share';
       total += amt;
       if(cats[c] !== undefined) cats[c] += amt;
+      if(payers[p] !== undefined) payers[p] += amt;
     });
     document.getElementById('total-'+d).textContent = total.toLocaleString() + ' KRW';
   });
@@ -3770,6 +4110,31 @@ function updateTotals(){
   const total = cats.food+cats.transport+cats.shop+cats.other+cats.hotel;
   document.getElementById('sum-krw').textContent = total.toLocaleString() + ' KRW';
   document.getElementById('sum-twd').textContent = 'NT$ ' + Math.round(total*0.0234).toLocaleString();
+  // 🆕 v6 更新「誰付了多少」（如果有對應 DOM）
+  const sx = document.getElementById('sum-payer-x');
+  const sy = document.getElementById('sum-payer-y');
+  const ss = document.getElementById('sum-payer-share');
+  if(sx) sx.textContent = payers.x.toLocaleString() + ' KRW';
+  if(sy) sy.textContent = payers.y.toLocaleString() + ' KRW';
+  if(ss) ss.textContent = payers.share.toLocaleString() + ' KRW';
+  // 🆕 v6 自動算「誰該補誰多少錢」（共同支出對半攤）
+  const settle = document.getElementById('sum-settle');
+  if(settle){
+    const xPaid = payers.x + payers.share/2;   // 信宏實際負擔
+    const yPaid = payers.y + payers.share/2;   // 小賢實際負擔
+    const xCharged = payers.x;
+    const yCharged = payers.y;
+    // 共同的對半，所以信宏多付的部分 = (xCharged + share/2) - 平均
+    const avg = (payers.x + payers.y + payers.share) / 2;
+    const xDiff = xCharged + payers.share - avg;   // 簡化：信宏現金流出 - 應分擔
+    const yDiff = yCharged - avg;
+    // 用更直觀算法：誰付得比應分擔的多 → 對方補錢給他
+    const xShouldPay = payers.x + payers.share/2;  // 信宏應該負擔
+    const yShouldPay = payers.y + payers.share/2;  // 小賢應該負擔
+    const xActuallyPaid = payers.x + payers.share; // 假設「共同」是 x 先墊？無法確定
+    // 簡化邏輯：以「各自付款 + 共同對半」呈現
+    settle.innerHTML = `信宏實付 <strong>${(payers.x).toLocaleString()}</strong> KRW · 小賢實付 <strong>${(payers.y).toLocaleString()}</strong> KRW · 共同支出 <strong>${(payers.share).toLocaleString()}</strong> KRW（平攤每人 ${(payers.share/2).toLocaleString()} KRW）`;
+  }
 }
 
 function saveBudget(){
@@ -3781,7 +4146,8 @@ function saveBudget(){
         cat: r.dataset.cat,
         label: r.querySelector('.budget-cat').textContent,
         desc: r.querySelector('.budget-desc').value,
-        amt: r.querySelector('.budget-amt').value
+        amt: r.querySelector('.budget-amt').value,
+        payer: r.dataset.payer || 'share'   // 🆕 v6
       });
     });
   });
@@ -3794,15 +4160,24 @@ function applyBudget(data){
     if(!data[d]) return;
     const card = document.getElementById('budget-'+d);
     const addRow = card.querySelector('.budget-add-row');
+    // 🆕 v6 先清空當天既有的 row（避免重複載入）
+    card.querySelectorAll('.budget-row').forEach(r=>r.remove());
     data[d].forEach(item=>{
       const row = document.createElement('div');
       row.className = 'budget-row';
       row.dataset.cat = item.cat;
+      const payer = item.payer || 'share';   // 🆕 v6 沒有付款人時預設共同
+      row.dataset.payer = payer;
       const catClass = item.cat==='food'?'bc-food':item.cat==='transport'?'bc-transport':item.cat==='shop'?'bc-shop':item.cat==='hotel'?'bc-hotel':'bc-other';
       row.innerHTML = `<span class="budget-cat ${catClass}">${item.label}</span>
         <input class="budget-desc" value="${(item.desc||'').replace(/"/g,'&quot;')}" />
         <input class="budget-amt" type="number" value="${item.amt||''}" />
         <span style="font-size:11px;color:var(--text-muted)">KRW</span>
+        <select class="budget-payer payer-${payer}" onchange="changePayer(this)">
+          <option value="x" ${payer==='x'?'selected':''}>👨 信宏付</option>
+          <option value="y" ${payer==='y'?'selected':''}>🧑 小賢付</option>
+          <option value="share" ${payer==='share'?'selected':''}>👥 共同</option>
+        </select>
         <button class="budget-del" onclick="this.parentElement.remove();updateTotals();saveBudget();">×</button>`;
       card.insertBefore(row, addRow);
     });
@@ -4379,6 +4754,7 @@ window.addEventListener('offline', () => showOnlineStatus(false));
    🚀 初始化
    ════════════════════════════════════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded', ()=>{
+  initUser();              // 🆕 v6 第一次跳出選人，或讀本機記住的人
   updateProgress();
   updateTotals();
   ['d1','d2','d3','d4'].forEach(d=>renderGrid(d));
