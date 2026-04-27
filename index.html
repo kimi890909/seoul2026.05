@@ -109,6 +109,21 @@
     <<JS_加圖片>>        加圖片到 extras 的函式
     <<JS_刪連結>>/<<JS_刪圖片>>/<<JS_點圖看大圖>>
 
+  【11. 📱 v5 PWA 離線功能】
+    <<PWA_設定>>          head 區塊的 PWA meta 標籤
+    <<PWA_註冊>>          Service Worker 註冊邏輯
+    
+    📁 PWA 需要的檔案（4 個，要一起部署到 GitHub）：
+    1. index.html       本檔
+    2. manifest.json    APP 身份證
+    3. sw.js            離線管家
+    4. icon-192.png     APP 圖示（小）
+    5. icon-512.png     APP 圖示（大）
+    
+    💡 改了 index.html 想推給使用者更新？
+       → 打開 sw.js，把 CACHE_VERSION 從 'v1' 改 'v2'
+       → 使用者下次開網頁會看到「🆕 有新版本」橫幅，點一下即更新
+
   ╚═══════════════════════╝
 
 
@@ -154,6 +169,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2026 首爾散心自由行</title>
+
+<!-- ════════════════════════════════════════════════════════════════
+     📱 <<PWA_設定>> PWA 漸進式網頁應用程式設定（v5 新增）
+     ────────────────────────────────────────────────────────────────
+     ▶ 這幾行讓你的網頁可以「裝到主畫面」變成像 APP
+     ▶ 第一次開過後，所有資料會存到手機，沒網路也能開
+     ▶ 三個檔案要一起放在同一個資料夾：
+       1. index.html（這個）
+       2. manifest.json（APP 身份證）
+       3. sw.js（離線管家）
+       4. icon-192.png + icon-512.png（APP 圖示）
+     ════════════════════════════════════════════════════════════════ -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#5B8DEF">
+<meta name="mobile-web-app-capable" content="yes">
+<!-- iOS Safari 專用 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="首爾散心">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 
 <!-- ════════════════════════════════════════════════════════════════
      📌 <<FONT_主字體>>
@@ -4241,6 +4278,104 @@ function copyPhone(btn, phone){
 }
 
 /* ════════════════════════════════════════════════════════════════════
+   📱 <<PWA_註冊>> Service Worker 註冊（讓網頁可以離線）
+   ════════════════════════════════════════════════════════════════════
+   ▶ 這段在背景運作，不用你手動執行
+   ▶ 第一次開：把網頁所有資料存到手機
+   ▶ 之後開：直接從手機讀（飛快、可離線）
+   ▶ 想關掉 PWA？把整段註冊邏輯註解掉即可
+   ════════════════════════════════════════════════════════════════════ */
+function registerPWA(){
+  if(!('serviceWorker' in navigator)) {
+    console.log('[PWA] 此瀏覽器不支援 Service Worker');
+    return;
+  }
+  // file:// 協議下不能註冊 SW，給個友善提示
+  if(location.protocol === 'file:') {
+    console.log('[PWA] 用 file:// 開啟無法啟用離線功能，請部署到 GitHub Pages 或本機伺服器');
+    return;
+  }
+  navigator.serviceWorker.register('sw.js').then(reg => {
+    console.log('[PWA] ✅ 離線管家已啟動', reg.scope);
+    
+    // 偵測新版本（你改了 HTML 並更新版本號時）
+    reg.addEventListener('updatefound', () => {
+      const newWorker = reg.installing;
+      if(!newWorker) return;
+      newWorker.addEventListener('statechange', () => {
+        if(newWorker.state === 'installed' && navigator.serviceWorker.controller){
+          // 有新版了！詢問是否更新
+          showUpdateBanner();
+        }
+      });
+    });
+  }).catch(err => {
+    console.warn('[PWA] 離線管家註冊失敗', err);
+  });
+}
+
+/* 🆕 顯示「有新版本」橫幅 */
+function showUpdateBanner(){
+  if(document.getElementById('pwa-update-banner')) return;
+  const banner = document.createElement('div');
+  banner.id = 'pwa-update-banner';
+  banner.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:10px 18px;border-radius:30px;font-size:13px;font-weight:600;z-index:1100;box-shadow:0 4px 16px rgba(91,141,239,0.4);cursor:pointer;display:flex;align-items:center;gap:8px;';
+  banner.innerHTML = '🆕 有新版本！<span style="background:rgba(255,255,255,0.25);padding:3px 10px;border-radius:20px;font-size:12px">點此更新</span>';
+  banner.onclick = () => {
+    navigator.serviceWorker.controller.postMessage('SKIP_WAITING');
+    location.reload();
+  };
+  document.body.appendChild(banner);
+}
+
+/* 🆕 偵測「裝到主畫面」事件，給使用者按鈕去裝 */
+let deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  showInstallButton();
+});
+
+function showInstallButton(){
+  if(document.getElementById('pwa-install-btn')) return;
+  const btn = document.createElement('button');
+  btn.id = 'pwa-install-btn';
+  btn.style.cssText = 'position:fixed;bottom:20px;right:20px;background:var(--accent);color:#fff;border:none;padding:10px 16px;border-radius:30px;font-size:13px;font-weight:600;font-family:"Noto Sans TC",sans-serif;z-index:1100;box-shadow:0 4px 16px rgba(91,141,239,0.4);cursor:pointer;display:flex;align-items:center;gap:6px;';
+  btn.innerHTML = '📲 裝到主畫面';
+  btn.onclick = async () => {
+    if(!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    const result = await deferredInstallPrompt.userChoice;
+    if(result.outcome === 'accepted'){
+      showToast('🎉 安裝成功！可從主畫面開啟');
+    }
+    deferredInstallPrompt = null;
+    btn.remove();
+  };
+  document.body.appendChild(btn);
+}
+
+/* 🆕 離線/上線狀態提示 */
+function showOnlineStatus(isOnline){
+  const existing = document.getElementById('pwa-status-banner');
+  if(isOnline){
+    if(existing) existing.remove();
+    return;
+  }
+  if(existing) return;
+  const banner = document.createElement('div');
+  banner.id = 'pwa-status-banner';
+  banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#FFE6B0;color:#7A5500;padding:6px 12px;font-size:12px;font-weight:600;text-align:center;z-index:400;border-bottom:1px solid #E0C080;';
+  banner.innerHTML = '📵 目前離線中 · 可繼續看行程，雲端同步暫停';
+  document.body.insertBefore(banner, document.body.firstChild);
+}
+window.addEventListener('online', () => {
+  showOnlineStatus(true);
+  showToast('🌐 已回到線上！');
+});
+window.addEventListener('offline', () => showOnlineStatus(false));
+
+/* ════════════════════════════════════════════════════════════════════
    🚀 初始化
    ════════════════════════════════════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded', ()=>{
@@ -4253,6 +4388,10 @@ window.addEventListener('DOMContentLoaded', ()=>{
   // 每分鐘更新隨手記表單的時間
   setInterval(updateNoteFormTime, 30000);
   if(isApiReady()) loadAllFromCloud();
+  // 🆕 v5 啟動 PWA 離線功能
+  registerPWA();
+  // 開啟時就檢查是否離線
+  if(!navigator.onLine) showOnlineStatus(false);
 });
 </script>
 
