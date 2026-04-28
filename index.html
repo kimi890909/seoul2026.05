@@ -647,6 +647,18 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
 .extra-add-btn{font-size:10px;padding:3px 9px;border-radius:14px;border:1px dashed var(--border);background:transparent;color:var(--text-soft);cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all 0.15s;}
 .extra-add-btn:hover{background:var(--mac-yellow);color:#7A6000;border-style:solid;border-color:#D0C060;}
 
+/* v14：景點/交通筆記區塊 ─ 任何卡片內加入的小筆記區（共用儲存） */
+.note-host{
+  margin-top:10px;padding:8px 10px;background:linear-gradient(135deg,#FFF8E1,#FFFDF5);
+  border:1px dashed #D0C060;border-radius:10px;
+}
+.note-host-title{
+  font-size:11px;color:#7A6000;font-weight:600;margin-bottom:6px;
+  display:flex;align-items:center;gap:4px;
+}
+.note-host .extras{margin-bottom:4px;}
+.note-host .extra-add-row{margin-top:4px;}
+
 /* 🆕 <<NEW_迷你彈窗>> 用來輸入連結網址或圖片網址的小視窗 */
 .mini-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1500;align-items:center;justify-content:center;padding:20px;}
 .mini-modal.show{display:flex;}
@@ -879,6 +891,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
     <button class="tab-btn" onclick="switchTab('day4',this)">5/4 Day 4</button>
     <button class="tab-btn" onclick="switchTab('backup',this)">🎒 備選景點</button>
     <button class="tab-btn" onclick="switchTab('refund',this)">💴 退稅攻略</button>
+    <button class="tab-btn" onclick="switchTab('subway',this)">🚇 交通大補帖</button>
     <button class="tab-btn" onclick="switchTab('kakao',this)">🚕 KAKAO TAXI</button>
     <button class="tab-btn" onclick="switchTab('budget',this)">💴 記帳</button>
     <button class="tab-btn" onclick="switchTab('notes',this)">📝 隨手記</button>
@@ -1526,41 +1539,55 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
         <div class="flow-dot"></div>
         <div class="flow-time">12:30</div>
         <div class="flow-title">🚌 機場 1F 買 6002 票</div>
-        <div class="flow-note">「Bus Ticket Kiosk」自動售票機 → 中文 → 6002 → 梨大入口站 → 刷卡 17,000 KRW</div>
+        <div class="flow-note">「Bus Ticket Kiosk」自動售票機 → 中文 → <span class="line-badge" style="background:#FFB347;color:#fff">6002</span> → 選「<strong>新村五岔路口・現代百貨（신촌오거리.현대백화점）</strong>」→ 刷卡 17,000 KRW</div>
       </div>
       <div class="flow-item">
         <div class="flow-dot"></div>
         <div class="flow-time">12:45</div>
         <div class="flow-title">🚌 5B 月台候車 + 上車</div>
-        <div class="flow-note">看到「6002」上車，行李交給司機放行李艙，拿行李收執條</div>
+        <div class="flow-note">看到 <span class="line-badge" style="background:#FFB347;color:#fff">6002</span> 公車<strong>往首爾市區方向</strong>上車，行李交給司機放行李艙，拿行李收執條</div>
       </div>
       <div class="flow-item">
         <div class="flow-dot"></div>
         <div class="flow-time">13:00–14:20</div>
         <div class="flow-title">🛣 車程約 80 分鐘</div>
-        <div class="flow-note">車上有中文廣播；可休息一下、滑手機、看窗外風景</div>
+        <div class="flow-note">車上有中文廣播；可休息一下、滑手機、看窗外風景；<strong>新村區會經過 3 個站</strong>：① 新村五岔路口・現代百貨 ② 新村五岔路口・新村站 ③ 梨大入口站</div>
       </div>
       <div class="flow-item">
         <div class="flow-dot"></div>
         <div class="flow-time">14:20</div>
-        <div class="flow-title">🚏 在「梨大入口站」下車</div>
-        <div class="flow-note">聽到「Ehwa Womans Univ.」就按鈴下車；拿行李收執條領回行李</div>
+        <div class="flow-title">🚏 在「新村五岔路口・新村站」下車（站牌 14-063）</div>
+        <div class="flow-note">
+          ⭐ 下車站：<strong>14-063 신촌오거리・2호선 신촌역（新村五岔路口・2 號線新村站）</strong><br>
+          ⚠️ 重點！看到前一站「<strong>14-062 신촌오거리・현대백화점</strong>」廣播時就要<strong>馬上按鈴</strong>準備下車<br>
+          📍 司機會聽到「Sin-chon-o-geo-ri Hyun-dae Dept. Store」表示快到 14-062，下一站就是 14-063<br>
+          🛬 拿回行李收執條 → 領回行李 → 下車
+        </div>
       </div>
       <div class="flow-item">
         <div class="flow-dot"></div>
         <div class="flow-time">14:30</div>
-        <div class="flow-title">🚶 步行 5 分鐘到 Ever8</div>
-        <div class="flow-note">梨大站 1 號出口往南下坡 350 公尺</div>
+        <div class="flow-title">🚶 步行 3-4 分鐘到 Ever8</div>
+        <div class="flow-note">下車後<strong>沿延世路（연세로 / Yon-se-ro）往南</strong>走，會看到 2 號線新村站 4 號出口附近 → 走進巷子就是 Ever8</div>
       </div>
       <div class="flow-item">
         <div class="flow-dot"></div>
-        <div class="flow-time">14:40</div>
+        <div class="flow-time">14:35</div>
         <div class="flow-title">🏨 抵達 Ever8 寄行李</div>
         <div class="flow-note">⚠️ Check-in 是 15:00 後，可先寄行李，立刻出門逛廣藏市場</div>
       </div>
     </div>
 
-    <div class="tip mint" style="margin-bottom:14px"><div class="ticon">✅</div><div><div class="tip-title">方案 A 的優點</div><div class="tip-text">直達不用換車、行李司機幫放、有座位可以放鬆休息；<strong>剛抵達韓國最舒服</strong></div></div></div>
+    <div class="tip yellow" style="margin-bottom:14px"><div class="ticon">📍</div><div><div class="tip-title">站牌編號小教學 + NAVER 地圖</div><div class="tip-text">
+      韓國公車站牌每個都有 <strong>5 碼編號（XX-XXX）</strong>，輸入到 NAVER Map 馬上找到位置！<br>
+      <strong>14-062</strong> = 新村五岔路口・現代百貨（往機場方向）→ <span style="color:var(--red)"><strong>聽到這站名要按鈴！</strong></span><br>
+      <strong>14-063</strong> = 新村五岔路口・新村站（往機場方向 → 下一站，這裡下車）<br>
+      💡 從機場過來的方向：14-062 → 然後就是 14-063（離 Ever8 最近）<br><br>
+      <a href="https://naver.me/xtNTJftZ" target="_blank" class="link-btn naver">🟢 NAVER 地圖：14-063 站牌位置</a>
+      <a href="https://www.xinmedia.com/article/302801" target="_blank" class="link-btn">📖 6002 巴士完整教學</a>
+    </div></div></div>
+
+    <div class="tip mint" style="margin-bottom:14px"><div class="ticon">✅</div><div><div class="tip-title">方案 A 的優點</div><div class="tip-text">直達不用換車、行李司機幫放、有座位可以放鬆休息；<strong>下車站離 Ever8 只有 3-4 分鐘</strong>，剛抵達韓國最舒服</div></div></div>
 
     <div class="tip pink"><div class="ticon">⚠️</div><div><div class="tip-title">方案 A 的注意</div><div class="tip-text">遇到塞車可能晚 30-40 分；但 5/1 是平日上班時間後，回程方向不會太塞</div></div></div>
 
@@ -1584,25 +1611,25 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
         <div class="flow-dot"></div>
         <div class="flow-time">12:45</div>
         <div class="flow-title">🚆 搭 AREX 普通車 (All Stop)</div>
-        <div class="flow-note">普通車約 53 分到弘大入口站；票價約 4,750 KRW（比直達車便宜一半）</div>
+        <div class="flow-note">搭 <span class="line-badge" style="background:#73C7E3;color:#fff">A'REX</span> <strong>普通車（往首爾站方向）</strong>，約 53 分鐘到弘大入口站；票價約 4,750 KRW</div>
       </div>
       <div class="flow-item">
         <div class="flow-dot"></div>
         <div class="flow-time">13:40</div>
-        <div class="flow-title">🚆 抵達弘大入口站 → 轉 2 號線</div>
-        <div class="flow-note">跟著「2號線 Line 2」指標走，過個閘門再刷一次卡</div>
+        <div class="flow-title">🚆 在「弘대입구역 (홍대입구) Hongik Univ.」下車 → 轉 2 號線</div>
+        <div class="flow-note">下車後跟著「<strong>2호선 Line 2</strong>」指標走 → 走樓梯/手扶梯 → 過閘門再刷一次卡（出閘 + 入閘）</div>
       </div>
       <div class="flow-item">
         <div class="flow-dot"></div>
         <div class="flow-time">13:50</div>
-        <div class="flow-title">🚇 2 號線 1 站到新村站</div>
-        <div class="flow-note">內線（내선순환）方向，車程約 3 分鐘</div>
+        <div class="flow-title">🚇 月台方向 ─ 搭 <span class="line-badge l2">2號線</span> <strong>內線循環（往乙支路入口方向）</strong></div>
+        <div class="flow-note">⚠️ 注意月台方向！要搭<strong>內線循環（내선순환 / Nae-seon-sun-hwan）</strong>，下一站就是新村站，車程 3 分鐘<br>📍 弘大入口（239）→ <strong>新村（240）</strong></div>
       </div>
       <div class="flow-item">
         <div class="flow-dot"></div>
         <div class="flow-time">14:00</div>
-        <div class="flow-title">🚶 新村站 4 號出口出來</div>
-        <div class="flow-note">出 4 號出口走 1 分鐘到 Ever8</div>
+        <div class="flow-title">🚶 新村站 <span class="exit-badge">4 號出口</span> 出來</div>
+        <div class="flow-note">出 4 號出口走 1 分鐘到 Ever8（<strong>4 號出口往南</strong>，過馬路就到）</div>
       </div>
       <div class="flow-item">
         <div class="flow-dot"></div>
@@ -3551,8 +3578,17 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       <div class="flow-item">
         <div class="flow-dot"></div>
         <div class="flow-time">09:00</div>
-        <div class="flow-title">出發搭 6002 巴士</div>
-        <div class="flow-note">行李拖到新村站附近 6002 站牌，刷 T-money / WOWPASS 上車</div>
+        <div class="flow-title">🚶 行李拖到 13-023 站牌</div>
+        <div class="flow-note">
+          Ever8 出發 → 沿延世路<strong>往北</strong>走 → 走到 2 號線新村站對面 → 找站牌號碼 <strong>13-023</strong>「<strong>신촌오거리・2호선 신촌역（新村五岔路口・2 號線新村站）</strong>」<br>
+          ⚠️ <strong>注意是 13-023 不是 14-063！</strong>13- 開頭是<strong>對向</strong>（往機場方向），14- 開頭才是來程下車站
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-dot"></div>
+        <div class="flow-time">09:05</div>
+        <div class="flow-title">🚌 上 6002 巴士（往機場方向）</div>
+        <div class="flow-note">看到 <span class="line-badge" style="background:#FFB347;color:#fff">6002</span> 標示「<strong>인천공항 (Incheon Airport)</strong>」往機場方向，刷 T-money / WOWPASS 上車（17,000 KRW），行李交司機放行李艙</div>
       </div>
       <div class="flow-item">
         <div class="flow-dot"></div>
@@ -3621,6 +3657,14 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
         <div class="flow-note">回到家！期待下次旅程 ❤</div>
       </div>
     </div>
+
+    <div class="tip yellow" style="margin-top:14px"><div class="ticon">📍</div><div><div class="tip-title">回程站牌 13-023 完整資訊 + NAVER 地圖</div><div class="tip-text">
+      Day 4 從新村回機場時要在 <strong>13-023</strong> 站牌上車（往機場方向）！<br>
+      ⚠️ 韓國公車站牌號碼分兩種：<strong>13- 開頭 = 往機場方向</strong>（出去）、<strong>14- 開頭 = 從機場進來方向</strong>（進市區）<br>
+      📍 13-023 在 2 號線新村站對面（CGV 和 Artreon Gallery 那側）<br><br>
+      <a href="https://naver.me/xtNTJftZ" target="_blank" class="link-btn naver">🟢 NAVER 地圖：13-023 / 14-063 站牌位置</a>
+      <a href="https://www.xinmedia.com/article/302801" target="_blank" class="link-btn">📖 6002 巴士完整教學</a>
+    </div></div></div>
 
     <div class="tip mint" style="margin-top:14px"><div class="ticon">✅</div><div><div class="tip-title">方案 A 的優點</div><div class="tip-text">早餐選新村店步行 6 分鐘最近、6002 巴士不用換車直達機場（17,000 KRW），<strong>行李多懶得拖最適合</strong></div></div></div>
 
@@ -4094,6 +4138,325 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
     📌 起飛前 <strong>30 分鐘</strong>會關閉登機口（Gate Close）<br>
     📌 <strong>建議起飛前 60 分鐘</strong>就到登機口附近坐著休息，避免趕時間錯過
   </div></div></div>
+
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     🚇 <<TAB_SUBWAY>> v13 交通大補帖（地鐵方向 + 出口指南 + 巴士站牌）
+     ════════════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-subway">
+
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🚇 首爾交通大補帖</h2></div>
+
+  <div class="info-card" style="margin-bottom:14px;background:linear-gradient(135deg,#FFF8DC,#FFE4B5);border-color:#D0C060">
+    <div style="font-size:13px;color:#7A6000;line-height:1.7">
+      <strong>💡 為什麼需要這個分頁？</strong><br>
+      ① 韓國地鐵<strong>方向不一定按東南西北</strong>，要看「下一站名」<br>
+      ② 同一站可能有 <strong>4-12 個出口</strong>，走錯就要繞超遠<br>
+      ③ 公車站牌<strong>同一站名可能有 2-3 個編號</strong>，方向不同<br>
+      ④ NAVER Map 用<strong>站牌 5 碼編號</strong>找位置最準
+    </div>
+  </div>
+
+  <!-- ═══ 地鐵 2 號線 ─ 內外線循環 ═══ -->
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🚇 地鐵 2 號線（綠色）內外線循環</h2></div>
+
+  <div class="spot-card">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon" style="background:#52B14F;color:#fff;font-weight:700">2</div>
+        <div>
+          <div class="spot-title">2 號線（首爾市區環狀線）</div>
+          <div class="spot-en">Line 2 · Loop Line</div>
+        </div>
+      </div>
+      <div class="spot-desc">2 號線是首爾的<strong>環狀線</strong>，繞首爾市區一圈。要看「<strong>內線</strong>」還是「<strong>外線</strong>」決定方向。</div>
+
+      <div class="info-card" style="margin-top:8px">
+        <div class="kv">
+          <span class="kk" style="background:var(--mac-mint);color:var(--green)">內線</span>
+          <div class="kv_">
+            <strong>내선순환 (Nae-seon-sun-hwan)</strong> ─ 順時針<br>
+            👉 從<strong>新村</strong>往：弘大入口 → 合井 → 永登浦區廳 → 江南<br>
+            🚇 適合：去合井 Homeplus、去江南
+          </div>
+        </div>
+        <div class="kv">
+          <span class="kk" style="background:var(--mac-pink);color:var(--red)">外線</span>
+          <div class="kv_">
+            <strong>외선순환 (Oe-seon-sun-hwan)</strong> ─ 逆時針<br>
+            👉 從<strong>新村</strong>往：梨大 → 阿峴 → 忠正路 → 市廳 → 乙支路入口 → 東大門 → 蠶室<br>
+            🚇 適合：去明洞、東大門 DDP、廣藏市場
+          </div>
+        </div>
+      </div>
+
+      <div class="tip mint" style="margin-top:10px"><div class="ticon">💡</div><div><div class="tip-title">怎麼分辨？</div><div class="tip-text">
+        ① 在月台看「<strong>下一站名</strong>」對應到 NAVER Map<br>
+        ② 月台方向標示<strong>顏色：綠色 = 2 號線</strong><br>
+        ③ 看不懂韓文沒關係，月台會有<strong>紅色「外線」/ 藍色「內線」</strong>標示
+      </div></div></div>
+    </div>
+  </div>
+
+  <!-- ═══ 新村站 ─ 出口完整指南 ═══ -->
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🚪 新村站 4 個出口怎麼走</h2></div>
+
+  <div class="spot-card">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-mint">🚇</div>
+        <div>
+          <div class="spot-title"><span class="station-badge">신촌역 240</span> 新村站（2 號線）</div>
+          <div class="spot-en">Sinchon Station · Line 2</div>
+        </div>
+      </div>
+
+      <div class="info-card" style="margin-top:8px">
+        <div class="kv">
+          <span class="kk" style="background:#E8DAEF;color:#5B3D8A">1 號出口</span>
+          <div class="kv_"><strong>往現代百貨、CGV、新村五岔路口</strong><br>👉 6002 巴士 14-063 站牌也在這附近</div>
+        </div>
+        <div class="kv">
+          <span class="kk" style="background:#E8DAEF;color:#5B3D8A">2 號出口</span>
+          <div class="kv_"><strong>往新村美食街、好吃的豆腐鍋</strong><br>👉 24h 豆腐鍋（Day 4 方案 A 早餐）</div>
+        </div>
+        <div class="kv">
+          <span class="kk" style="background:#E8DAEF;color:#5B3D8A">3 號出口</span>
+          <div class="kv_"><strong>往延世大學、孔陵一隻雞</strong></div>
+        </div>
+        <div class="kv">
+          <span class="kk" style="background:var(--mac-pink);color:var(--red)">4 號出口</span>
+          <div class="kv_">⭐ <strong>往 Ever8 飯店</strong>！步行 1 分鐘<br>👉 出來右轉直走</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 弘大入口站 ─ 出口完整指南 ═══ -->
+  <div class="spot-card">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-mint">🚇</div>
+        <div>
+          <div class="spot-title"><span class="station-badge">홍대입구역 239</span> 弘大入口站（2 號線 + AREX + 京義中央線）</div>
+          <div class="spot-en">Hongik University Station · Line 2 + AREX + Gyeongui-Jungang</div>
+        </div>
+      </div>
+      <div class="spot-desc">弘大入口站<strong>有 9 個出口</strong>，是大站要看清楚！</div>
+
+      <div class="info-card" style="margin-top:8px">
+        <div class="kv">
+          <span class="kk" style="background:#E8DAEF;color:#5B3D8A">1 號出口</span>
+          <div class="kv_">經義中央線、京義線林蔭道</div>
+        </div>
+        <div class="kv">
+          <span class="kk" style="background:var(--mac-pink);color:var(--red)">9 號出口</span>
+          <div class="kv_">⭐ <strong>弘大商圈、弘大正門、弘大街頭</strong></div>
+        </div>
+        <div class="kv">
+          <span class="kk" style="background:#E8DAEF;color:#5B3D8A">3 號出口</span>
+          <div class="kv_">京義線林蔭道（散步好地方）</div>
+        </div>
+        <div class="kv">
+          <span class="kk" style="background:#E8DAEF;color:#5B3D8A">4 號出口</span>
+          <div class="kv_">機場巴士 6002 站</div>
+        </div>
+        <div class="kv">
+          <span class="kk" style="background:var(--mac-yellow);color:#7A6000">B1-B5</span>
+          <div class="kv_">⭐ <strong>AREX 機場快線月台</strong>（地下層）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 景福宮站 ─ 出口完整指南 ═══ -->
+  <div class="spot-card">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-mint">🚇</div>
+        <div>
+          <div class="spot-title"><span class="station-badge">경복궁역 327</span> 景福宮站（3 號線）</div>
+          <div class="spot-en">Gyeongbokgung Station · Line 3</div>
+        </div>
+      </div>
+
+      <div class="info-card" style="margin-top:8px">
+        <div class="kv">
+          <span class="kk" style="background:#E8DAEF;color:#5B3D8A">1 號出口</span>
+          <div class="kv_">青瓦台、清溪川北段</div>
+        </div>
+        <div class="kv">
+          <span class="kk" style="background:#E8DAEF;color:#5B3D8A">2 號出口</span>
+          <div class="kv_">通仁市場（西村美食街）</div>
+        </div>
+        <div class="kv">
+          <span class="kk" style="background:var(--mac-pink);color:var(--red)">3 號出口</span>
+          <div class="kv_">⭐ <strong>韓服店 + 景福宮西門</strong>！<br>👉 OneDay 韓服、漢陽女子韓服都在這</div>
+        </div>
+        <div class="kv">
+          <span class="kk" style="background:#E8DAEF;color:#5B3D8A">4 號出口</span>
+          <div class="kv_">國立古宮博物館、地下美食</div>
+        </div>
+        <div class="kv">
+          <span class="kk" style="background:var(--mac-yellow);color:#7A6000">5 號出口</span>
+          <div class="kv_">⭐ <strong>景福宮正門（光化門）</strong>！</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 明洞站 ─ 出口完整指南 ═══ -->
+  <div class="spot-card">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-mint">🚇</div>
+        <div>
+          <div class="spot-title"><span class="station-badge">명동역 424</span> 明洞站（4 號線）</div>
+          <div class="spot-en">Myeong-dong Station · Line 4</div>
+        </div>
+      </div>
+
+      <div class="info-card" style="margin-top:8px">
+        <div class="kv">
+          <span class="kk" style="background:var(--mac-pink);color:var(--red)">5 號出口</span>
+          <div class="kv_">⭐ <strong>明洞街頭、Olive Young 旗艦店</strong>！</div>
+        </div>
+        <div class="kv">
+          <span class="kk" style="background:var(--mac-pink);color:var(--red)">6 號出口</span>
+          <div class="kv_">⭐ <strong>明洞主商店街、明洞雪冰</strong></div>
+        </div>
+        <div class="kv">
+          <span class="kk" style="background:var(--mac-yellow);color:#7A6000">7 號出口</span>
+          <div class="kv_">明洞炸雞一條街、PURADAK 明洞店、Myth Jokbal 豬腳</div>
+        </div>
+        <div class="kv">
+          <span class="kk" style="background:#E8DAEF;color:#5B3D8A">8 號出口</span>
+          <div class="kv_">明洞聖堂、書店</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 6002 機場巴士 站牌完整對照 ═══ -->
+  <div class="sec-hd"><div class="sec-dot"></div><h2>🚌 6002 機場巴士 ─ 新村區站牌對照</h2></div>
+
+  <div class="info-card" style="margin-bottom:12px;background:#FFF4E0;border-color:#FFB347">
+    <div style="font-size:13px;color:#7A4A00;line-height:1.7">
+      <strong>📍 新村區 6002 巴士會經過 3-4 個站</strong>，<strong>下車站要看自己離 Ever8 哪個近</strong>！下面照<strong>從機場過來的順序</strong>列出：
+    </div>
+  </div>
+
+  <div class="refund-table">
+    <div class="refund-row head">
+      <div>站牌號碼</div>
+      <div>站名</div>
+      <div>方向 + 用途</div>
+    </div>
+    <div class="refund-row">
+      <div><strong>14-062</strong></div>
+      <div>新村五岔路口・現代百貨<br><span class="romaji">신촌오거리.현대백화점</span></div>
+      <div>機場 → 市區<br>⚠️ <strong>聽到這站要按鈴！</strong></div>
+    </div>
+    <div class="refund-row alt">
+      <div><strong>14-063</strong></div>
+      <div>新村五岔路口・新村站<br><span class="romaji">신촌오거리.2호선 신촌역</span></div>
+      <div>機場 → 市區<br>⭐ <strong>Day 1 在這下車</strong>（離 Ever8 走 3-4 分）</div>
+    </div>
+    <div class="refund-row">
+      <div><strong>13-023</strong></div>
+      <div>新村五岔路口・新村站（對向）<br><span class="romaji">신촌오거리.2호선 신촌역</span></div>
+      <div>市區 → 機場<br>⭐ <strong>Day 4 在這上車</strong></div>
+    </div>
+  </div>
+
+  <div class="tip yellow" style="margin-bottom:14px"><div class="ticon">💡</div><div><div class="tip-title">站牌號碼小撇步 + NAVER 地圖</div><div class="tip-text">
+    韓國公車站牌號碼<strong>第一個數字代表方向</strong>：<br>
+    <strong>14- 開頭</strong> = 從機場方向進來（市區東向）<br>
+    <strong>13- 開頭</strong> = 往機場方向出去（市區西向）<br>
+    🚌 NAVER Map 輸入站牌號碼（如 <strong>14-063</strong>）就能直接找到位置<br><br>
+    <a href="https://naver.me/xtNTJftZ" target="_blank" class="link-btn naver">🟢 NAVER 地圖：新村五岔路口・新村站</a>
+    <a href="https://www.xinmedia.com/article/302801" target="_blank" class="link-btn">📖 6002 巴士完整教學</a>
+  </div></div></div>
+
+  <!-- ═══ 通用 ─ 韓國地鐵 / 巴士小撇步 ═══ -->
+  <div class="sec-hd"><div class="sec-dot"></div><h2>💡 韓國交通通用小撇步</h2></div>
+
+  <div class="spot-card">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-yellow">📱</div>
+        <div>
+          <div class="spot-title">NAVER Map 找路最強！</div>
+          <div class="spot-en">Naver Map · 내이버 지도</div>
+        </div>
+      </div>
+      <div class="spot-desc">在韓國，<strong>NAVER Map 比 Google Maps 準很多</strong>！會顯示：</div>
+      <ul style="font-size:13px;line-height:1.85;color:var(--text-sub);padding-left:18px">
+        <li><strong>地鐵電梯位置</strong>（拖行李超有用！）</li>
+        <li><strong>地鐵車廂號碼</strong>（哪節車廂離出口最近）</li>
+        <li><strong>巴士到站時間</strong>（精確到分鐘）</li>
+        <li><strong>步行最短路線</strong>（含上下坡提示）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="spot-card">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-mint">🎫</div>
+        <div>
+          <div class="spot-title">交通卡 ─ 用 WOWPASS 一卡通</div>
+          <div class="spot-en">WOWPASS = T-money + 信用卡</div>
+        </div>
+      </div>
+      <div class="spot-desc">WOWPASS 同時是 T-money 交通卡 + 預付信用卡，<strong>地鐵、公車、計程車、便利商店都能刷</strong></div>
+      <div class="info-card" style="margin-top:8px">
+        <div class="kv"><span class="kk">基本費</span><div class="kv_">地鐵 1,500 KRW、公車 1,500 KRW</div></div>
+        <div class="kv"><span class="kk">轉乘優惠</span><div class="kv_">30 分內地鐵 → 公車或公車 → 公車免費（用同一張卡）</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spot-card">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-pink">🚇</div>
+        <div>
+          <div class="spot-title">地鐵下車後三步驟</div>
+          <div class="spot-en">Metro Exit Strategy</div>
+        </div>
+      </div>
+      <div class="route-detail" style="margin-top:8px">
+        <div class="rd-step"><div class="rd-num">1</div><span><strong>下車後不要急著出站！</strong>先看月台上的「<strong>出口指示牌</strong>」</span></div>
+        <div class="rd-step"><div class="rd-num">2</div><span>每個出口都會寫附近<strong>主要地標</strong>（如「Hyundai Dept. Store / 현대백화점」）</span></div>
+        <div class="rd-step"><div class="rd-num">3</div><span>確認你要去的目的地對應的<strong>出口號碼</strong>，再走</span></div>
+      </div>
+      <div class="tip mint" style="margin-top:10px"><div class="ticon">💡</div><div><div class="tip-title">為什麼這樣做？</div><div class="tip-text">韓國地鐵站<strong>跨度很大</strong>，弘大入口站從 1 號到 9 號出口距離超過 500 公尺！走錯就要繞遠路 + 上下樓梯 + 再過馬路</div></div></div>
+    </div>
+  </div>
+
+  <div class="spot-card">
+    <div class="spot-body">
+      <div class="spot-top">
+        <div class="spot-icon si-yellow">🚌</div>
+        <div>
+          <div class="spot-title">公車怎麼搭？</div>
+          <div class="spot-en">Bus Rules</div>
+        </div>
+      </div>
+      <div class="route-detail" style="margin-top:8px">
+        <div class="rd-step"><div class="rd-num">1</div><span><strong>看路線編號</strong>，確認是要的車（公車正面有大數字）</span></div>
+        <div class="rd-step"><div class="rd-num">2</div><span><strong>從前門上車</strong>，刷 T-money / WOWPASS</span></div>
+        <div class="rd-step"><div class="rd-num">3</div><span><strong>到站前先按鈴</strong>（韓國公車不按鈴不停！）</span></div>
+        <div class="rd-step"><div class="rd-num">4</div><span><strong>從後門下車</strong>，再刷一次卡（換乘優惠用）</span></div>
+      </div>
+      <div class="info-card" style="margin-top:10px">
+        <div class="kv"><span class="kk">公車顏色</span><div class="kv_">🔵 <strong>藍色公車</strong>：跨區幹線（如 472、721）<br>🟢 <strong>綠色公車</strong>：地區支線<br>🔴 <strong>紅色公車</strong>：往郊區幹線（如 6002 機場巴士）<br>🟡 <strong>黃色公車</strong>：市中心循環</div></div>
+      </div>
+    </div>
+  </div>
 
 </div>
 
@@ -4822,6 +5185,8 @@ async function loadAllFromCloud(){
     }
     // 共用的 extras（連結 + 圖片）
     if(d.prep_extras) applyExtras(d.prep_extras);
+    // v14：景點筆記
+    if(d.spot_notes) applySpotNotes(d.spot_notes);
     // 🔄 向下相容：若雲端有舊版的 prep 資料（v4-v5），先當「信宏的個人資料」載入一次
     //    這樣升級到 v6 不會丟失之前的勾選紀錄
     if(d.prep && currentUser === 'xinhong' && !d.prep_xinhong){
@@ -5185,6 +5550,65 @@ function applyExtras(data){
 document.addEventListener('input', e=>{
   if(e.target.matches('#panel-prep .chk-note, #panel-prep .chk-val, #panel-prep .chk-name')) savePrep();
 });
+
+
+/* ════════════════════════════════════════════════════════════════════
+   📌 v14 景點/交通筆記同步（用 spotId 當 key，存 spot_notes 雲端）
+   ──────────────────────────────────────────────────────────────────
+   ▶ 每個 .note-host 必須有 data-spot-id 屬性（識別該筆記）
+   ▶ 兩個人共用（旅伴一起記筆記、貼連結、貼照片）
+   ════════════════════════════════════════════════════════════════════ */
+function saveSpotNotes(){
+  const data = {};
+  document.querySelectorAll('.note-host[data-spot-id]').forEach(host=>{
+    const id = host.dataset.spotId;
+    const extras = {links:[], images:[]};
+    const box = host.querySelector('[data-extras]');
+    if(box){
+      box.querySelectorAll('a.extra-link').forEach(a=>{
+        const txt = a.childNodes[0] ? a.childNodes[0].textContent.trim() : a.textContent.replace('×','').trim();
+        extras.links.push({text: txt, href: a.getAttribute('href')||''});
+      });
+      box.querySelectorAll('img').forEach(img=>{
+        extras.images.push(img.getAttribute('src')||'');
+      });
+    }
+    if(extras.links.length || extras.images.length){
+      data[id] = extras;
+    }
+  });
+  debouncedSync('spot_notes', data, 1200);
+}
+
+function applySpotNotes(data){
+  if(!data || typeof data !== 'object') return;
+  document.querySelectorAll('.note-host[data-spot-id]').forEach(host=>{
+    const id = host.dataset.spotId;
+    const it = data[id];
+    if(!it) return;
+    let extrasBox = host.querySelector('[data-extras]');
+    if(!extrasBox){
+      extrasBox = document.createElement('div');
+      extrasBox.className = 'extras';
+      extrasBox.dataset.extras = '';
+      const addRow = host.querySelector('.extra-add-row');
+      if(addRow) addRow.before(extrasBox);
+      else host.appendChild(extrasBox);
+    }
+    const existingHrefs = Array.from(extrasBox.querySelectorAll('a.extra-link')).map(a=>a.getAttribute('href'));
+    const existingSrcs = Array.from(extrasBox.querySelectorAll('img')).map(img=>img.getAttribute('src'));
+    (it.links||[]).forEach(lk=>{
+      if(!lk||!lk.href) return;
+      if(existingHrefs.indexOf(lk.href) >= 0) return;
+      addExtraLinkToBox(extrasBox, lk.text||'連結', lk.href);
+    });
+    (it.images||[]).forEach(src=>{
+      if(!src) return;
+      if(existingSrcs.indexOf(src) >= 0) return;
+      addExtraImageToBox(extrasBox, src);
+    });
+  });
+}
 
 /* ════════════════════════════════════════════════════════════════════
    💴 記帳功能
@@ -5696,8 +6120,9 @@ function copyTicket(btn, code){
 let pendingExtras = null;   // {chkBody:HTMLElement, type:'link'|'image'}
 
 function openAddLink(btn){
-  const chkBody = btn.closest('.chk-body');
-  pendingExtras = {chkBody: chkBody, type:'link'};
+  // v14：支援多種容器：行前清單(.chk-body) / 景點交通卡(.note-host)
+  const host = btn.closest('.chk-body') || btn.closest('.note-host');
+  pendingExtras = {chkBody: host, type:'link'};
   document.getElementById('mm-title').textContent = '🔗 新增連結';
   document.getElementById('mm-hint').innerHTML = '貼上網址（例：APP 下載連結、官網），按確定就會出現一顆小按鈕。<br>也可以同時設定按鈕上要顯示的文字。';
   document.getElementById('mm-input1').placeholder = '按鈕顯示文字（例：iOS 下載）';
@@ -5710,8 +6135,9 @@ function openAddLink(btn){
 }
 
 function openAddImage(btn){
-  const chkBody = btn.closest('.chk-body');
-  pendingExtras = {chkBody: chkBody, type:'image'};
+  // v14：支援多種容器
+  const host = btn.closest('.chk-body') || btn.closest('.note-host');
+  pendingExtras = {chkBody: host, type:'image'};
   document.getElementById('mm-title').textContent = '🖼 新增圖片';
   document.getElementById('mm-hint').innerHTML = '貼上雲端圖片的「直接連結」（例：Google Drive、Dropbox、IMGUR）。<br>Google Drive 直連格式：<code style="background:var(--mac-yellow);padding:1px 4px;border-radius:4px">https://drive.google.com/uc?export=view&amp;id=檔案ID</code>';
   document.getElementById('mm-input2').placeholder = '圖片網址（https://...）';
@@ -5737,11 +6163,12 @@ function confirmMiniModal(){
   }
   let extrasBox = pendingExtras.chkBody.querySelector('[data-extras]');
   if(!extrasBox){
-    // 若沒有 extras 容器（理論上不會，但保險處理），自動補一個
     extrasBox = document.createElement('div');
     extrasBox.className = 'extras';
     extrasBox.dataset.extras = '';
-    pendingExtras.chkBody.querySelector('.extra-add-row').before(extrasBox);
+    const addRow = pendingExtras.chkBody.querySelector('.extra-add-row');
+    if(addRow) addRow.before(extrasBox);
+    else pendingExtras.chkBody.appendChild(extrasBox);
   }
   if(pendingExtras.type === 'link'){
     const txt = document.getElementById('mm-input1').value.trim() || '🔗 連結';
@@ -5752,7 +6179,12 @@ function confirmMiniModal(){
     showToast('✅ 圖片已加入');
   }
   closeMiniModal();
-  savePrep();   // 🆕 同步到雲端
+  // v14：景點筆記另存 spot_notes，行前清單存 prep
+  if(pendingExtras.chkBody.classList.contains('note-host')){
+    saveSpotNotes();
+  } else {
+    savePrep();
+  }
 }
 
 /* 🆕 <<JS_加連結>> 在 extras 容器裡塞一顆連結按鈕 */
@@ -5792,9 +6224,10 @@ function delExtraLink(spanX){
   const a = spanX.closest('a.extra-link');
   if(!a) return;
   const row = a.parentElement;
+  const isSpot = !!a.closest('.note-host');  // v14
   a.remove();
   if(row && !row.querySelector('a.extra-link')) row.remove();
-  savePrep();
+  if(isSpot) saveSpotNotes(); else savePrep();
 }
 
 /* 🆕 <<JS_刪圖片>> 刪除單張圖片 */
@@ -5802,9 +6235,10 @@ function delExtraImage(btn){
   const wrap = btn.closest('.extra-img-wrap');
   if(!wrap) return;
   const row = wrap.parentElement;
+  const isSpot = !!wrap.closest('.note-host');  // v14
   wrap.remove();
   if(row && !row.querySelector('.extra-img-wrap')) row.remove();
-  savePrep();
+  if(isSpot) saveSpotNotes(); else savePrep();
 }
 
 /* 🆕 <<JS_點圖看大圖>> 用既有的 lightbox 顯示 */
@@ -5939,6 +6373,7 @@ window.addEventListener('DOMContentLoaded', ()=>{
   initUser();              // 🆕 v6 第一次跳出選人，或讀本機記住的人
   initD4Plan();            // 🆕 v9 載入 Day 4 方案選擇
   initD1Plan();            // 🆕 v10 載入 Day 1 方案選擇
+  injectSpotNoteHosts();   // 🆕 v14 為所有景點卡注入筆記區塊
   updateProgress();
   updateTotals();
   ['d1','d2','d3','d4'].forEach(d=>renderGrid(d));
@@ -5953,6 +6388,37 @@ window.addEventListener('DOMContentLoaded', ()=>{
   // 開啟時就檢查是否離線
   if(!navigator.onLine) showOnlineStatus(false);
 });
+
+/* ════════════════════════════════════════════════════════════════════
+   📌 v14 自動為所有景點/交通卡注入「+ 連結 / + 圖片」筆記區
+   ──────────────────────────────────────────────────────────────────
+   ▶ 為什麼用 JS 注入而不是手寫？因為景點超過 30 個，手寫太累
+   ▶ 規則：所有 .spot-card .spot-body 都會自動加上一個 .note-host
+   ▶ 用 spot-title 自動產生 spotId（去除特殊字元變成穩定識別碼）
+   ════════════════════════════════════════════════════════════════════ */
+function injectSpotNoteHosts(){
+  let counter = 0;
+  document.querySelectorAll('.spot-card .spot-body').forEach(body=>{
+    // 已經有 note-host 的就跳過
+    if(body.querySelector('.note-host')) return;
+    // 用 spot-title + 序號當 spotId
+    const titleEl = body.querySelector('.spot-title');
+    const titleText = titleEl ? titleEl.textContent.trim() : 'spot';
+    const spotId = 'spot_' + (++counter) + '_' + titleText.replace(/[^\w\u4e00-\u9fa5]/g,'').slice(0,20);
+    // 建立 note-host
+    const host = document.createElement('div');
+    host.className = 'note-host';
+    host.dataset.spotId = spotId;
+    host.innerHTML = `
+      <div class="note-host-title">📝 我的筆記（兩人共用）</div>
+      <div class="extras" data-extras></div>
+      <div class="extra-add-row">
+        <button class="extra-add-btn" onclick="event.stopPropagation();openAddLink(this)">+ 連結</button>
+        <button class="extra-add-btn" onclick="event.stopPropagation();openAddImage(this)">+ 圖片</button>
+      </div>`;
+    body.appendChild(host);
+  });
+}
 </script>
 
 </body>
