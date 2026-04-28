@@ -940,6 +940,7 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       <button class="user-btn" id="user-btn-xinhong" onclick="switchUser('xinhong')">👨 信宏</button>
       <button class="user-btn" id="user-btn-xiaoxian" onclick="switchUser('xiaoxian')">🧑 小賢</button>
     </div>
+    <button class="user-btn" id="cloud-sync-btn" onclick="manualSync()" title="撈取對方最新筆記/連結/圖片" style="background:var(--mac-mint);color:var(--green);border-color:#A8D9C0;flex-shrink:0">🔄 同步</button>
   </div>
 
   <!-- 進度條（自動計算，不用手改）-->
@@ -1142,36 +1143,16 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
         </div>
         <div class="rd-step"><div class="rd-num">1</div><span>出關後跟著「機場巴士 Airport Bus」指示牌走，搭手扶梯下到 <strong>1F</strong></span></div>
         <div class="rd-step"><div class="rd-num">2</div><span>找到「Bus Ticket Kiosk 自動售票機」→ 切換<strong>中文</strong> → 選「購買當天車票」</span></div>
-        <div class="rd-step"><div class="rd-num">3</div><span>路線編號輸入「<strong>6002</strong>」→ 選站「<strong>梨大入口站（이대입구역）</strong>」→ 刷信用卡</span></div>
+        <div class="rd-step"><div class="rd-num">3</div><span>路線編號輸入「<strong>6002</strong>」→ 選站「<strong>新村五岔路口・現代百貨（신촌오거리.현대백화점）</strong>」→ 刷信用卡</span></div>
         <div class="rd-step"><div class="rd-num">4</div><span>走到 <strong>5B 月台</strong>（從 5 號出口出去）候車，看到「6002」上車，司機幫放行李給<strong>行李收執條</strong></span></div>
-        <div class="rd-step"><div class="rd-num">5</div><span>車上有<strong>中文廣播</strong>報站，到「梨大站（Ehwa Womans Univ.）」下車按鈴</span></div>
-        <div class="rd-step"><div class="rd-num">6</div><span>下車後往 <strong>梨大站 1 號出口方向往南下坡</strong>步行約 350 公尺，5 分鐘到 Ever8</span></div>
+        <div class="rd-step"><div class="rd-num">5</div><span>車上有<strong>中文廣播</strong>報站，⚠️ 聽到「<strong>14-062 신촌오거리・현대백화점</strong>」（新村五岔路口・現代百貨）就要<strong>馬上按鈴</strong>！下一站「<strong>14-063 신촌오거리・신촌역</strong>」（新村站）才下車</span></div>
+        <div class="rd-step"><div class="rd-num">6</div><span>下車後往 <strong>2 號線新村站 4 號出口方向</strong>沿延世路往南走，步行 3-4 分鐘到 Ever8（CGV 電影院旁）</span></div>
       </div>
 
       <div class="link-row">
         <a href="https://airportlimousine.co.kr/cn/sub/sub01.php" target="_blank" class="link-btn">🚌 機場巴士官網時刻表</a>
-        <!-- ════════════════════════════════════════════════
-        🟢 <<NAVER_梨大下車處>>  梨大下車處 NAVER Map 連結
-        ────────────────────────────────────────────────
-        ▶ 怎麼取得 NAVER 連結？
-          1. 用手機 NAVER Map App 找到目的地
-          2. 點「分享」→「複製連結」
-          3. 連結會像：https://naver.me/xxxxxxx
-        ▶ 改的方式：
-          把下面整個 #TODO_NAVER_梨大下車處 換成複製到的網址
-          例：href="https://naver.me/abc123"
-        ════════════════════════════════════════════════ -->
-        <a href="https://map.naver.com/p/directions/3yVxIz,2AH8aW,%EC%9D%B8%EC%B2%9C%EA%B5%AD%EC%A0%9C%EA%B3%B5%ED%95%AD%20%EC%A0%9C1%EC%97%AC%EA%B0%9D%ED%84%B0%EB%AF%B8%EB%84%90,11577227,PLACE_POI/3zgaQB,2ALF4q,%EC%97%90%EB%B2%84%EC%97%90%EC%9E%87%20%EB%A0%88%EC%A7%80%EB%8D%98%EC%8A%A4,34300204,PLACE_POI/-/transit/0?c=9.00,0,0,0,dh" target="_blank" class="link-btn naver">🟢 NAVER（梨大下車處）</a>
-        <!-- ════════════════════════════════════════════════
-        🗺 <<HANCHAO_梨大下車處>>  梨大下車處 韓巢地圖連結
-        ────────────────────────────────────────────────
-        ▶ 韓巢是中文版的韓國地圖（給台港澳人用的）
-        ▶ 怎麼取得連結？
-          1. 上 https://map.hanchao.com/ 搜尋目的地
-          2. 複製網址（會像 dforum/762 這種編號）
-        ▶ 想換？把下面 href="..." 引號裡的網址換掉
-        ════════════════════════════════════════════════ -->
-        <a href="https://map.hanchao.com/dstop/2582" target="_blank" class="link-btn hanchao">🗺️ 韓巢（梨大下車處）</a>
+        <a href="https://naver.me/xtNTJftZ" target="_blank" class="link-btn naver">🟢 NAVER（14-063 下車處）</a>
+        <a href="https://www.xinmedia.com/article/302801" target="_blank" class="link-btn">📖 6002 教學文章</a>
         <!-- ════════════════════════════════════════════════
         🟢 <<NAVER_EVER8>>  EVER8 NAVER Map 連結
         ────────────────────────────────────────────────
@@ -1583,7 +1564,8 @@ body.editing [contenteditable="true"]:focus{background:rgba(91,141,239,0.15);out
       <strong>14-062</strong> = 新村五岔路口・現代百貨（往機場方向）→ <span style="color:var(--red)"><strong>聽到這站名要按鈴！</strong></span><br>
       <strong>14-063</strong> = 新村五岔路口・新村站（往機場方向 → 下一站，這裡下車）<br>
       💡 從機場過來的方向：14-062 → 然後就是 14-063（離 Ever8 最近）<br><br>
-      <a href="https://naver.me/xtNTJftZ" target="_blank" class="link-btn naver">🟢 NAVER 地圖：14-063 站牌位置</a>
+      <a href="https://naver.me/xtNTJftZ" target="_blank" class="link-btn naver">🟢 NAVER：14-063 站牌</a>
+      <a href="https://map.hanchao.com/dstop/2582" target="_blank" class="link-btn hanchao">🗺️ 韓巢地圖</a>
       <a href="https://www.xinmedia.com/article/302801" target="_blank" class="link-btn">📖 6002 巴士完整教學</a>
     </div></div></div>
 
@@ -5201,6 +5183,30 @@ async function loadAllFromCloud(){
   }catch(err){console.warn('載入失敗',err);}
 }
 
+/* v15：手動同步按鈕 ─ 給對方手動撈取最新雲端資料 */
+async function manualSync(){
+  if(!isApiReady()){
+    showToast('⚠️ 雲端 API 未設定');
+    return;
+  }
+  const btn = document.getElementById('cloud-sync-btn');
+  if(btn){
+    btn.disabled = true;
+    btn.textContent = '⏳ 同步中...';
+  }
+  try{
+    await loadAllFromCloud();
+    showToast('✅ 已撈取對方最新資料');
+  }catch(err){
+    showToast('⚠️ 同步失敗，請檢查網路');
+  }finally{
+    if(btn){
+      btn.disabled = false;
+      btn.textContent = '🔄 同步';
+    }
+  }
+}
+
 function showToast(msg){
   const t = document.getElementById('toast');
   if(!t) return;
@@ -6135,16 +6141,83 @@ function openAddLink(btn){
 }
 
 function openAddImage(btn){
-  // v14：支援多種容器
+  // v15：改用「選檔案」(input file) 直接讓使用者選照片，自動壓縮上傳
   const host = btn.closest('.chk-body') || btn.closest('.note-host');
-  pendingExtras = {chkBody: host, type:'image'};
-  document.getElementById('mm-title').textContent = '🖼 新增圖片';
-  document.getElementById('mm-hint').innerHTML = '貼上雲端圖片的「直接連結」（例：Google Drive、Dropbox、IMGUR）。<br>Google Drive 直連格式：<code style="background:var(--mac-yellow);padding:1px 4px;border-radius:4px">https://drive.google.com/uc?export=view&amp;id=檔案ID</code>';
-  document.getElementById('mm-input2').placeholder = '圖片網址（https://...）';
-  document.getElementById('mm-input1').style.display = 'none';
-  document.getElementById('mm-input2').value = '';
-  document.getElementById('mini-modal').classList.add('show');
-  setTimeout(()=>document.getElementById('mm-input2').focus(), 80);
+  // 動態建一個隱藏的 file input
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = 'image/*';
+  fileInput.multiple = true;  // 一次可選多張
+  fileInput.style.display = 'none';
+  fileInput.onchange = e => handleImagePick(e, host);
+  document.body.appendChild(fileInput);
+  fileInput.click();
+  // 用完移除避免汙染
+  setTimeout(()=>fileInput.remove(), 60000);
+}
+
+/* v15：處理選好的圖片檔案 → 壓縮 → 加到 host */
+async function handleImagePick(event, host){
+  const files = Array.from(event.target.files || []);
+  if(!files.length) return;
+  showToast('🔄 處理圖片中...');
+
+  // 找或建 extras 容器
+  let extrasBox = host.querySelector('[data-extras]');
+  if(!extrasBox){
+    extrasBox = document.createElement('div');
+    extrasBox.className = 'extras';
+    extrasBox.dataset.extras = '';
+    const addRow = host.querySelector('.extra-add-row');
+    if(addRow) addRow.before(extrasBox);
+    else host.appendChild(extrasBox);
+  }
+
+  let okCount = 0;
+  for(const file of files){
+    try{
+      const dataUrl = await compressImage(file, 800, 0.7);
+      addExtraImageToBox(extrasBox, dataUrl);
+      okCount++;
+    }catch(err){
+      console.warn('壓縮失敗', err);
+      showToast('⚠️ 部分圖片處理失敗');
+    }
+  }
+  if(okCount){
+    showToast('✅ 已加入 ' + okCount + ' 張圖片');
+    // 區分儲存
+    if(host.classList.contains('note-host')) saveSpotNotes();
+    else savePrep();
+  }
+}
+
+/* v15：圖片壓縮（縮到指定寬度，輸出 jpeg base64） */
+function compressImage(file, maxWidth, quality){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onerror = ()=>reject(new Error('讀取失敗'));
+    reader.onload = e=>{
+      const img = new Image();
+      img.onerror = ()=>reject(new Error('圖片無效'));
+      img.onload = ()=>{
+        try{
+          let w = img.width, h = img.height;
+          if(w > maxWidth){
+            h = h * (maxWidth / w);
+            w = maxWidth;
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        }catch(err){ reject(err); }
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
 function closeMiniModal(){
@@ -6170,16 +6243,12 @@ function confirmMiniModal(){
     if(addRow) addRow.before(extrasBox);
     else pendingExtras.chkBody.appendChild(extrasBox);
   }
-  if(pendingExtras.type === 'link'){
-    const txt = document.getElementById('mm-input1').value.trim() || '🔗 連結';
-    addExtraLinkToBox(extrasBox, txt, url);
-    showToast('✅ 連結已加入');
-  } else {
-    addExtraImageToBox(extrasBox, url);
-    showToast('✅ 圖片已加入');
-  }
+  // v15：modal 只處理連結了（圖片已改用 file input）
+  const txt = document.getElementById('mm-input1').value.trim() || '🔗 連結';
+  addExtraLinkToBox(extrasBox, txt, url);
+  showToast('✅ 連結已加入');
   closeMiniModal();
-  // v14：景點筆記另存 spot_notes，行前清單存 prep
+  // 區分儲存
   if(pendingExtras.chkBody.classList.contains('note-host')){
     saveSpotNotes();
   } else {
