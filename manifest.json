@@ -1,0 +1,26 @@
+{
+  "name": "2026 首爾散心手冊",
+  "short_name": "首爾散心",
+  "description": "2026/5/1-5/4 首爾自由行完整手冊：行程、交通、伴手禮、雲端同步",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FDF6EC",
+  "theme_color": "#5B8DEF",
+  "lang": "zh-Hant",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
